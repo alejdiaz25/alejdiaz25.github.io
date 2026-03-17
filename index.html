@@ -947,7 +947,7 @@
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#experience">Experience</a></li>
-    <li><a href="#projects">Projects</a></li>
+    <li><a href="projects.html">Projects</a></li>
     <li><a href="#coursework">Coursework</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -1007,7 +1007,7 @@
     </div>
 
     <div class="hero-cta">
-      <a href="#projects" class="btn-primary">View Projects ↓</a>
+      <a href="projects.html" class="btn-primary">View Projects ↗</a>
       <a href="resume.pdf" class="btn-ghost" target="_blank">Resume ↗</a>
     </div>
   </div>
@@ -1114,17 +1114,6 @@
       </div>
 
     </div>
-  </div>
-</section>
-
-<!-- ── PROJECTS ────────────────────────────────────────────── -->
-<section id="projects">
-  <div class="container">
-    <p class="section-eyebrow">003 — Projects</p>
-    <div class="rule"></div>
-    <h2 class="section-title">Engineering Projects</h2>
-    <p class="projects-note">Click any card to expand details</p>
-    <div class="projects-grid" id="projects-grid"></div>
   </div>
 </section>
 
@@ -1379,7 +1368,7 @@ const PROJECTS = [
 /* ── BUILD PROJECT CARDS ──────────────────────────────────── */
 const grid = document.getElementById('projects-grid');
 
-PROJECTS.forEach(p => {
+if (grid) PROJECTS.forEach(p => {
   const card = document.createElement('div');
   card.className = 'project-card';
 
@@ -1429,7 +1418,7 @@ PROJECTS.forEach(p => {
   card.querySelector('.project-img-wrap').addEventListener('click', toggle);
 
   grid.appendChild(card);
-});
+}); // end if (grid)
 
 /* ── HERO CANVAS ANIMATION ────────────────────────────────── */
 (function initCanvas() {

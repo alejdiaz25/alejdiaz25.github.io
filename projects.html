@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — Alejandro Diaz</title>
+  <meta name="description" content="Engineering project portfolio — aerospace, robotics, and advanced manufacturing." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <!-- model-viewer -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
+  <style>
+    /* ── TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --bg-deep-space:    #090A0C;
+      --surface-titanium: #16181D;
+      --surface-raised:   #1C1F26;
+      --border-machined:  #2A2D35;
+      --border-dim:       #1E2028;
+      --text-primary:     #F3F4F6;
+      --text-muted:       #8B909A;
+      --text-faint:       #4B5060;
+      --accent-gold:      #C5A059;
+      --accent-gold-dim:  rgba(197,160,89,0.12);
+      --accent-gold-glow: rgba(197,160,89,0.06);
+
+      --font-ui:   'Inter', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --nav-h:     60px;
+      --ease-expo: cubic-bezier(0.19, 1, 0.22, 1);
+      --ease-sine: cubic-bezier(0.37, 0, 0.63, 1);
+
+      --left-w:   260px;
+      --center-w: 360px;
+    }
+
+    /* ── RESET ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg-deep-space);
+      color: var(--text-primary);
+      font-family: var(--font-ui);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+      overflow-y: hidden; /* viewer is full-height */
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep-space); }
+    ::-webkit-scrollbar-thumb { background: var(--border-machined); }
+
+    /* ── NOISE ──────────────────────────────────────────────── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.028;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── NAV ────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 900;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      background: rgba(9,10,12,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-machined);
+    }
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+    }
+    .nav-logo span { color: var(--text-faint); }
+    .nav-links {
+      display: flex;
+      gap: 0;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0.4rem 1rem;
+      border: 1px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text-primary); border-color: var(--border-machined); }
+    .nav-links a.active { color: var(--accent-gold); }
+
+    /* ── PAGE SHELL ─────────────────────────────────────────── */
+    .page-shell {
+      padding-top: var(--nav-h);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Page header bar */
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 44px;
+      min-height: 44px;
+      border-bottom: 1px solid var(--border-dim);
+      background: var(--surface-titanium);
+    }
+    .page-header-label {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .page-header-label::before {
+      content: '';
+      display: block;
+      width: 16px;
+      height: 1px;
+      background: var(--accent-gold);
+      opacity: 0.6;
+    }
+    .page-header-count {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      color: var(--text-faint);
+    }
+
+    /* ── 3-PANE VIEWER ──────────────────────────────────────── */
+    .project-viewer {
+      display: grid;
+      grid-template-columns: var(--left-w) 0px 1fr;
+      flex: 1;
+      min-height: 0;
+      transition: grid-template-columns 300ms var(--ease-expo);
+    }
+    .project-viewer.specs-open {
+      grid-template-columns: var(--left-w) var(--center-w) 1fr;
+    }
+
+    /* ── LEFT PANE ──────────────────────────────────────────── */
+    #left-pane {
+      border-right: 1px solid var(--border-machined);
+      overflow-y: auto;
+      overflow-x: hidden;
+      background: var(--surface-titanium);
+      display: flex;
+      flex-direction: column;
+    }
+    #left-pane::-webkit-scrollbar { width: 2px; }
+
+    .left-pane-header {
+      padding: 1rem 1rem 0.75rem;
+      border-bottom: 1px solid var(--border-dim);
+      flex-shrink: 0;
+    }
+    .left-pane-header-label {
+      font-family: var(--font-mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    .project-list {
+      list-style: none;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .project-item {
+      position: relative;
+      padding: 0.9rem 1rem 0.9rem 1.25rem;
+      border-bottom: 1px solid var(--border-dim);
+      cursor: pointer;
+      display: flex;
+      align-items: stretch;
+      gap: 0.75rem;
+      transition: background 0.18s var(--ease-sine), transform 0.2s var(--ease-expo);
+    }
+    .project-item:hover { background: var(--surface-raised); transform: translateX(2px); }
+    .project-item.active {
+      background: var(--accent-gold-dim);
+      transform: translateX(2px);
+    }
+
+    /* Gold left indicator bar */
+    .item-indicator {
+      width: 2px;
+      background: transparent;
+      border-radius: 0;
+      flex-shrink: 0;
+      align-self: stretch;
+      transition: background 0.2s, width 0.2s var(--ease-expo);
+    }
+    .project-item:hover .item-indicator { background: rgba(197,160,89,0.4); }
+    .project-item.active .item-indicator { background: var(--accent-gold); width: 3px; }
+
+    .item-text { flex: 1; min-width: 0; }
+    .item-org {
+      font-family: var(--font-mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 0.2rem;
+      opacity: 0.8;
+    }
+    .item-title {
+      font-size: 0.82rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .item-sub {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      color: var(--text-faint);
+      margin-top: 0.15rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .item-arrow {
+      font-size: 0.6rem;
+      color: var(--text-faint);
+      align-self: center;
+      flex-shrink: 0;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .project-item:hover .item-arrow,
+    .project-item.active .item-arrow { opacity: 1; color: var(--accent-gold); }
+
+    /* ── CENTER PANE ────────────────────────────────────────── */
+    #center-pane {
+      border-right: 1px solid var(--border-machined);
+      overflow: hidden;
+      background: var(--bg-deep-space);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      /* slide-in via opacity+translateX when grid column expands */
+      opacity: 0;
+      transform: translateX(-12px);
+      transition:
+        opacity 260ms var(--ease-expo) 60ms,
+        transform 300ms var(--ease-expo) 40ms;
+      pointer-events: none;
+    }
+    .specs-open #center-pane {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+
+    .center-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.25rem;
+      height: 44px;
+      min-height: 44px;
+      border-bottom: 1px solid var(--border-machined);
+      flex-shrink: 0;
+    }
+    .center-header-label {
+      font-family: var(--font-mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .close-btn {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-faint);
+      font-size: 0.9rem;
+      border: 1px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      font-family: var(--font-mono);
+    }
+    .close-btn:hover { color: var(--text-primary); border-color: var(--border-machined); }
+
+    .center-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 1.25rem;
+    }
+    .center-content::-webkit-scrollbar { width: 2px; }
+
+    /* HUD corner brackets on center pane top-left */
+    .center-bracket-tl,
+    .center-bracket-br {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      pointer-events: none;
+    }
+    .center-bracket-tl {
+      top: 44px;
+      left: 0;
+      border-top: 1px solid var(--accent-gold);
+      border-left: 1px solid var(--accent-gold);
+      opacity: 0.5;
+    }
+    .center-bracket-br {
+      bottom: 0;
+      right: 0;
+      border-bottom: 1px solid var(--accent-gold);
+      border-right: 1px solid var(--accent-gold);
+      opacity: 0.5;
+    }
+
+    .spec-project-title {
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.2;
+      margin-bottom: 0.2rem;
+    }
+    .spec-project-org {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 1rem;
+    }
+    .spec-project-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-dim);
+    }
+
+    /* Spec table */
+    .spec-section-label {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-bottom: 0.5rem;
+      margin-top: 1.25rem;
+    }
+    .spec-row {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      border-bottom: 1px solid var(--border-dim);
+      padding: 0.45rem 0;
+      align-items: start;
+    }
+    .spec-row:last-of-type { border-bottom: none; }
+    .spec-key {
+      font-family: var(--font-mono);
+      font-size: 0.56rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      padding-right: 0.75rem;
+      line-height: 1.6;
+    }
+    .spec-val {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .spec-val.gold { color: var(--accent-gold); }
+
+    /* Tag pills */
+    .spec-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 1.25rem;
+    }
+    .spec-tag {
+      font-family: var(--font-mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      padding: 0.2rem 0.55rem;
+      border: 1px solid var(--border-machined);
+      background: var(--surface-raised);
+    }
+
+    /* ── RIGHT PANE — THE STAGE ─────────────────────────────── */
+    #right-pane {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--bg-deep-space);
+      min-width: 0;
+    }
+
+    .stage-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      height: 44px;
+      min-height: 44px;
+      border-bottom: 1px solid var(--border-dim);
+      flex-shrink: 0;
+    }
+    .stage-project-name {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .stage-slide-counter {
+      font-family: var(--font-mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.15em;
+      color: var(--text-faint);
+    }
+
+    /* Carousel wrapper */
+    .carousel-wrap {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    /* Individual slides */
+    .carousel-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 200ms var(--ease-expo);
+    }
+    .carousel-slide.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Slide 0 — 3D Stage */
+    .slide-stage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Static preview image */
+    .preview-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 2rem;
+      /* Shown when model not loaded */
+    }
+
+    /* Placeholder when no image is set */
+    .preview-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      color: var(--text-faint);
+    }
+    .preview-placeholder-icon {
+      font-size: 2.5rem;
+      opacity: 0.15;
+    }
+    .preview-placeholder-label {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      opacity: 0.5;
+    }
+
+    /* HUD corner brackets around the stage */
+    .hud-bracket {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .hud-bracket.tl { top: 12px; left: 12px; border-top: 1px solid var(--accent-gold); border-left: 1px solid var(--accent-gold); opacity: 0.45; }
+    .hud-bracket.tr { top: 12px; right: 12px; border-top: 1px solid var(--accent-gold); border-right: 1px solid var(--accent-gold); opacity: 0.45; }
+    .hud-bracket.bl { bottom: 12px; left: 12px; border-bottom: 1px solid var(--accent-gold); border-left: 1px solid var(--accent-gold); opacity: 0.45; }
+    .hud-bracket.br { bottom: 12px; right: 12px; border-bottom: 1px solid var(--accent-gold); border-right: 1px solid var(--accent-gold); opacity: 0.45; }
+
+    /* "Load Interactive 3D" button overlay */
+    .load-3d-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 2.5rem;
+      z-index: 3;
+      /* Only shows when model NOT loaded */
+      pointer-events: none;
+    }
+    .load-3d-overlay.visible { pointer-events: auto; }
+
+    .load-3d-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.55rem 1.25rem;
+      background: rgba(9,10,12,0.85);
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold);
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: background 0.2s, color 0.2s;
+    }
+    .load-3d-btn:hover { background: var(--accent-gold-dim); }
+    .load-3d-btn::before {
+      content: '⬡';
+      font-size: 0.65rem;
+      opacity: 0.7;
+    }
+
+    /* model-viewer singleton — overlays slide 0 */
+    #model-stage {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 4;
+      background: transparent;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 260ms var(--ease-expo);
+      touch-action: pan-y;
+      --poster-color: transparent;
+    }
+    #model-stage.loaded {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Spinner overlay (MODEL_LOADING state) */
+    .model-spinner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+      background: rgba(9,10,12,0.5);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .model-spinner.visible { opacity: 1; }
+    .spinner-ring {
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--border-machined);
+      border-top-color: var(--accent-gold);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+    }
+
+    /* Gallery slides (1+) */
+    .gallery-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 1.5rem;
+    }
+    .gallery-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      border: 1px dashed var(--border-machined);
+      margin: 1.5rem;
+      width: calc(100% - 3rem);
+      height: calc(100% - 3rem);
+    }
+    .gallery-placeholder-label {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    /* Carousel controls */
+    .carousel-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      height: 44px;
+      min-height: 44px;
+      border-top: 1px solid var(--border-dim);
+      flex-shrink: 0;
+    }
+    .carousel-nav {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .carousel-btn {
+      width: 44px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-faint);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      border: 1px solid transparent;
+      background: none;
+      transition: color 0.18s, border-color 0.18s;
+      user-select: none;
+    }
+    .carousel-btn:hover { color: var(--text-primary); border-color: var(--border-machined); }
+    .carousel-btn:disabled { opacity: 0.2; cursor: default; }
+
+    .carousel-dots {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    .carousel-dot {
+      width: 4px;
+      height: 4px;
+      background: var(--border-machined);
+      cursor: pointer;
+      transition: background 0.2s, width 0.2s var(--ease-expo);
+    }
+    .carousel-dot.active { background: var(--accent-gold); width: 16px; }
+
+    .carousel-slide-label {
+      font-family: var(--font-mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.15em;
+      color: var(--text-faint);
+    }
+
+    /* ── IDLE STATE (no project selected) ───────────────────── */
+    .idle-message {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 0.75rem;
+      padding: 2rem;
+      text-align: center;
+    }
+    .idle-crosshair {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      margin-bottom: 0.5rem;
+    }
+    .idle-crosshair::before,
+    .idle-crosshair::after {
+      content: '';
+      position: absolute;
+      background: var(--border-machined);
+    }
+    .idle-crosshair::before { width: 1px; height: 100%; left: 50%; top: 0; }
+    .idle-crosshair::after  { height: 1px; width: 100%; top: 50%; left: 0; }
+    .idle-crosshair-ring {
+      position: absolute;
+      inset: 6px;
+      border: 1px solid var(--border-machined);
+      border-radius: 50%;
+    }
+    .idle-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .idle-sub {
+      font-size: 0.75rem;
+      color: var(--text-faint);
+      opacity: 0.6;
+    }
+
+    /* ── ANIMATIONS ─────────────────────────────────────────── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+
+    /* ── MOBILE (<768px) ────────────────────────────────────── */
+    @media (max-width: 767px) {
+      body { overflow-y: auto; }
+
+      .project-viewer {
+        display: block;
+        height: auto;
+        min-height: calc(100vh - var(--nav-h) - 44px);
+      }
+
+      #left-pane {
+        border-right: none;
+        border-bottom: 1px solid var(--border-machined);
+        height: auto;
+        max-height: none;
+        overflow-y: visible;
+      }
+
+      .project-list { overflow-y: visible; }
+
+      #right-pane {
+        height: 70vw;
+        min-height: 280px;
+        border-bottom: 1px solid var(--border-dim);
+      }
+
+      /* Center pane becomes fixed bottom sheet */
+      #center-pane {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 80vh;
+        max-height: 80vh;
+        transform: translateY(100%);
+        opacity: 1;
+        z-index: 500;
+        border-right: none;
+        border-top: 1px solid var(--border-machined);
+        transition: transform 400ms var(--ease-expo);
+        pointer-events: none;
+      }
+      #center-pane.mobile-open {
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      .load-3d-btn { display: none; }
+
+      model-viewer { touch-action: pan-y; }
+
+      .stage-header { display: none; }
+
+      /* Mobile bottom sheet backdrop */
+      .sheet-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(9,10,12,0.7);
+        z-index: 499;
+        cursor: pointer;
+      }
+      .sheet-backdrop.visible { display: block; }
+
+      /* Show specs button on mobile */
+      .mobile-specs-btn {
+        display: flex;
+      }
+    }
+
+    .mobile-specs-btn {
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0.75rem 1rem;
+      padding: 0.6rem 1rem;
+      background: var(--surface-raised);
+      border: 1px solid var(--border-machined);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .mobile-specs-btn:hover { color: var(--accent-gold); border-color: var(--accent-gold); }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ──────────────────────────────────────────────── -->
+  <nav>
+    <a class="nav-logo" href="index.html">AD<span>/</span>ME</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#experience">Experience</a></li>
+      <li><a href="projects.html" class="active">Projects</a></li>
+      <li><a href="index.html#coursework">Coursework</a></li>
+      <li><a href="index.html#skills">Skills</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><a href="resume.pdf" target="_blank">Resume</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── BOTTOM SHEET BACKDROP (mobile) ───────────────────── -->
+  <div class="sheet-backdrop" id="sheet-backdrop"></div>
+
+  <!-- ── PAGE SHELL ───────────────────────────────────────── -->
+  <div class="page-shell">
+
+    <!-- Page header bar -->
+    <div class="page-header">
+      <span class="page-header-label">Engineering Projects</span>
+      <span class="page-header-count" id="project-count">— / —</span>
+    </div>
+
+    <!-- 3-Pane Viewer -->
+    <div class="project-viewer" id="project-viewer">
+
+      <!-- ── LEFT PANE — Project List ─────────────────────── -->
+      <div id="left-pane">
+        <div class="left-pane-header">
+          <span class="left-pane-header-label">Index</span>
+        </div>
+        <ul class="project-list" id="project-list">
+          <!-- Rendered by JS -->
+        </ul>
+      </div>
+
+      <!-- ── CENTER PANE — Specs Panel ────────────────────── -->
+      <div id="center-pane">
+        <div class="center-bracket-tl"></div>
+        <div class="center-bracket-br"></div>
+
+        <div class="center-header">
+          <span class="center-header-label">Technical Specs</span>
+          <button class="close-btn" id="close-specs" title="Close">×</button>
+        </div>
+
+        <div class="center-content" id="center-content">
+          <!-- Populated by selectProject() -->
+        </div>
+      </div>
+
+      <!-- ── RIGHT PANE — The Stage ────────────────────────── -->
+      <div id="right-pane">
+
+        <div class="stage-header">
+          <span class="stage-project-name" id="stage-project-name">— Select a project</span>
+          <span class="stage-slide-counter" id="stage-slide-counter">—</span>
+        </div>
+
+        <div class="carousel-wrap" id="carousel-wrap">
+
+          <!-- HUD corner brackets -->
+          <div class="hud-bracket tl"></div>
+          <div class="hud-bracket tr"></div>
+          <div class="hud-bracket bl"></div>
+          <div class="hud-bracket br"></div>
+
+          <!-- Slide 0 — 3D Stage -->
+          <div class="carousel-slide active" id="slide-0">
+            <div class="slide-stage" id="slide-stage">
+
+              <!-- Static render placeholder -->
+              <div class="preview-placeholder" id="preview-placeholder">
+                <div class="preview-placeholder-icon">⬡</div>
+                <span class="preview-placeholder-label">Select a project</span>
+              </div>
+
+              <!-- Preview image (shown when project selected, model not loaded) -->
+              <img class="preview-img" id="preview-img" src="" alt="" style="display:none;" />
+
+              <!-- Spinner -->
+              <div class="model-spinner" id="model-spinner">
+                <div class="spinner-ring"></div>
+              </div>
+
+              <!-- Load Interactive 3D overlay -->
+              <div class="load-3d-overlay" id="load-3d-overlay">
+                <button class="load-3d-btn" id="load-3d-btn">Load Interactive 3D</button>
+              </div>
+
+              <!-- ONE model-viewer singleton -->
+              <model-viewer
+                id="model-stage"
+                camera-controls
+                auto-rotate
+                auto-rotate-delay="2000"
+                rotation-per-second="20deg"
+                environment-image="neutral"
+                shadow-intensity="0"
+                exposure="0.9"
+                touch-action="pan-y"
+                alt="3D CAD model"
+              ></model-viewer>
+
+            </div>
+          </div>
+
+          <!-- Gallery slides (1, 2) — cloned by JS per project -->
+          <!-- Idle state overlay -->
+          <div class="idle-message" id="idle-message">
+            <div class="idle-crosshair">
+              <div class="idle-crosshair-ring"></div>
+            </div>
+            <span class="idle-label">No project selected</span>
+            <span class="idle-sub">Choose from the index</span>
+          </div>
+
+        </div><!-- /carousel-wrap -->
+
+        <!-- Carousel controls -->
+        <div class="carousel-controls">
+          <div class="carousel-nav">
+            <button class="carousel-btn" id="carousel-prev" disabled>&#8592;</button>
+            <button class="carousel-btn" id="carousel-next" disabled>&#8594;</button>
+          </div>
+          <div class="carousel-dots" id="carousel-dots"></div>
+          <span class="carousel-slide-label" id="carousel-slide-label">—</span>
+        </div>
+
+      </div><!-- /right-pane -->
+
+    </div><!-- /project-viewer -->
+
+  </div><!-- /page-shell -->
+
+  <!-- Mobile "View Specs" button (injected into each project card on mobile) -->
+
+  <script>
+    /* ─────────────────────────────────────────────────────────
+       PROJECT DATA
+    ───────────────────────────────────────────────────────── */
+    const PROJECTS = [
+      {
+        id: 'halcyon-mk1',
+        org: 'TREL',
+        title: 'Halcyon MK1 TVC',
+        subtitle: 'Thrust Vector Control',
+        description: 'Two-axis gimbal system for TREL\'s liquid bi-propellant rocket engine. Designed to maintain attitude control during powered ascent via servo-actuated nozzle deflection. Validated under 14g axial vibration load per MIL-STD-810.',
+        specs: [
+          { key: 'Role',      val: 'Propulsion Structures Lead' },
+          { key: 'Gimbal DOF', val: '±8° dual-axis' },
+          { key: 'Actuators', val: 'Hitec D485HW servos × 2' },
+          { key: 'Thrust',    val: '890 N' },
+          { key: 'Mass',      val: '4.2 kg' },
+          { key: 'Material',  val: 'Al 6061-T6 / 316 SS' },
+        ],
+        software: ['SOLIDWORKS 2024', 'ANSYS Mechanical', 'MATLAB'],
+        tags: ['TVC', 'Rocketry', 'FEA', 'Gimbal'],
+        preview: '',   /* swap in: 'assets/renders/halcyon-mk1-preview.webp' */
+        model: '',     /* swap in: 'assets/models/halcyon-mk1.glb' */
+        gallery: ['', ''], /* swap in gallery WebPs */
+      },
+      {
+        id: 'lhr-electric',
+        org: 'Longhorn Racing Electric',
+        title: 'LHR-E Formula SAE',
+        subtitle: 'Electric Race Car',
+        description: 'Formula SAE electric vehicle. Responsible for accumulator housing structural design and thermal management system. Competed at FSAE Electric Michigan 2024.',
+        specs: [
+          { key: 'Role',     val: 'Structural Design — Accumulator' },
+          { key: 'Pack V',   val: '400 V nominal' },
+          { key: 'Mass',     val: '28 kg (housing)' },
+          { key: 'Material', val: 'Al 6061-T6 / CFRP' },
+          { key: 'Cooling',  val: 'Glycol liquid loop' },
+          { key: 'Event',    val: 'FSAE Electric MI 2024' },
+        ],
+        software: ['SOLIDWORKS 2024', 'ANSYS Thermal', 'Altair HyperMesh'],
+        tags: ['FSAE', 'EV', 'Thermal', 'Structural'],
+        preview: '',
+        model: '',
+        gallery: ['', ''],
+      },
+      {
+        id: 'zephyr-vtol',
+        org: 'Personal',
+        title: 'Zephyr 1 VTOL Drone',
+        subtitle: 'Fixed-Wing VTOL UAV',
+        description: 'Fixed-wing UAV with vertical take-off and landing capability via tilt-rotor mechanism. Designed for long-endurance ISR missions. Custom carbon fiber airframe with 1.4m wingspan.',
+        specs: [
+          { key: 'Role',      val: 'Lead Designer' },
+          { key: 'Wingspan',  val: '1400 mm' },
+          { key: 'MTOW',      val: '3.2 kg' },
+          { key: 'Endurance', val: '42 min (est.)' },
+          { key: 'Airframe',  val: 'CFRP / fiberglass' },
+          { key: 'FC',        val: 'ArduPlane / Pixhawk 6C' },
+        ],
+        software: ['SOLIDWORKS 2024', 'XFLR5', 'QGroundControl'],
+        tags: ['VTOL', 'UAV', 'Aero', 'CFRP'],
+        preview: '',
+        model: '',
+        gallery: ['', ''],
+      },
+      {
+        id: 'f35-metrology',
+        org: 'Northrop Grumman',
+        title: 'F-35 Metrology Fixtures',
+        subtitle: 'Production Aid Design',
+        description: 'Designed and validated 3D-printed production aid fixtures for F-35 airframe metrology operations. Reduced measurement setup time by 34% across 12 inspection stations.',
+        specs: [
+          { key: 'Role',      val: 'Manufacturing Engineering Intern' },
+          { key: 'Parts',     val: '14 fixture designs' },
+          { key: 'Process',   val: 'FDM / ULTEM 9085' },
+          { key: 'Tolerance', val: '±0.003″ GD&T' },
+          { key: 'Result',    val: '34% setup reduction' },
+          { key: 'Standard',  val: 'AS9100D' },
+        ],
+        software: ['CATIA V5', 'SOLIDWORKS', '3DCS Analyst'],
+        tags: ['Defense', 'F-35', 'Metrology', 'GD&T'],
+        preview: '',
+        model: '',
+        gallery: ['', ''],
+      },
+      {
+        id: 'agave-fire-pit',
+        org: 'Personal',
+        title: 'Agave Fire Pit',
+        subtitle: 'Fabricated Steel Sculpture',
+        description: 'Structural steel fire pit fabricated using MIG welding and plasma cutting. Organic agave-inspired geometry resolved through parametric surfacing. Finished with high-temp ceramic coating.',
+        specs: [
+          { key: 'Role',     val: 'Designer & Fabricator' },
+          { key: 'Material', val: 'A36 Steel, 3/16″ plate' },
+          { key: 'Process',  val: 'MIG weld / plasma cut' },
+          { key: 'Finish',   val: 'Cerakote HPC — Graphite' },
+          { key: 'Height',   val: '420 mm' },
+          { key: 'Mass',     val: '18 kg' },
+        ],
+        software: ['SOLIDWORKS', 'Blender'],
+        tags: ['Fabrication', 'Welding', 'Steel', 'Sculpture'],
+        preview: '',
+        model: '',
+        gallery: ['', ''],
+      },
+      {
+        id: 'rc-car',
+        org: 'Personal',
+        title: 'Custom RC Car',
+        subtitle: '1/10 Scale Off-Road Build',
+        description: 'Custom 1/10 scale brushless RC car with redesigned suspension geometry for improved high-speed stability. Machined aluminum uprights and adjustable A-arms replace stock plastic components.',
+        specs: [
+          { key: 'Role',     val: 'Design & Build' },
+          { key: 'Scale',    val: '1/10 off-road' },
+          { key: 'Motor',    val: 'Hobbywing 3652 4000KV' },
+          { key: 'Chassis',  val: 'Al 6061 billet uprights' },
+          { key: 'Geometry', val: 'Adjustable caster/camber' },
+          { key: 'Top Speed', val: '~75 km/h' },
+        ],
+        software: ['SOLIDWORKS', 'Fusion 360'],
+        tags: ['RC', 'Machining', 'Suspension', 'Aluminum'],
+        preview: '',
+        model: '',
+        gallery: ['', ''],
+      },
+      {
+        id: 'cascade-ai',
+        org: 'Cascade AI',
+        title: 'Cascade Agentic Platform',
+        subtitle: 'AI Infrastructure Startup',
+        description: 'Co-founded and led mechanical/hardware prototyping for Cascade, an agentic AI orchestration platform. Designed hardware enclosure concepts for edge deployment units while also contributing to product architecture.',
+        specs: [
+          { key: 'Role',    val: 'Co-founder, Hardware Lead' },
+          { key: 'Focus',   val: 'Edge compute enclosures' },
+          { key: 'Stack',   val: 'Jetson Orin NX — thermal' },
+          { key: 'Cooling', val: 'Active + vapor chamber' },
+          { key: 'IP',      val: 'IP52 target' },
+          { key: 'Status',  val: 'Prototype phase' },
+        ],
+        software: ['SOLIDWORKS', 'Ansys Icepak', 'Altium'],
+        tags: ['AI', 'Startup', 'Enclosure', 'Thermal'],
+        preview: '',
+        model: '',
+        gallery: ['', ''],
+      },
+      {
+        id: 'frc-6800',
+        org: 'FRC Team 6800',
+        title: 'FRC Robotics — Lead',
+        subtitle: 'FIRST Robotics Competition',
+        description: 'Led mechanical design and fabrication for FRC Team 6800 competition robot. Responsible for drivetrain, end-effector, and full system integration across two competition seasons.',
+        specs: [
+          { key: 'Role',    val: 'Mechanical Lead' },
+          { key: 'Drive',   val: 'West Coast Drive — 6WD' },
+          { key: 'Mfg',     val: 'CNC router / laser cut' },
+          { key: 'Material', val: 'Al 5052 / 6061, HDPE' },
+          { key: 'Season',  val: '2021 / 2022' },
+          { key: 'Result',  val: 'District Championship' },
+        ],
+        software: ['SOLIDWORKS', 'Onshape', 'REV Hardware Client'],
+        tags: ['Robotics', 'FRC', 'Drivetrain', 'CNC'],
+        preview: '',
+        model: '',
+        gallery: ['', ''],
+      },
+      {
+        id: 'capstone',
+        org: 'UT Austin ME',
+        title: 'Senior Capstone',
+        subtitle: 'Mechanical Design Project',
+        description: 'Senior capstone project in the UT Austin Mechanical Engineering department. Full design cycle from requirements through prototype validation.',
+        specs: [
+          { key: 'Role',    val: 'Team Lead' },
+          { key: 'Dept',    val: 'ME 462 — Capstone Design' },
+          { key: 'Year',    val: '2025' },
+          { key: 'Status',  val: 'In progress' },
+          { key: 'Client',  val: 'Industry sponsor' },
+          { key: 'Output',  val: 'Functional prototype' },
+        ],
+        software: ['SOLIDWORKS', 'ANSYS', 'MATLAB'],
+        tags: ['Capstone', 'UT Austin', 'Prototype'],
+        preview: '',
+        model: '',
+        gallery: ['', ''],
+      },
+    ];
+
+    /* ─────────────────────────────────────────────────────────
+       STATE
+    ───────────────────────────────────────────────────────── */
+    const state = {
+      activeId:      null,   // currently selected project id
+      slideIndex:    0,      // current carousel slide (0 = stage, 1+ = gallery)
+      modelLoaded:   false,  // has model-viewer been given a src for this project
+      modelSrc:      null,   // src currently loaded in model-viewer
+      isMobile:      window.innerWidth < 768,
+    };
+
+    /* ─────────────────────────────────────────────────────────
+       DOM REFS
+    ───────────────────────────────────────────────────────── */
+    const $viewer      = document.getElementById('project-viewer');
+    const $list        = document.getElementById('project-list');
+    const $centerPane  = document.getElementById('center-pane');
+    const $centerContent = document.getElementById('center-content');
+    const $closeSpecs  = document.getElementById('close-specs');
+    const $idleMsg     = document.getElementById('idle-message');
+    const $prevImg     = document.getElementById('preview-img');
+    const $placeholder = document.getElementById('preview-placeholder');
+    const $load3dOverlay = document.getElementById('load-3d-overlay');
+    const $load3dBtn   = document.getElementById('load-3d-btn');
+    const $modelStage  = document.getElementById('model-stage');
+    const $modelSpinner = document.getElementById('model-spinner');
+    const $carouselWrap = document.getElementById('carousel-wrap');
+    const $prevBtn     = document.getElementById('carousel-prev');
+    const $nextBtn     = document.getElementById('carousel-next');
+    const $dots        = document.getElementById('carousel-dots');
+    const $slideLabel  = document.getElementById('carousel-slide-label');
+    const $stageName   = document.getElementById('stage-project-name');
+    const $stageCounter = document.getElementById('stage-slide-counter');
+    const $projectCount = document.getElementById('project-count');
+    const $backdrop    = document.getElementById('sheet-backdrop');
+
+    /* ─────────────────────────────────────────────────────────
+       RENDER LEFT PANE
+    ───────────────────────────────────────────────────────── */
+    function renderList() {
+      $projectCount.textContent = `${PROJECTS.length} projects`;
+      PROJECTS.forEach((p, i) => {
+        const li = document.createElement('li');
+        li.className = 'project-item';
+        li.dataset.id = p.id;
+        li.innerHTML = `
+          <div class="item-indicator"></div>
+          <div class="item-text">
+            <div class="item-org">${p.org}</div>
+            <div class="item-title">${p.title}</div>
+            <div class="item-sub">${p.subtitle}</div>
+          </div>
+          <span class="item-arrow">›</span>
+        `;
+        li.addEventListener('click', () => selectProject(p.id));
+        $list.appendChild(li);
+      });
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       SELECT PROJECT
+    ───────────────────────────────────────────────────────── */
+    function selectProject(id) {
+      const project = PROJECTS.find(p => p.id === id);
+      if (!project) return;
+
+      const isReselect = state.activeId === id;
+      state.activeId = id;
+
+      /* Reset model state when switching projects */
+      if (!isReselect) {
+        unloadModel();
+      }
+
+      /* Update list active state */
+      document.querySelectorAll('.project-item').forEach(el => {
+        el.classList.toggle('active', el.dataset.id === id);
+      });
+
+      /* Populate specs */
+      renderSpecs(project);
+
+      /* Open specs panel */
+      $viewer.classList.add('specs-open');
+      $centerPane.classList.add('mobile-open');
+      $backdrop.classList.add('visible');
+
+      /* Show stage assets */
+      showProjectStage(project);
+
+      /* Go to slide 0 */
+      goToSlide(0, project);
+
+      /* On mobile: scroll to right pane */
+      if (state.isMobile) {
+        document.getElementById('right-pane').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       RENDER SPECS PANEL
+    ───────────────────────────────────────────────────────── */
+    function renderSpecs(project) {
+      const softwareStr = project.software.join(' · ');
+      const tagsHtml = project.tags.map(t => `<span class="spec-tag">${t}</span>`).join('');
+
+      $centerContent.innerHTML = `
+        <div class="spec-project-title">${project.title}</div>
+        <div class="spec-project-org">${project.org} — ${project.subtitle}</div>
+        <p class="spec-project-desc">${project.description}</p>
+
+        <div class="spec-section-label">Technical Data</div>
+        ${project.specs.map(s => `
+          <div class="spec-row">
+            <span class="spec-key">${s.key}</span>
+            <span class="spec-val">${s.val}</span>
+          </div>
+        `).join('')}
+
+        <div class="spec-section-label" style="margin-top:1.5rem;">Software</div>
+        <div class="spec-row">
+          <span class="spec-key">Tools</span>
+          <span class="spec-val gold">${softwareStr}</span>
+        </div>
+
+        <div class="spec-tags">${tagsHtml}</div>
+      `;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       SHOW STAGE ASSETS FOR PROJECT
+    ───────────────────────────────────────────────────────── */
+    function showProjectStage(project) {
+      /* Hide idle message */
+      $idleMsg.style.display = 'none';
+
+      /* Update stage name */
+      $stageName.textContent = project.title;
+
+      /* Show preview image or placeholder */
+      if (project.preview) {
+        $prevImg.src = project.preview;
+        $prevImg.alt = project.title;
+        $prevImg.style.display = 'block';
+        $placeholder.style.display = 'none';
+      } else {
+        $prevImg.style.display = 'none';
+        $placeholder.style.display = 'flex';
+        $placeholder.querySelector('.preview-placeholder-label').textContent = project.title;
+      }
+
+      /* Show "Load Interactive 3D" button only if model exists */
+      if (project.model) {
+        $load3dOverlay.classList.add('visible');
+      } else {
+        $load3dOverlay.classList.remove('visible');
+      }
+
+      /* Build carousel dots (slide 0 + gallery slides) */
+      buildCarouselDots(project);
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       CAROUSEL
+    ───────────────────────────────────────────────────────── */
+
+    /* Remove old gallery slides (keep slide-0) */
+    function clearGallerySlides() {
+      $carouselWrap.querySelectorAll('.carousel-slide:not(#slide-0)').forEach(el => el.remove());
+    }
+
+    function buildCarouselDots(project) {
+      clearGallerySlides();
+
+      /* Build gallery slides */
+      const galleryImages = (project.gallery || []).filter(Boolean);
+      const total = 1 + galleryImages.length;
+
+      galleryImages.forEach((src, i) => {
+        const slide = document.createElement('div');
+        slide.className = 'carousel-slide';
+        slide.id = `slide-${i + 1}`;
+        if (src) {
+          slide.innerHTML = `<img class="gallery-img" src="${src}" alt="${project.title} — photo ${i+1}" loading="lazy" />`;
+        } else {
+          slide.innerHTML = `
+            <div class="gallery-placeholder">
+              <span class="gallery-placeholder-label">Photo ${i + 1} — Coming Soon</span>
+            </div>`;
+        }
+        $carouselWrap.appendChild(slide);
+      });
+
+      /* Build dots */
+      $dots.innerHTML = '';
+      const labels = ['3D / Render', ...galleryImages.map((_, i) => `Photo ${i + 1}`)];
+      labels.forEach((label, i) => {
+        const dot = document.createElement('div');
+        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+        dot.title = label;
+        dot.addEventListener('click', () => goToSlide(i, project));
+        $dots.appendChild(dot);
+      });
+
+      updateCarouselControls(0, total, labels);
+    }
+
+    function goToSlide(index, project) {
+      const project_ = project || PROJECTS.find(p => p.id === state.activeId);
+      const galleryCount = (project_ && project_.gallery) ? project_.gallery.filter(Boolean).length : 0;
+      const total = 1 + galleryCount;
+
+      /* Bounds check */
+      index = Math.max(0, Math.min(index, total - 1));
+      state.slideIndex = index;
+
+      /* Activate correct slide */
+      const slides = $carouselWrap.querySelectorAll('.carousel-slide');
+      slides.forEach((s, i) => s.classList.toggle('active', i === index));
+
+      /* Handle model-viewer visibility */
+      /* CRITICAL: visibility:hidden not display:none — prevents WebGL context loss */
+      if (index === 0 && state.modelLoaded) {
+        $modelStage.style.visibility = 'visible';
+        $modelStage.style.pointerEvents = 'auto';
+      } else {
+        $modelStage.style.visibility = 'hidden';
+        $modelStage.style.pointerEvents = 'none';
+      }
+
+      /* Update dots */
+      $dots.querySelectorAll('.carousel-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === index);
+      });
+
+      const labels = ['3D / Render', ...((project_ && project_.gallery) ? project_.gallery.map((_, i) => `Photo ${i + 1}`) : [])];
+      updateCarouselControls(index, total, labels);
+    }
+
+    function updateCarouselControls(index, total, labels) {
+      $prevBtn.disabled = index === 0;
+      $nextBtn.disabled = index === total - 1;
+      $slideLabel.textContent = labels[index] || '—';
+      $stageCounter.textContent = total > 1 ? `${String(index + 1).padStart(2,'0')} / ${String(total).padStart(2,'0')}` : '—';
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       MODEL VIEWER — LOAD ON DEMAND
+    ───────────────────────────────────────────────────────── */
+    function loadModel() {
+      const project = PROJECTS.find(p => p.id === state.activeId);
+      if (!project || !project.model) return;
+      if (state.modelLoaded && state.modelSrc === project.model) return;
+
+      /* Show spinner */
+      $modelSpinner.classList.add('visible');
+
+      /* Set src — this triggers download + parse */
+      $modelStage.src = project.model;
+      state.modelSrc = project.model;
+
+      /* Hide load button immediately */
+      $load3dOverlay.classList.remove('visible');
+    }
+
+    /* Called when model-viewer fires 'load' */
+    $modelStage.addEventListener('load', () => {
+      state.modelLoaded = true;
+      $modelSpinner.classList.remove('visible');
+      $modelStage.classList.add('loaded');
+      /* Only show if still on slide 0 */
+      if (state.slideIndex === 0) {
+        $modelStage.style.visibility = 'visible';
+        $modelStage.style.pointerEvents = 'auto';
+      }
+    });
+
+    /* Error fallback */
+    $modelStage.addEventListener('error', () => {
+      state.modelLoaded = false;
+      $modelSpinner.classList.remove('visible');
+      const project = PROJECTS.find(p => p.id === state.activeId);
+      if (project && project.model) $load3dOverlay.classList.add('visible');
+    });
+
+    function unloadModel() {
+      /* Hide viewer without removing from DOM */
+      $modelStage.style.visibility = 'hidden';
+      $modelStage.style.pointerEvents = 'none';
+      $modelStage.classList.remove('loaded');
+      /* Clear src to release GPU memory */
+      $modelStage.removeAttribute('src');
+      state.modelLoaded = false;
+      state.modelSrc = null;
+      $modelSpinner.classList.remove('visible');
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       EVENT LISTENERS
+    ───────────────────────────────────────────────────────── */
+
+    $load3dBtn.addEventListener('click', () => {
+      loadModel();
+    });
+
+    $prevBtn.addEventListener('click', () => {
+      const project = PROJECTS.find(p => p.id === state.activeId);
+      goToSlide(state.slideIndex - 1, project);
+    });
+
+    $nextBtn.addEventListener('click', () => {
+      const project = PROJECTS.find(p => p.id === state.activeId);
+      goToSlide(state.slideIndex + 1, project);
+    });
+
+    /* Close specs panel */
+    $closeSpecs.addEventListener('click', closeSpecs);
+
+    function closeSpecs() {
+      $viewer.classList.remove('specs-open');
+      $centerPane.classList.remove('mobile-open');
+      $backdrop.classList.remove('visible');
+    }
+
+    /* Mobile backdrop tap */
+    $backdrop.addEventListener('click', closeSpecs);
+
+    /* Keyboard nav */
+    document.addEventListener('keydown', e => {
+      if (!state.activeId) return;
+      const project = PROJECTS.find(p => p.id === state.activeId);
+      if (e.key === 'ArrowRight') goToSlide(state.slideIndex + 1, project);
+      if (e.key === 'ArrowLeft')  goToSlide(state.slideIndex - 1, project);
+      if (e.key === 'Escape') closeSpecs();
+    });
+
+    /* Resize handler */
+    window.addEventListener('resize', () => {
+      state.isMobile = window.innerWidth < 768;
+    });
+
+    /* ─────────────────────────────────────────────────────────
+       INIT
+    ───────────────────────────────────────────────────────── */
+    renderList();
+  </script>
+
+</body>
+</html>
