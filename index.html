@@ -4,206 +4,946 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Alejandro Diaz — Mechanical Engineer</title>
+  <meta name="description" content="Mechanical Engineering student at UT Austin — aerospace, robotics, and advanced manufacturing." />
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+
   <style>
+    /* ── TOKENS ─────────────────────────────────────────────── */
     :root {
-      --black:#0A0A0A;--surface:#141414;--card:#1A1A1A;
-      --nardo:#737373;--nardo-light:#9A9A9A;--nardo-dim:#3D3D3D;
-      --gold-dark:#AE8625;--gold-mid:#D2AC47;--gold-light:#EDC967;--gold-bright:#F7EF8A;
-      --text:#F0F0F0;--text-dim:#A0A0A0;
-      --border:rgba(210,172,71,0.15);--border-dim:rgba(255,255,255,0.06);
-      --font-display:'Cormorant Garamond',serif;
-      --font-mono:'DM Mono',monospace;
-      --font-body:'Barlow',sans-serif;
+      --bg-deep-space:    #090A0C;
+      --surface-titanium: #16181D;
+      --surface-raised:   #1C1F26;
+      --border-machined:  #2A2D35;
+      --border-dim:       #1E2028;
+      --text-primary:     #F3F4F6;
+      --text-muted:       #8B909A;
+      --text-faint:       #4B5060;
+      --accent-gold:      #C5A059;
+      --accent-gold-dim:  rgba(197,160,89,0.12);
+      --accent-gold-glow: rgba(197,160,89,0.06);
+
+      --font-ui:    'Inter', system-ui, sans-serif;
+      --font-mono:  'JetBrains Mono', monospace;
+
+      --nav-h:      60px;
+      --ease-expo:  cubic-bezier(0.19, 1, 0.22, 1);
+      --ease-sine:  cubic-bezier(0.37, 0, 0.63, 1);
     }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    html{scroll-behavior:smooth;}
-    body{background:var(--black);color:var(--text);font-family:var(--font-body);font-weight:300;line-height:1.7;overflow-x:hidden;}
-    a{color:inherit;text-decoration:none;}
-    img{display:block;max-width:100%;}
-    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.025;pointer-events:none;z-index:1000;}
-    ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--black);}::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:2px;}
 
-    /* NAV */
-    nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:1.25rem 3rem;background:rgba(10,10,10,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-dim);}
-    .nav-logo{font-family:var(--font-mono);font-size:.75rem;letter-spacing:.2em;color:var(--gold-mid);text-transform:uppercase;}
-    .nav-links{display:flex;gap:2.5rem;list-style:none;}
-    .nav-links a{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--nardo-light);transition:color .2s;}
-    .nav-links a:hover{color:var(--gold-mid);}
+    /* ── RESET ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg-deep-space);
+      color: var(--text-primary);
+      font-family: var(--font-ui);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep-space); }
+    ::-webkit-scrollbar-thumb { background: var(--border-machined); }
 
-    /* SHARED */
-    section{padding:7rem 0;}
-    .container{max-width:1200px;margin:0 auto;padding:0 3rem;}
-    .section-label{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-mid);margin-bottom:1rem;}
-    .section-title{font-family:var(--font-display);font-size:clamp(2.2rem,4vw,3.5rem);font-weight:300;line-height:1.1;color:var(--text);margin-bottom:3.5rem;}
-    .section-divider{width:48px;height:1px;background:linear-gradient(90deg,var(--gold-dark),var(--gold-light));margin-bottom:1.5rem;}
-    .gold-text{background:linear-gradient(135deg,var(--gold-dark) 0%,var(--gold-bright) 40%,var(--gold-mid) 70%,var(--gold-dark) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    /* ── NOISE OVERLAY ──────────────────────────────────────── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.028;
+      pointer-events: none;
+      z-index: 9999;
+    }
 
-    /* HERO */
-    #hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding:0;}
-    #unicorn-embed{position:absolute;inset:0;z-index:0;width:100%;height:100%;}
-    #unicorn-embed>div{width:100%!important;height:100%!important;}
-    .hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,rgba(10,10,10,.75) 0%,rgba(10,10,10,.3) 60%,rgba(10,10,10,.5) 100%);}
-    .hero-content{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 3rem;padding-top:6rem;}
-    .hero-eyebrow{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold-mid);margin-bottom:1.5rem;opacity:0;animation:fadeUp .8s ease .2s forwards;}
-    .hero-name{font-family:var(--font-display);font-size:clamp(4rem,10vw,9rem);font-weight:300;line-height:.95;letter-spacing:-.01em;margin-bottom:1.5rem;opacity:0;animation:fadeUp .9s ease .35s forwards;}
-    .hero-name .first{display:block;color:var(--text);}
-    .hero-name .last{display:block;background:linear-gradient(135deg,var(--gold-dark) 0%,var(--gold-bright) 35%,var(--gold-mid) 65%,var(--gold-dark) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-    .hero-title{font-size:clamp(.9rem,1.5vw,1.1rem);font-weight:300;color:var(--nardo-light);letter-spacing:.05em;margin-bottom:2.5rem;max-width:520px;opacity:0;animation:fadeUp .9s ease .5s forwards;}
-    .hero-meta{display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:3rem;opacity:0;animation:fadeUp .9s ease .65s forwards;}
-    .hero-meta-item{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--nardo);padding:.4rem .8rem;border:1px solid var(--border-dim);border-radius:2px;}
-    .hero-cta{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:fadeUp .9s ease .8s forwards;}
-    .btn-gold{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.75rem;background:linear-gradient(135deg,var(--gold-dark),var(--gold-mid));color:var(--black);font-family:var(--font-mono);font-size:.7rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;border-radius:2px;transition:all .25s;}
-    .btn-gold:hover{background:linear-gradient(135deg,var(--gold-mid),var(--gold-bright));transform:translateY(-1px);box-shadow:0 8px 24px rgba(210,172,71,.2);}
-    .btn-outline{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.75rem;border:1px solid var(--border);color:var(--gold-mid);font-family:var(--font-mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;border-radius:2px;transition:all .25s;}
-    .btn-outline:hover{background:rgba(210,172,71,.06);border-color:var(--gold-mid);transform:translateY(-1px);}
-    .hero-scroll{position:absolute;bottom:2.5rem;left:3rem;display:flex;align-items:center;gap:.75rem;opacity:0;animation:fadeUp .9s ease 1.1s forwards;}
-    .hero-scroll span{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--nardo);}
-    .scroll-line{width:40px;height:1px;background:linear-gradient(90deg,var(--nardo-dim),transparent);animation:pulse 2s ease-in-out infinite;}
+    /* ── NAV ────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 900;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      background: rgba(9,10,12,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-machined);
+    }
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+    }
+    .nav-logo span { color: var(--text-faint); }
+    .nav-links {
+      display: flex;
+      gap: 0;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0.4rem 1rem;
+      border: 1px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text-primary); border-color: var(--border-machined); }
+    .nav-links a.active { color: var(--accent-gold); }
 
-    /* ABOUT */
-    #about{background:var(--surface);}
-    .about-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:6rem;align-items:start;}
-    .about-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border-dim);border:1px solid var(--border-dim);margin-top:3rem;}
-    .stat-cell{background:var(--surface);padding:1.5rem;transition:background .2s;}
-    .stat-cell:hover{background:var(--card);}
-    .stat-num{font-family:var(--font-display);font-size:2.2rem;font-weight:300;line-height:1;background:linear-gradient(135deg,var(--gold-dark),var(--gold-bright));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.25rem;}
-    .stat-label{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--nardo);}
-    .about-body p{color:var(--text-dim);font-size:1rem;margin-bottom:1.25rem;line-height:1.8;}
-    .about-body p strong{color:var(--text);font-weight:400;}
-    .clearance-badge{display:inline-flex;align-items:center;gap:.5rem;margin-top:1.5rem;padding:.5rem 1rem;border:1px solid rgba(210,172,71,.3);border-radius:2px;background:rgba(210,172,71,.04);}
-    .clearance-dot{width:6px;height:6px;border-radius:50%;background:var(--gold-mid);box-shadow:0 0 8px var(--gold-mid);animation:pulse 2s ease-in-out infinite;}
-    .clearance-text{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-mid);}
+    /* ── SECTION LAYOUT ─────────────────────────────────────── */
+    section { padding: 7rem 0; }
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 2.5rem; }
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin-bottom: 3.5rem;
+      line-height: 1.15;
+    }
+    .rule {
+      width: 32px;
+      height: 1px;
+      background: var(--accent-gold);
+      opacity: 0.5;
+      margin-bottom: 1.25rem;
+    }
 
-    /* EXPERIENCE */
-    #experience{background:var(--black);}
-    .exp-list{display:flex;flex-direction:column;gap:2px;}
-    .exp-item{background:var(--card);border:1px solid var(--border-dim);border-left:2px solid transparent;padding:2rem 2.5rem;display:grid;grid-template-columns:200px 1fr;gap:2rem;transition:all .25s;cursor:default;}
-    .exp-item:hover{border-left-color:var(--gold-mid);background:#1E1E1E;transform:translateX(4px);}
-    .exp-company{font-family:var(--font-display);font-size:1.1rem;font-weight:500;color:var(--text);margin-bottom:.25rem;}
-    .exp-period{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.15em;color:var(--nardo);text-transform:uppercase;}
-    .exp-role{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;color:var(--gold-mid);text-transform:uppercase;margin-bottom:.75rem;}
-    .exp-bullets{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
-    .exp-bullets li{font-size:.875rem;color:var(--text-dim);line-height:1.6;padding-left:1rem;position:relative;}
-    .exp-bullets li::before{content:'—';position:absolute;left:0;color:var(--gold-dark);font-size:.75rem;}
+    /* ── HERO ───────────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 0;
+    }
 
-    /* PROJECTS */
-    #projects{background:var(--surface);}
-    .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border-dim);border:1px solid var(--border-dim);}
+    /* Canvas background */
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
 
-    .project-card{background:var(--card);display:flex;flex-direction:column;position:relative;overflow:hidden;}
-    .project-card:hover{background:#1F1F1F;}
+    /* Grid overlay */
+    .hero-grid-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background-image:
+        linear-gradient(rgba(197,160,89,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(197,160,89,0.03) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    }
 
-    /* Image */
-    .project-img-wrap{width:100%;aspect-ratio:4/3;overflow:hidden;position:relative;background:#111;cursor:pointer;}
-    .project-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease,filter .3s;filter:brightness(.85) saturate(.9);}
-    .project-card:hover .project-img-wrap img{transform:scale(1.04);filter:brightness(1) saturate(1);}
-    .project-img-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(10,10,10,.6) 100%);}
-    .img-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;background:linear-gradient(135deg,#111 0%,#1a1a1a 100%);cursor:pointer;}
-    .img-placeholder span{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--nardo-dim);}
-    .ph-icon{width:32px;height:32px;border:1px solid var(--nardo-dim);border-radius:2px;display:flex;align-items:center;justify-content:center;}
+    /* Vignette */
+    .hero-vignette {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background: radial-gradient(ellipse 90% 90% at 50% 50%, transparent 40%, rgba(9,10,12,0.85) 100%);
+    }
+    /* Bottom fade into next section */
+    .hero-fade {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      z-index: 3;
+      background: linear-gradient(transparent, var(--bg-deep-space));
+    }
 
-    /* Card body */
-    .project-body{padding:1.25rem 1.5rem .75rem;}
-    .project-org{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-mid);margin-bottom:.3rem;}
-    .project-name{font-family:var(--font-display);font-size:1.2rem;font-weight:400;color:var(--text);line-height:1.2;}
-    .project-tags{display:flex;flex-wrap:wrap;gap:.4rem;padding:.5rem 1.5rem 1rem;}
-    .tag{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .5rem;border:1px solid var(--nardo-dim);color:var(--nardo-light);border-radius:1px;}
+    .hero-content {
+      position: relative;
+      z-index: 4;
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 2.5rem;
+      padding-top: var(--nav-h);
+    }
 
-    /* Expand hint */
-    .project-expand-hint{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1.5rem;border-top:1px solid var(--border-dim);cursor:pointer;transition:background .2s;}
-    .project-expand-hint:hover{background:rgba(210,172,71,.04);}
-    .expand-label{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--nardo-dim);}
-    .expand-icon{width:20px;height:20px;border:1px solid var(--nardo-dim);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold-mid);font-size:.75rem;transition:transform .3s,border-color .2s;}
-    .project-card.expanded .expand-icon{transform:rotate(45deg);border-color:var(--gold-mid);}
+    .hero-system-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      opacity: 0;
+      animation: fade-up 0.7s var(--ease-expo) 0.1s forwards;
+    }
+    .hero-system-label::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--text-faint);
+    }
+
+    .hero-name {
+      font-size: clamp(3.5rem, 9vw, 8.5rem);
+      font-weight: 300;
+      letter-spacing: -0.03em;
+      line-height: 0.92;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fade-up 0.85s var(--ease-expo) 0.25s forwards;
+    }
+    .hero-name .first { color: var(--text-primary); display: block; }
+    .hero-name .last  {
+      display: block;
+      background: linear-gradient(90deg, var(--accent-gold) 0%, #E8CFA0 50%, var(--accent-gold) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fade-up 0.85s var(--ease-expo) 0.25s forwards,
+                 shimmer 6s linear 1.5s infinite;
+    }
+
+    .hero-descriptor {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fade-up 0.85s var(--ease-expo) 0.4s forwards;
+    }
+    .hero-descriptor .pipe { color: var(--border-machined); margin: 0 0.75em; }
+
+    /* HUD data cluster */
+    .hero-data {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      margin-bottom: 3rem;
+      border: 1px solid var(--border-machined);
+      width: fit-content;
+      opacity: 0;
+      animation: fade-up 0.85s var(--ease-expo) 0.55s forwards;
+    }
+    .hero-data-cell {
+      padding: 0.6rem 1.2rem;
+      border-right: 1px solid var(--border-machined);
+      position: relative;
+    }
+    .hero-data-cell:last-child { border-right: none; }
+    .hdc-label {
+      font-family: var(--font-mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-bottom: 0.15rem;
+    }
+    .hdc-value {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      color: var(--text-primary);
+    }
+    .hdc-value.gold { color: var(--accent-gold); }
+
+    .hero-cta {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fade-up 0.85s var(--ease-expo) 0.7s forwards;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.5rem;
+      background: var(--accent-gold);
+      color: #090A0C;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border: 1px solid var(--accent-gold);
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-primary:hover { background: transparent; color: var(--accent-gold); }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.5rem;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border: 1px solid var(--border-machined);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .btn-ghost:hover { color: var(--text-primary); border-color: var(--text-muted); }
+
+    /* Scroll indicator */
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 2.5rem;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      opacity: 0;
+      animation: fade-up 0.85s var(--ease-expo) 1s forwards;
+    }
+    .hero-scroll-line {
+      width: 36px;
+      height: 1px;
+      background: var(--border-machined);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-scroll-line::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent-gold);
+      animation: scan-line 2s var(--ease-sine) 1.5s infinite;
+    }
+    .hero-scroll-label {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    /* Status dot top-right */
+    .hero-status {
+      position: absolute;
+      top: calc(var(--nav-h) + 2rem);
+      right: 2.5rem;
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.4rem;
+      opacity: 0;
+      animation: fade-up 0.85s var(--ease-expo) 0.9s forwards;
+    }
+    .hero-status-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .hero-status-row span {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .status-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--accent-gold);
+      box-shadow: 0 0 6px var(--accent-gold);
+      animation: pulse-dot 2.5s ease-in-out infinite;
+    }
+
+    /* ── ABOUT ──────────────────────────────────────────────── */
+    #about { background: var(--surface-titanium); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    /* Stat block */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border-machined);
+      border: 1px solid var(--border-machined);
+      margin-top: 2.5rem;
+    }
+    .stat-cell {
+      background: var(--surface-titanium);
+      padding: 1.25rem;
+      transition: background 0.2s;
+    }
+    .stat-cell:hover { background: var(--surface-raised); }
+    .stat-num {
+      font-family: var(--font-mono);
+      font-size: 1.6rem;
+      font-weight: 300;
+      color: var(--accent-gold);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    .about-body p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.85;
+      margin-bottom: 1.25rem;
+    }
+    .about-body p strong {
+      color: var(--text-primary);
+      font-weight: 400;
+    }
+    .clearance-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 1.5rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid rgba(197,160,89,0.25);
+      background: var(--accent-gold-glow);
+    }
+    .clearance-tag .dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--accent-gold);
+      box-shadow: 0 0 8px var(--accent-gold);
+      animation: pulse-dot 2.5s ease-in-out infinite;
+    }
+    .clearance-tag span {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+    }
+
+    /* ── EXPERIENCE ─────────────────────────────────────────── */
+    #experience { background: var(--bg-deep-space); }
+
+    .exp-list { display: flex; flex-direction: column; gap: 1px; }
+    .exp-item {
+      background: var(--surface-titanium);
+      border: 1px solid var(--border-dim);
+      border-left: 2px solid transparent;
+      padding: 2rem 2.25rem;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 2rem;
+      transition: border-left-color 0.2s, background 0.2s, transform 0.2s var(--ease-expo);
+    }
+    .exp-item:hover {
+      border-left-color: var(--accent-gold);
+      background: var(--surface-raised);
+      transform: translateX(3px);
+    }
+    .exp-left {}
+    .exp-company {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.2rem;
+    }
+    .exp-period {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      color: var(--text-faint);
+      text-transform: uppercase;
+    }
+    .exp-role {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+    .exp-bullets li {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      padding-left: 1.1rem;
+      position: relative;
+    }
+    .exp-bullets li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--text-faint);
+      font-size: 0.7rem;
+    }
+
+    /* ── PROJECTS ───────────────────────────────────────────── */
+    #projects { background: var(--surface-titanium); }
+
+    .projects-note {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-bottom: 2.5rem;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border-machined);
+      border: 1px solid var(--border-machined);
+    }
+
+    .project-card {
+      background: var(--surface-titanium);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.2s;
+    }
+    .project-card:hover { background: var(--surface-raised); }
+
+    /* Image placeholder */
+    .project-img-wrap {
+      width: 100%;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      position: relative;
+      background: var(--bg-deep-space);
+      cursor: pointer;
+    }
+    .project-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s var(--ease-expo), filter 0.3s;
+      filter: brightness(0.85) saturate(0.8);
+    }
+    .project-card:hover .project-img-wrap img {
+      transform: scale(1.04);
+      filter: brightness(1) saturate(1);
+    }
+    /* HUD corner brackets on image */
+    .project-img-wrap::before,
+    .project-img-wrap::after {
+      content: '';
+      position: absolute;
+      width: 14px; height: 14px;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .project-img-wrap::before {
+      top: 8px; left: 8px;
+      border-top: 1px solid var(--accent-gold);
+      border-left: 1px solid var(--accent-gold);
+    }
+    .project-img-wrap::after {
+      bottom: 8px; right: 8px;
+      border-bottom: 1px solid var(--accent-gold);
+      border-right: 1px solid var(--accent-gold);
+    }
+    .project-card:hover .project-img-wrap::before,
+    .project-card:hover .project-img-wrap::after { opacity: 1; }
+
+    /* Placeholder (no image yet) */
+    .img-placeholder {
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .img-placeholder svg { opacity: 0.15; }
+    .img-placeholder span {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    .project-body { padding: 1.1rem 1.25rem 0.6rem; }
+    .project-org {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 0.25rem;
+    }
+    .project-name {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.25;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      padding: 0.6rem 1.25rem 0.75rem;
+    }
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.22rem 0.5rem;
+      border: 1px solid var(--border-machined);
+      color: var(--text-faint);
+    }
+
+    /* Expand */
+    .project-expand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.55rem 1.25rem;
+      border-top: 1px solid var(--border-dim);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .project-expand:hover { background: var(--accent-gold-glow); }
+    .expand-label {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .expand-icon {
+      width: 18px; height: 18px;
+      border: 1px solid var(--border-machined);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent-gold);
+      font-size: 0.7rem;
+      transition: transform 0.3s var(--ease-expo), border-color 0.2s;
+    }
+    .project-card.expanded .expand-icon {
+      transform: rotate(45deg);
+      border-color: var(--accent-gold);
+    }
 
     /* Drawer */
-    .project-drawer{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.4,0,.2,1);}
-    .project-card.expanded .project-drawer{max-height:700px;}
-    .drawer-inner{padding:1.5rem;border-top:1px solid var(--border-dim);background:#111;}
-    .project-desc{font-size:.85rem;color:var(--text-dim);line-height:1.75;margin-bottom:1rem;}
-
-    /* GLTF viewer */
-    .gltf-viewer-wrap{width:100%;height:220px;background:#0d0d0d;border:1px solid var(--border-dim);border-radius:2px;margin-top:1rem;overflow:hidden;position:relative;}
-    .gltf-viewer-wrap canvas{display:block;width:100%!important;height:100%!important;}
-    .gltf-viewer-label{position:absolute;bottom:.5rem;left:.75rem;font-family:var(--font-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--nardo-dim);pointer-events:none;}
-    .gltf-drop-zone{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;}
-    .gltf-drop-zone.drag-over{background:rgba(210,172,71,.03);}
-    .gltf-drop-zone p{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--nardo);}
-    .gltf-drop-zone small{font-family:var(--font-mono);font-size:.55rem;color:var(--nardo-dim);}
-    .gltf-file-btn{margin-top:.25rem;padding:.35rem .9rem;border:1px solid var(--gold-dark);color:var(--gold-mid);font-family:var(--font-mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;background:transparent;cursor:pointer;transition:all .2s;}
-    .gltf-file-btn:hover{background:rgba(210,172,71,.08);}
-    .gltf-controls{position:absolute;top:.5rem;right:.5rem;display:none;gap:.4rem;}
-    .gltf-ctrl-btn{padding:.25rem .6rem;background:rgba(10,10,10,.8);border:1px solid var(--border-dim);color:var(--nardo-light);font-family:var(--font-mono);font-size:.55rem;letter-spacing:.1em;cursor:pointer;transition:all .2s;border-radius:2px;}
-    .gltf-ctrl-btn:hover{border-color:var(--gold-dark);color:var(--gold-mid);}
-    .viewer-icon{width:40px;height:40px;border:1px solid var(--nardo-dim);border-radius:2px;display:flex;align-items:center;justify-content:center;margin-bottom:.25rem;}
-
-    /* COURSEWORK */
-    #coursework{background:var(--black);}
-    .coursework-layout{display:grid;grid-template-columns:1fr 1fr;gap:4rem;}
-    .courses-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border-dim);align-self:start;}
-    .course-item{background:var(--card);padding:1rem 1.25rem;transition:background .2s;}
-    .course-item:hover{background:#1E1E1E;}
-    .course-code{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.15em;color:var(--gold-mid);margin-bottom:.2rem;}
-    .course-name{font-size:.8rem;color:var(--text-dim);line-height:1.4;}
-    .cw-projects{display:flex;flex-direction:column;gap:1px;}
-    .cw-project-card{background:var(--card);border:1px solid var(--border-dim);border-left:2px solid var(--nardo-dim);padding:1.75rem 2rem;transition:all .25s;}
-    .cw-project-card:hover{border-left-color:var(--gold-mid);background:#1E1E1E;}
-    .cw-project-label{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-mid);margin-bottom:.4rem;}
-    .cw-project-name{font-family:var(--font-display);font-size:1.2rem;font-weight:400;color:var(--text);margin-bottom:.5rem;}
-    .cw-project-desc{font-size:.825rem;color:var(--text-dim);line-height:1.6;}
-    .coming-soon{display:inline-block;margin-top:.75rem;font-family:var(--font-mono);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--nardo-dim);border:1px solid var(--nardo-dim);padding:.2rem .5rem;border-radius:1px;}
-
-    /* SKILLS */
-    #skills{background:var(--surface);}
-    .skills-layout{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
-    .skill-group-title{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold-mid);margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--border);}
-    .skill-tags{display:flex;flex-wrap:wrap;gap:.5rem;}
-    .skill-tag{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.08em;padding:.35rem .75rem;background:var(--card);border:1px solid var(--border-dim);color:var(--text-dim);border-radius:2px;transition:all .2s;}
-    .skill-tag:hover{border-color:var(--gold-dark);color:var(--gold-mid);background:rgba(210,172,71,.04);}
-
-    /* CONTACT */
-    #contact{background:var(--black);border-top:1px solid var(--border-dim);}
-    .contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;}
-    .contact-heading{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,4.5rem);font-weight:300;line-height:1.05;margin-bottom:1.5rem;}
-    .contact-sub{font-size:.95rem;color:var(--text-dim);line-height:1.8;margin-bottom:2.5rem;}
-    .contact-links{display:flex;flex-direction:column;gap:1px;background:var(--border-dim);}
-    .contact-link-item{background:var(--card);display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;transition:all .2s;border-left:2px solid transparent;}
-    .contact-link-item:hover{background:#1E1E1E;border-left-color:var(--gold-mid);transform:translateX(4px);}
-    .contact-link-label{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--nardo-light);}
-    .contact-link-value{font-size:.85rem;color:var(--text-dim);}
-    .contact-arrow{color:var(--gold-dark);}
-
-    footer{background:var(--black);border-top:1px solid var(--border-dim);padding:2rem 3rem;display:flex;align-items:center;justify-content:space-between;}
-    footer p{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--nardo-dim);}
-    .footer-gold{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.1em;color:var(--gold-dark);}
-
-    @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-    @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
-    .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease;}
-    .reveal.visible{opacity:1;transform:translateY(0);}
-
-    @media(max-width:900px){
-      nav{padding:1rem 1.5rem;}.container{padding:0 1.5rem;}
-      .about-grid,.contact-inner{grid-template-columns:1fr;gap:3rem;}
-      .projects-grid{grid-template-columns:1fr 1fr;}
-      .skills-layout{grid-template-columns:1fr 1fr;}
-      .coursework-layout{grid-template-columns:1fr;gap:3rem;}
-      .exp-item{grid-template-columns:1fr;gap:.5rem;}
+    .project-drawer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    @media(max-width:600px){
-      .nav-links{display:none;}.projects-grid{grid-template-columns:1fr;}
-      .skills-layout,.courses-grid{grid-template-columns:1fr;}
-      footer{flex-direction:column;gap:.5rem;text-align:center;}
+    .project-card.expanded .project-drawer { max-height: 600px; }
+
+    .drawer-inner {
+      padding: 1.25rem;
+      border-top: 1px solid var(--border-dim);
+      background: var(--bg-deep-space);
+    }
+    .project-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+    .drawer-spec-row {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-dim);
+      flex-wrap: wrap;
+    }
+    .drawer-spec {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .drawer-spec-key {
+      font-family: var(--font-mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .drawer-spec-val {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+    }
+
+    /* ── COURSEWORK ─────────────────────────────────────────── */
+    #coursework { background: var(--bg-deep-space); }
+    .cw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+
+    .courses-table {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border-dim);
+      border: 1px solid var(--border-dim);
+      align-self: start;
+    }
+    .course-row {
+      background: var(--surface-titanium);
+      padding: 0.8rem 1rem;
+      transition: background 0.15s;
+    }
+    .course-row:hover { background: var(--surface-raised); }
+    .course-code {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      color: var(--accent-gold);
+      margin-bottom: 0.15rem;
+    }
+    .course-name { font-size: 0.78rem; color: var(--text-muted); line-height: 1.35; }
+
+    .cw-projects { display: flex; flex-direction: column; gap: 1px; }
+    .cw-card {
+      background: var(--surface-titanium);
+      border: 1px solid var(--border-dim);
+      border-left: 2px solid var(--border-machined);
+      padding: 1.5rem 1.75rem;
+      transition: border-left-color 0.2s, background 0.2s, transform 0.2s var(--ease-expo);
+    }
+    .cw-card:hover {
+      border-left-color: var(--accent-gold);
+      background: var(--surface-raised);
+      transform: translateX(3px);
+    }
+    .cw-label {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 0.35rem;
+    }
+    .cw-name {
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+    .cw-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.65; }
+    .cw-wip {
+      display: inline-block;
+      margin-top: 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      border: 1px solid var(--border-machined);
+      padding: 0.2rem 0.5rem;
+    }
+
+    /* ── SKILLS ─────────────────────────────────────────────── */
+    #skills { background: var(--surface-titanium); }
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+    .skill-group-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border-machined);
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .skill-tag {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
+      padding: 0.3rem 0.65rem;
+      background: var(--bg-deep-space);
+      border: 1px solid var(--border-machined);
+      color: var(--text-muted);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .skill-tag:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+    /* ── CONTACT ────────────────────────────────────────────── */
+    #contact { background: var(--bg-deep-space); border-top: 1px solid var(--border-machined); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+    .contact-heading {
+      font-size: clamp(2rem, 4.5vw, 3.75rem);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+    }
+    .contact-heading .gold {
+      background: linear-gradient(90deg, var(--accent-gold), #E8CFA0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .contact-sub { font-size: 0.88rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 2rem; }
+    .contact-links { display: flex; flex-direction: column; gap: 1px; }
+    .contact-link {
+      background: var(--surface-titanium);
+      border: 1px solid var(--border-dim);
+      border-left: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 1.35rem;
+      transition: border-left-color 0.2s, background 0.2s, transform 0.2s var(--ease-expo);
+    }
+    .contact-link:hover {
+      border-left-color: var(--accent-gold);
+      background: var(--surface-raised);
+      transform: translateX(3px);
+    }
+    .contact-link-inner {}
+    .contact-link-label {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-bottom: 0.2rem;
+    }
+    .contact-link-value { font-size: 0.84rem; color: var(--text-muted); }
+    .contact-arrow {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-faint);
+      transition: color 0.2s, transform 0.2s;
+    }
+    .contact-link:hover .contact-arrow { color: var(--accent-gold); transform: translateX(3px); }
+
+    /* ── FOOTER ─────────────────────────────────────────────── */
+    footer {
+      background: var(--bg-deep-space);
+      border-top: 1px solid var(--border-dim);
+      padding: 1.5rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    footer p {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .footer-status {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .footer-status .dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #4CAF50;
+      box-shadow: 0 0 6px #4CAF50;
+      animation: pulse-dot 2.5s ease-in-out infinite;
+    }
+    .footer-status span {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    /* ── REVEAL ANIMATION ───────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.65s var(--ease-expo), transform 0.65s var(--ease-expo);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── KEYFRAMES ──────────────────────────────────────────── */
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes shimmer {
+      0%   { background-position: 200% center; }
+      100% { background-position: -200% center; }
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+    @keyframes scan-line {
+      0%   { transform: translateX(-100%); }
+      100% { transform: translateX(200%); }
+    }
+    @keyframes canvas-drift {}
+
+    /* ── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 960px) {
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .projects-grid { grid-template-columns: 1fr 1fr; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .cw-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    }
+    @media (max-width: 640px) {
+      nav { padding: 0 1.25rem; }
+      .nav-links { display: none; }
+      .container { padding: 0 1.25rem; }
+      section { padding: 5rem 0; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 0.75rem; text-align: center; }
+      .hero-data { width: 100%; }
+      .hero-status { display: none; }
     }
   </style>
 </head>
 <body>
 
-<nav>
-  <div class="nav-logo">AD — Portfolio</div>
+<!-- ── NAV ──────────────────────────────────────────────────── -->
+<nav id="site-nav">
+  <div class="nav-logo">AD<span> — </span>Mechanical Engineer</div>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#experience">Experience</a></li>
@@ -214,154 +954,232 @@
   </ul>
 </nav>
 
-<!-- HERO -->
+<!-- ── HERO ─────────────────────────────────────────────────── -->
 <section id="hero">
-  <div id="unicorn-embed">
-    <div data-us-project="KKrPCcNsFJpr9F2w2F8I" style="width:100%;height:100%;"></div>
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-grid-overlay"></div>
+  <div class="hero-vignette"></div>
+  <div class="hero-fade"></div>
+
+  <div class="hero-status">
+    <div class="hero-status-row">
+      <div class="status-dot"></div>
+      <span>Open to full-time · Jan 2027</span>
+    </div>
+    <div class="hero-status-row">
+      <span style="color:var(--text-faint)">Austin, TX · UTC-6</span>
+    </div>
   </div>
-  <div class="hero-overlay"></div>
+
   <div class="hero-content">
-    <p class="hero-eyebrow">Mechanical Engineer · UT Austin · Dec 2026</p>
+    <p class="hero-system-label">ME · Aerospace · Robotics · Manufacturing</p>
+
     <h1 class="hero-name">
       <span class="first">Alejandro</span>
       <span class="last">Diaz</span>
     </h1>
-    <p class="hero-title">Designing and building hardware systems at the intersection of robotics, aerospace, and advanced manufacturing.</p>
-    <div class="hero-meta">
-      <span class="hero-meta-item">GPA 3.84</span>
-      <span class="hero-meta-item">U.S. Secret Clearance</span>
-      <span class="hero-meta-item">Northrop Grumman · F-35</span>
-      <span class="hero-meta-item">TREL · LHR · FRC 6800</span>
+
+    <p class="hero-descriptor">
+      Mechanical Engineering
+      <span class="pipe">|</span>
+      UT Austin
+      <span class="pipe">|</span>
+      Dec 2026
+    </p>
+
+    <div class="hero-data">
+      <div class="hero-data-cell">
+        <div class="hdc-label">GPA</div>
+        <div class="hdc-value gold">3.84</div>
+      </div>
+      <div class="hero-data-cell">
+        <div class="hdc-label">Clearance</div>
+        <div class="hdc-value gold">U.S. Secret</div>
+      </div>
+      <div class="hero-data-cell">
+        <div class="hdc-label">Employer</div>
+        <div class="hdc-value">Northrop Grumman</div>
+      </div>
+      <div class="hero-data-cell">
+        <div class="hdc-label">Program</div>
+        <div class="hdc-value">F-35 · B-2</div>
+      </div>
     </div>
+
     <div class="hero-cta">
-      <a href="#projects" class="btn-gold">View Projects ↓</a>
-      <a href="resume.pdf" class="btn-outline" target="_blank">Download Resume</a>
+      <a href="#projects" class="btn-primary">View Projects ↓</a>
+      <a href="resume.pdf" class="btn-ghost" target="_blank">Resume ↗</a>
     </div>
   </div>
-  <div class="hero-scroll"><div class="scroll-line"></div><span>Scroll</span></div>
+
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    <span class="hero-scroll-label">Scroll</span>
+  </div>
 </section>
 
-<!-- ABOUT -->
+<!-- ── ABOUT ─────────────────────────────────────────────────── -->
 <section id="about">
   <div class="container">
     <div class="about-grid">
       <div>
-        <p class="section-label">001 — About</p>
-        <div class="section-divider"></div>
-        <h2 class="section-title">Engineer.<br/>Builder.<br/>Founder.</h2>
-        <div class="about-stats">
-          <div class="stat-cell"><div class="stat-num">3.84</div><div class="stat-label">GPA</div></div>
-          <div class="stat-cell"><div class="stat-num">2×</div><div class="stat-label">Northrop Grumman Intern</div></div>
-          <div class="stat-cell"><div class="stat-num">#7</div><div class="stat-label">FRC World Ranking 2023</div></div>
-          <div class="stat-cell"><div class="stat-num">Dec '26</div><div class="stat-label">Graduation</div></div>
+        <p class="section-eyebrow">001 — About</p>
+        <div class="rule"></div>
+        <h2 class="section-title">Engineer.<br>Builder.<br>Founder.</h2>
+        <div class="stat-grid">
+          <div class="stat-cell">
+            <div class="stat-num">3.84</div>
+            <div class="stat-label">GPA</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-num">2×</div>
+            <div class="stat-label">Northrop Grumman</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-num">#7</div>
+            <div class="stat-label">FRC World 2023</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-num">Dec '26</div>
+            <div class="stat-label">Graduation</div>
+          </div>
         </div>
       </div>
-      <div class="about-body">
+
+      <div class="about-body reveal">
         <p>I'm a <strong>Mechanical Engineering student at UT Austin</strong> (graduating December 2026) with a Minor in Entrepreneurship, building hardware systems where tight tolerances and high stakes are the standard.</p>
         <p>My work spans <strong>defense manufacturing at Northrop Grumman</strong> — developing Python ML pipelines for F-35 metrology data and contributing to next-generation LLM architectures for restricted programs — to leading structural design on <strong>liquid bi-propellant rockets at TREL</strong> and redesigning unsprung assemblies for <strong>Longhorn Racing Electric</strong>.</p>
         <p>Outside of engineering, I serve as <strong>COO of Cascade</strong>, an agentic AI research platform for university life sciences labs, and mentor the next generation of robotics engineers through <strong>FRC Team 6800 Valor</strong>.</p>
         <p>I'm drawn to problems where the physics is hard, the tolerances are tight, and the stakes are real.</p>
-        <div class="clearance-badge"><div class="clearance-dot"></div><span class="clearance-text">Active U.S. Secret Security Clearance (DoD)</span></div>
+        <div class="clearance-tag">
+          <div class="dot"></div>
+          <span>Active U.S. Secret Security Clearance (DoD)</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- EXPERIENCE -->
+<!-- ── EXPERIENCE ──────────────────────────────────────────── -->
 <section id="experience">
   <div class="container">
-    <p class="section-label">002 — Experience</p>
-    <div class="section-divider"></div>
+    <p class="section-eyebrow">002 — Experience</p>
+    <div class="rule"></div>
     <h2 class="section-title">Work Experience</h2>
     <div class="exp-list">
+
       <div class="exp-item reveal">
-        <div><div class="exp-company">Northrop Grumman</div><div class="exp-period">May – Jul 2025</div></div>
-        <div><div class="exp-role">CORE Engineering Intern</div><ul class="exp-bullets">
-          <li>Developed a Python multivariate regression model on SMR laser tracker & laser gauge metrology data to estimate F-35 fixture loading vectors — targeting elimination of an NC condition affecting ~33% of units (2–10 hrs unplanned rework each).</li>
-          <li>Automated QA workflows using Power Automate, reducing response times by 21.1% within three weeks.</li>
-          <li>Contributed to architecture of a private LLM for F-35, B-2, E-2D, and restricted programs; defined prompt hierarchy and test protocols.</li>
-          <li>Built a Power BI manager-suite dashboard with ML to fully automate a manual reporting process, saving ~312 hours annually.</li>
-        </ul></div>
+        <div class="exp-left">
+          <div class="exp-company">Northrop Grumman</div>
+          <div class="exp-period">May – Jul 2025</div>
+        </div>
+        <div>
+          <div class="exp-role">CORE Engineering Intern</div>
+          <ul class="exp-bullets">
+            <li>Developed a Python multivariate regression model on SMR laser tracker &amp; laser gauge metrology data to estimate F-35 fixture loading vectors — targeting elimination of an NC condition affecting ~33% of units (2–10 hrs unplanned rework each).</li>
+            <li>Automated QA workflows using Power Automate, reducing response times by 21.1% within three weeks.</li>
+            <li>Contributed to architecture of a private LLM for F-35, B-2, E-2D, and restricted programs; defined prompt hierarchy and test protocols.</li>
+            <li>Built a Power BI manager-suite dashboard with ML to fully automate a manual reporting process, saving ~312 hours annually.</li>
+          </ul>
+        </div>
       </div>
+
       <div class="exp-item reveal">
-        <div><div class="exp-company">Northrop Grumman</div><div class="exp-period">May – Jul 2024</div></div>
-        <div><div class="exp-role">Manufacturing Engineering Intern</div><ul class="exp-bullets">
-          <li>Designed 3D-printed production aids with precision depth gauges, reducing F-35B tool validation time by 25%.</li>
-          <li>Root cause analysis on sealant disbond conditions revealed $800K+ annual rework cost; new procedures cut unit rework by 10–20 hours.</li>
-          <li>Developed Tableau dashboards for CMM Romer Arm metrology trends and implemented new planning changes.</li>
-        </ul></div>
+        <div class="exp-left">
+          <div class="exp-company">Northrop Grumman</div>
+          <div class="exp-period">May – Jul 2024</div>
+        </div>
+        <div>
+          <div class="exp-role">Manufacturing Engineering Intern</div>
+          <ul class="exp-bullets">
+            <li>Designed 3D-printed production aids with precision depth gauges, reducing F-35B tool validation time by 25%.</li>
+            <li>Root cause analysis on sealant disbond conditions revealed $800K+ annual rework cost; new procedures cut unit rework by 10–20 hours.</li>
+            <li>Developed Tableau dashboards for CMM Romer Arm metrology trends and implemented new planning changes.</li>
+          </ul>
+        </div>
       </div>
+
       <div class="exp-item reveal">
-        <div><div class="exp-company">Agave Worldwide</div><div class="exp-period">Jul 2024</div></div>
-        <div><div class="exp-role">Lead Product Development Engineer</div><ul class="exp-bullets">
-          <li>Directed design of a 36" smokeless fire pit — solving airflow and heat distribution challenges with welded stainless steel construction for high-rate production.</li>
-          <li>Developed fully parametric SOLIDWORKS CAD models with bending and die design for flexible iteration.</li>
-        </ul></div>
+        <div class="exp-left">
+          <div class="exp-company">Agave Worldwide</div>
+          <div class="exp-period">Jul 2024</div>
+        </div>
+        <div>
+          <div class="exp-role">Lead Product Development Engineer</div>
+          <ul class="exp-bullets">
+            <li>Directed design of a 36" smokeless fire pit — solving airflow and heat distribution challenges with welded stainless steel construction for high-rate production.</li>
+            <li>Developed fully parametric SOLIDWORKS CAD models with bending and die design for flexible iteration.</li>
+          </ul>
+        </div>
       </div>
+
     </div>
   </div>
 </section>
 
-<!-- PROJECTS -->
+<!-- ── PROJECTS ────────────────────────────────────────────── -->
 <section id="projects">
   <div class="container">
-    <p class="section-label">003 — Projects</p>
-    <div class="section-divider"></div>
+    <p class="section-eyebrow">003 — Projects</p>
+    <div class="rule"></div>
     <h2 class="section-title">Engineering Projects</h2>
-    <p style="font-family:var(--font-mono);font-size:.65rem;letter-spacing:.15em;color:var(--nardo);margin-bottom:2rem;text-transform:uppercase;">Click any card to expand · Drop a .glb or .gltf onto the 3D viewer to load your model</p>
-
-    <div class="projects-grid" id="projectsGrid"></div>
+    <p class="projects-note">Click any card to expand details</p>
+    <div class="projects-grid" id="projects-grid"></div>
   </div>
 </section>
 
-<!-- COURSEWORK -->
+<!-- ── COURSEWORK ──────────────────────────────────────────── -->
 <section id="coursework">
   <div class="container">
-    <p class="section-label">004 — Academics</p>
-    <div class="section-divider"></div>
+    <p class="section-eyebrow">004 — Academics</p>
+    <div class="rule"></div>
     <h2 class="section-title">Coursework</h2>
-    <div class="coursework-layout">
+    <div class="cw-grid">
       <div>
-        <p style="font-family:var(--font-mono);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--nardo-light);margin-bottom:1rem;">Relevant Courses</p>
-        <div class="courses-grid">
-          <div class="course-item"><div class="course-code">ME 344</div><div class="course-name">Dynamic Systems & Controls</div></div>
-          <div class="course-item"><div class="course-code">ME 144L</div><div class="course-name">DSC Lab</div></div>
-          <div class="course-item"><div class="course-code">ME 338</div><div class="course-name">Machine Elements</div></div>
-          <div class="course-item"><div class="course-code">ME 318M</div><div class="course-name">Computational & Engineering Methods</div></div>
-          <div class="course-item"><div class="course-code">ME 340</div><div class="course-name">Mechatronics</div></div>
-          <div class="course-item"><div class="course-code">ME 140L</div><div class="course-name">Mechatronics Lab</div></div>
-          <div class="course-item"><div class="course-code">ME 334</div><div class="course-name">Materials Engineering</div></div>
-          <div class="course-item"><div class="course-code">ME 330</div><div class="course-name">Fluid Mechanics</div></div>
-          <div class="course-item"><div class="course-code">ME 339</div><div class="course-name">Heat Transfer</div></div>
-          <div class="course-item"><div class="course-code">ME 316T</div><div class="course-name">Thermodynamics</div></div>
-          <div class="course-item"><div class="course-code">ME 314D</div><div class="course-name">Dynamics</div></div>
-          <div class="course-item"><div class="course-code">EM 319</div><div class="course-name">Mechanics of Solids</div></div>
-          <div class="course-item"><div class="course-code">ME 353</div><div class="course-name">Engineering Finance</div></div>
-          <div class="course-item"><div class="course-code">ME 366J</div><div class="course-name">ME Design Methodology</div></div>
-          <div class="course-item"><div class="course-code">MAN 327</div><div class="course-name">Innovation & Entrepreneurship</div></div>
-          <div class="course-item"><div class="course-code">MAN 327E</div><div class="course-name">New Venture Mechanics</div></div>
+        <p style="font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:1rem;">Relevant Courses</p>
+        <div class="courses-table">
+          <div class="course-row"><div class="course-code">ME 344</div><div class="course-name">Dynamic Systems &amp; Controls</div></div>
+          <div class="course-row"><div class="course-code">ME 144L</div><div class="course-name">DSC Lab</div></div>
+          <div class="course-row"><div class="course-code">ME 338</div><div class="course-name">Machine Elements</div></div>
+          <div class="course-row"><div class="course-code">ME 318M</div><div class="course-name">Computational &amp; Engineering Methods</div></div>
+          <div class="course-row"><div class="course-code">ME 340</div><div class="course-name">Mechatronics</div></div>
+          <div class="course-row"><div class="course-code">ME 140L</div><div class="course-name">Mechatronics Lab</div></div>
+          <div class="course-row"><div class="course-code">ME 334</div><div class="course-name">Materials Engineering</div></div>
+          <div class="course-row"><div class="course-code">ME 330</div><div class="course-name">Fluid Mechanics</div></div>
+          <div class="course-row"><div class="course-code">ME 339</div><div class="course-name">Heat Transfer</div></div>
+          <div class="course-row"><div class="course-code">ME 316T</div><div class="course-name">Thermodynamics</div></div>
+          <div class="course-row"><div class="course-code">ME 314D</div><div class="course-name">Dynamics</div></div>
+          <div class="course-row"><div class="course-code">EM 319</div><div class="course-name">Mechanics of Solids</div></div>
+          <div class="course-row"><div class="course-code">ME 353</div><div class="course-name">Engineering Finance</div></div>
+          <div class="course-row"><div class="course-code">ME 366J</div><div class="course-name">ME Design Methodology</div></div>
+          <div class="course-row"><div class="course-code">MAN 327</div><div class="course-name">Innovation &amp; Entrepreneurship</div></div>
+          <div class="course-row"><div class="course-code">MAN 327E</div><div class="course-name">New Venture Mechanics</div></div>
         </div>
       </div>
       <div>
-        <p style="font-family:var(--font-mono);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--nardo-light);margin-bottom:1rem;">Academic Projects</p>
+        <p style="font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:1rem;">Academic Projects</p>
         <div class="cw-projects">
-          <div class="cw-project-card reveal">
-            <div class="cw-project-label">Entrepreneurship — Active Venture</div>
-            <div class="cw-project-name">Cascade</div>
-            <div class="cw-project-desc">COO of a four-person startup building an agentic AI-powered research workflow platform for university medical and life sciences researchers. Architecting go-to-market strategy and operational infrastructure from zero to first customer.</div>
-            <div class="project-tags" style="margin-top:.75rem;padding:0;"><span class="tag">AI / LLM</span><span class="tag">Operations</span><span class="tag">GTM</span><span class="tag">Research Tech</span></div>
+          <div class="cw-card reveal">
+            <div class="cw-label">Entrepreneurship — Active Venture</div>
+            <div class="cw-name">Cascade</div>
+            <div class="cw-desc">COO of a four-person startup building an agentic AI-powered research workflow platform for university medical and life sciences researchers. Architecting go-to-market strategy and operational infrastructure from zero to first customer.</div>
+            <div class="project-tags" style="padding:0.75rem 0 0;">
+              <span class="tag">AI / LLM</span><span class="tag">Operations</span><span class="tag">GTM</span><span class="tag">Research Tech</span>
+            </div>
           </div>
-          <div class="cw-project-card reveal">
-            <div class="cw-project-label">ME 366J — Senior Design</div>
-            <div class="cw-project-name">Rotary Friction Test Bed</div>
-            <div class="cw-project-desc">Designing a tribometer-style apparatus with faculty advisors Dr. Madhavan and Dr. Khare. Full mechanical design, pneumatic actuator integration, and tribology data acquisition for friction characterization at variable loading conditions.</div>
-            <div class="project-tags" style="margin-top:.75rem;padding:0;"><span class="tag">SOLIDWORKS</span><span class="tag">Tribology</span><span class="tag">Pneumatics</span><span class="tag">Test & Measurement</span></div>
+          <div class="cw-card reveal">
+            <div class="cw-label">ME 366J — Senior Design</div>
+            <div class="cw-name">Rotary Friction Test Bed</div>
+            <div class="cw-desc">Designing a tribometer-style apparatus with faculty advisors Dr. Madhavan and Dr. Khare. Full mechanical design, pneumatic actuator integration, and tribology data acquisition for friction characterization at variable loading conditions.</div>
+            <div class="project-tags" style="padding:0.75rem 0 0;">
+              <span class="tag">SOLIDWORKS</span><span class="tag">Tribology</span><span class="tag">Pneumatics</span><span class="tag">Test &amp; Measurement</span>
+            </div>
           </div>
-          <div class="cw-project-card reveal">
-            <div class="cw-project-label">ME 144L — Coming Spring 2026</div>
-            <div class="cw-project-name">DSC Final Project</div>
-            <div class="cw-project-desc">Dynamic Systems & Controls capstone project — details to be added upon completion.</div>
-            <span class="coming-soon">In Progress</span>
+          <div class="cw-card reveal">
+            <div class="cw-label">ME 144L — In Progress</div>
+            <div class="cw-name">DSC Final Project</div>
+            <div class="cw-desc">Dynamic Systems &amp; Controls capstone project — details to be added upon completion.</div>
+            <span class="cw-wip">In Progress</span>
           </div>
         </div>
       </div>
@@ -369,290 +1187,357 @@
   </div>
 </section>
 
-<!-- SKILLS -->
+<!-- ── SKILLS ──────────────────────────────────────────────── -->
 <section id="skills">
   <div class="container">
-    <p class="section-label">005 — Capabilities</p>
-    <div class="section-divider"></div>
-    <h2 class="section-title">Skills & Tools</h2>
-    <div class="skills-layout">
-      <div><div class="skill-group-title">Design & Analysis</div><div class="skill-tags"><span class="skill-tag">CATIA V5</span><span class="skill-tag">SOLIDWORKS</span><span class="skill-tag">Autodesk Inventor</span><span class="skill-tag">Fusion 360</span><span class="skill-tag">OnShape</span><span class="skill-tag">ANSYS FEA</span><span class="skill-tag">PolyWorks</span><span class="skill-tag">GD&T</span></div></div>
-      <div><div class="skill-group-title">Software & Data</div><div class="skill-tags"><span class="skill-tag">Python</span><span class="skill-tag">MATLAB</span><span class="skill-tag">Power BI</span><span class="skill-tag">Tableau</span><span class="skill-tag">BusinessObjects</span><span class="skill-tag">Java</span><span class="skill-tag">Excel</span><span class="skill-tag">GitHub</span><span class="skill-tag">Jira</span><span class="skill-tag">Power Automate</span></div></div>
-      <div><div class="skill-group-title">Manufacturing</div><div class="skill-tags"><span class="skill-tag">Manual Lathe</span><span class="skill-tag">CNC Mill</span><span class="skill-tag">CNC Router</span><span class="skill-tag">Laser Cutting</span><span class="skill-tag">FDM 3D Printing</span><span class="skill-tag">Romer Arm</span><span class="skill-tag">SMR Laser Tracker</span><span class="skill-tag">Sheet Metal</span></div></div>
+    <p class="section-eyebrow">005 — Capabilities</p>
+    <div class="rule"></div>
+    <h2 class="section-title">Skills &amp; Tools</h2>
+    <div class="skills-grid">
+      <div>
+        <div class="skill-group-label">Design &amp; Analysis</div>
+        <div class="skill-tags">
+          <span class="skill-tag">CATIA V5</span>
+          <span class="skill-tag">SOLIDWORKS</span>
+          <span class="skill-tag">Autodesk Inventor</span>
+          <span class="skill-tag">Fusion 360</span>
+          <span class="skill-tag">OnShape</span>
+          <span class="skill-tag">ANSYS FEA</span>
+          <span class="skill-tag">PolyWorks</span>
+          <span class="skill-tag">GD&amp;T</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-label">Software &amp; Data</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">MATLAB</span>
+          <span class="skill-tag">Power BI</span>
+          <span class="skill-tag">Tableau</span>
+          <span class="skill-tag">BusinessObjects</span>
+          <span class="skill-tag">Java</span>
+          <span class="skill-tag">Excel</span>
+          <span class="skill-tag">GitHub</span>
+          <span class="skill-tag">Jira</span>
+          <span class="skill-tag">Power Automate</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-label">Manufacturing</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Manual Lathe</span>
+          <span class="skill-tag">CNC Mill</span>
+          <span class="skill-tag">CNC Router</span>
+          <span class="skill-tag">Laser Cutting</span>
+          <span class="skill-tag">FDM 3D Printing</span>
+          <span class="skill-tag">Romer Arm</span>
+          <span class="skill-tag">SMR Laser Tracker</span>
+          <span class="skill-tag">Sheet Metal</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
+<!-- ── CONTACT ─────────────────────────────────────────────── -->
 <section id="contact">
   <div class="container">
-    <div class="contact-inner">
+    <div class="contact-grid">
       <div>
-        <p class="section-label">006 — Contact</p>
-        <div class="section-divider"></div>
-        <h2 class="contact-heading">Let's build<br/><span class="gold-text">something real.</span></h2>
+        <p class="section-eyebrow">006 — Contact</p>
+        <div class="rule"></div>
+        <h2 class="contact-heading">Let's build<br><span class="gold">something real.</span></h2>
         <p class="contact-sub">Open to full-time roles starting January 2027 in robotics, aerospace, and advanced manufacturing. Always happy to connect with engineers doing interesting work.</p>
-        <a href="resume.pdf" class="btn-gold" target="_blank">Download Resume ↓</a>
+        <a href="resume.pdf" class="btn-primary" target="_blank">Download Resume ↗</a>
       </div>
       <div class="contact-links">
-        <a href="mailto:alexjdiaz2503@gmail.com" class="contact-link-item"><div><div class="contact-link-label">Email</div><div class="contact-link-value">alexjdiaz2503@gmail.com</div></div><span class="contact-arrow">→</span></a>
-        <a href="https://linkedin.com/in/alejdiaz25" target="_blank" class="contact-link-item"><div><div class="contact-link-label">LinkedIn</div><div class="contact-link-value">linkedin.com/in/alejdiaz25</div></div><span class="contact-arrow">→</span></a>
-        <a href="https://github.com/alejdiaz25" target="_blank" class="contact-link-item"><div><div class="contact-link-label">GitHub</div><div class="contact-link-value">github.com/alejdiaz25</div></div><span class="contact-arrow">→</span></a>
-        <div class="contact-link-item" style="cursor:default;"><div><div class="contact-link-label">Location</div><div class="contact-link-value">Austin, Texas</div></div><span style="font-family:var(--font-mono);font-size:.6rem;color:var(--gold-dark);">TX</span></div>
+        <a href="mailto:alexjdiaz2503@gmail.com" class="contact-link">
+          <div class="contact-link-inner">
+            <div class="contact-link-label">Email</div>
+            <div class="contact-link-value">alexjdiaz2503@gmail.com</div>
+          </div>
+          <span class="contact-arrow">→</span>
+        </a>
+        <a href="https://linkedin.com/in/alejdiaz25" target="_blank" class="contact-link">
+          <div class="contact-link-inner">
+            <div class="contact-link-label">LinkedIn</div>
+            <div class="contact-link-value">linkedin.com/in/alejdiaz25</div>
+          </div>
+          <span class="contact-arrow">→</span>
+        </a>
+        <a href="https://github.com/alejdiaz25" target="_blank" class="contact-link">
+          <div class="contact-link-inner">
+            <div class="contact-link-label">GitHub</div>
+            <div class="contact-link-value">github.com/alejdiaz25</div>
+          </div>
+          <span class="contact-arrow">→</span>
+        </a>
+        <div class="contact-link" style="cursor:default;">
+          <div class="contact-link-inner">
+            <div class="contact-link-label">Location</div>
+            <div class="contact-link-value">Austin, Texas</div>
+          </div>
+          <span class="contact-arrow" style="font-size:0.6rem;letter-spacing:0.1em;">TX</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ── FOOTER ─────────────────────────────────────────────── -->
 <footer>
   <p>© 2025 Alejandro Diaz — Mechanical Engineer</p>
-  <p class="footer-gold">UT Austin · Dec 2026</p>
+  <div class="footer-right">
+    <div class="footer-status">
+      <div class="dot"></div>
+      <span>Open to Opportunities</span>
+    </div>
+    <p>UT Austin · Dec 2026</p>
+  </div>
 </footer>
 
-<!-- Three.js CDN -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/loaders/GLTFLoader.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/controls/OrbitControls.js"></script>
-
-<!-- Unicorn Studio -->
-<script>!function(){var u=window.UnicornStudio;if(u&&u.init){document.readyState==="loading"?document.addEventListener("DOMContentLoaded",function(){u.init()}):u.init()}else{window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.1.4/dist/unicornStudio.umd.js";i.onload=function(){document.readyState==="loading"?document.addEventListener("DOMContentLoaded",function(){UnicornStudio.init()}):UnicornStudio.init()};(document.head||document.body).appendChild(i)}}();</script>
-
+<!-- ── SCRIPTS ─────────────────────────────────────────────── -->
 <script>
-// ── Project data ──
+'use strict';
+
+/* ── PROJECT DATA ─────────────────────────────────────────── */
 const PROJECTS = [
   {
-    org:'TREL',
-    name:'3DOF Reaction Control System',
-    img:'images/rcs.jpg',
-    tags:['OnShape','FEA','MATLAB','Fluid Dynamics','Machining'],
-    desc:'Sole design engineer for a cold gas nitrogen RCS — derived 3DOF rotational equations of motion and mechanical constraint equations for thrust, pressure, and mass flow. Modified TVC gimbal for 60° operating cone; designed slotted rack electronics board for 8 fluid lines. System validated as an inverted pendulum for attitude and roll stabilization.',
-    has3d:true
+    org: 'TREL',
+    name: '3DOF Reaction Control System',
+    img: 'images/rcs.webp',
+    tags: ['OnShape', 'FEA', 'MATLAB', 'Fluid Dynamics', 'Machining'],
+    desc: 'Sole design engineer for a cold gas nitrogen RCS — derived 3DOF rotational equations of motion and mechanical constraint equations for thrust, pressure, and mass flow. Modified TVC gimbal for 60° operating cone; designed slotted rack electronics board for 8 fluid lines. System validated as an inverted pendulum for attitude and roll stabilization.',
+    specs: { software: 'OnShape · MATLAB', material: 'Al-6061 · SS316', role: 'Solo Design Engineer' }
   },
   {
-    org:'Longhorn Racing Electric',
-    name:'Front Unsprung Assembly',
-    img:'images/front-unsprung.jpg',
-    tags:['SOLIDWORKS','ANSYS FEA','GD&T','CNC','DFM'],
-    desc:'Designed and fabricated front unsprung assemblies for the 2024–25 FSAE electric car using milled 7075 aluminum. Achieved 36% weight reduction via ANSYS FEA-driven optimization. Hub assembly with precision-selected bearings, custom hub nut, bearing seals, and integrated sensor housings.',
-    has3d:true
+    org: 'Longhorn Racing Electric',
+    name: 'Front Unsprung Assembly',
+    img: 'images/front-unsprung.webp',
+    tags: ['SOLIDWORKS', 'ANSYS FEA', 'GD&T', 'CNC', 'DFM'],
+    desc: 'Designed and fabricated front unsprung assemblies for the 2024–25 FSAE electric car using milled 7075 aluminum. Achieved 36% weight reduction via ANSYS FEA-driven optimization. Hub assembly with precision-selected bearings, custom hub nut, bearing seals, and integrated sensor housings.',
+    specs: { software: 'SOLIDWORKS · ANSYS', material: 'Al-7075', reduction: '−36% mass' }
   },
   {
-    org:'Longhorn Racing Electric',
-    name:'Rear Upright Assembly',
-    img:'images/rear-upright.jpg',
-    tags:['SOLIDWORKS','ANSYS FEA','CNC','Sensor Design','DFM'],
-    desc:'Redesigned rear unsprung assembly for 2023–24 FSAE car — 44% weight reduction through ANSYS FEA and GD&T-driven optimization. Developed an original magnetic flux framework for wheel speed sensor (2.5–5× signal amplitude improvement, SNR from 2 mT to 5–10 mT). Validated on vehicle.',
-    has3d:true
+    org: 'Longhorn Racing Electric',
+    name: 'Rear Upright Assembly',
+    img: 'images/rear-upright.webp',
+    tags: ['SOLIDWORKS', 'ANSYS FEA', 'CNC', 'Sensor Design', 'DFM'],
+    desc: 'Redesigned rear unsprung assembly for 2023–24 FSAE car — 44% weight reduction through ANSYS FEA and GD&T-driven optimization. Developed an original magnetic flux framework for wheel speed sensor (2.5–5× signal amplitude improvement, SNR from 2 mT to 5–10 mT). Validated on vehicle.',
+    specs: { software: 'SOLIDWORKS · ANSYS', material: 'Al-7075', reduction: '−44% mass' }
   },
   {
-    org:'FRC Team 6800 Valor',
-    name:'2023 Robot + Arm / Elevator',
-    img:'images/frc2023.jpg',
-    tags:['OnShape','FEA','CNC','3D Printing','Robotics'],
-    desc:'Excellence in Engineering Award, FRC World Championship 2023 (Galileo Division, #7 world ranking). 47" truss elevator with constant-force spring — 0.32s carriage travel. Double-jointed carbon fiber arm with custom herringbone wrist gear (±270° rotation). 8-motor swerve drive. Full in-house manufacturing from 6061 aluminum.',
-    has3d:true
+    org: 'FRC Team 6800 Valor',
+    name: '2023 Robot — Arm &amp; Elevator',
+    img: 'images/frc2023.webp',
+    tags: ['OnShape', 'FEA', 'CNC', '3D Printing', 'Robotics'],
+    desc: 'Excellence in Engineering Award, FRC World Championship 2023 (Galileo Division, #7 world ranking). 47" truss elevator with constant-force spring — 0.32s carriage travel. Double-jointed carbon fiber arm with custom herringbone wrist gear (±270° rotation). 8-motor swerve drive. Full in-house manufacturing from 6061 aluminum.',
+    specs: { software: 'OnShape', material: 'Al-6061 · CF', result: '#7 World' }
   },
   {
-    org:'FRC Team 6800 Valor',
-    name:'2022 Robot + Precision Shooter',
-    img:'images/frc2022.jpg',
-    tags:['OnShape','Motion Control','CNC','Vision Systems','Robotics'],
-    desc:'180° precision turret with dual flywheel — integrated vision for target-tracking and RPM control achieving 95% shot accuracy at any position. High-reduction gearbox with carbon-nylon sector gear for 24° hood angle travel. Modular design with independent subsystems for fast competition serviceability.',
-    has3d:true
+    org: 'FRC Team 6800 Valor',
+    name: '2022 Robot — Precision Shooter',
+    img: 'images/frc2022.webp',
+    tags: ['OnShape', 'Motion Control', 'CNC', 'Vision Systems', 'Robotics'],
+    desc: '180° precision turret with dual flywheel — integrated vision for target-tracking and RPM control achieving 95% shot accuracy at any position. High-reduction gearbox with carbon-nylon sector gear for 24° hood angle travel. Modular design with independent subsystems for fast competition serviceability.',
+    specs: { software: 'OnShape', accuracy: '95% shot', turret: '180° range' }
   },
   {
-    org:'Machine Elements Course',
-    name:'RC Race Car',
-    img:'images/rc-car.jpg',
-    tags:['SOLIDWORKS','Lathe','Laser Cutting','3D Printing','DFM'],
-    desc:'End-to-end design and manufacture: custom lathed axles (M4 tapped), laser-cut plywood chassis, servo rack & pinion steering (Ackermann geometry, 0.41m turning radius). RWD belt drivetrain with 3:1 ratio, custom 3D-printed pulleys. 5 m/s top speed, 3rd place at 19.83s qualifying time.',
-    has3d:true
+    org: 'Machine Elements Course',
+    name: 'RC Race Car',
+    img: 'images/rc-car.webp',
+    tags: ['SOLIDWORKS', 'Lathe', 'Laser Cutting', '3D Printing', 'DFM'],
+    desc: 'End-to-end design and manufacture: custom lathed axles (M4 tapped), laser-cut plywood chassis, servo rack & pinion steering (Ackermann geometry, 0.41m turning radius). RWD belt drivetrain with 3:1 ratio, custom 3D-printed pulleys. 5 m/s top speed, 3rd place at 19.83s qualifying time.',
+    specs: { software: 'SOLIDWORKS', top_speed: '5 m/s', result: '3rd Place' }
   },
   {
-    org:'Agave Worldwide',
-    name:'Smokeless Fire Pit',
-    img:'images/firepit.jpg',
-    tags:['SOLIDWORKS','Sheet Metal','DFM','Prototyping','Materials'],
-    desc:'Full 316L stainless steel sheet metal construction (.048", 0.090", 0.12" sheets) designed for high-rate production with integrated bending, die shaping, and rolling tolerances. Fully parametric SOLIDWORKS model. Prototype iterated from thermal test data.',
-    has3d:true
+    org: 'Agave Worldwide',
+    name: 'Smokeless Fire Pit',
+    img: 'images/firepit.webp',
+    tags: ['SOLIDWORKS', 'Sheet Metal', 'DFM', 'Prototyping', 'Materials'],
+    desc: 'Full 316L stainless steel sheet metal construction (.048", 0.090", 0.12" sheets) designed for high-rate production with integrated bending, die shaping, and rolling tolerances. Fully parametric SOLIDWORKS model. Prototype iterated from thermal test data.',
+    specs: { software: 'SOLIDWORKS', material: 'SS-316L', diameter: '36 in' }
   },
   {
-    org:'COVID Response',
-    name:'Face Shield Production',
-    img:'images/faceshield.jpg',
-    tags:['Inventor','Fusion 360','3D Printing','DFM','Rapid Prototyping'],
-    desc:'Two face shield variants for first responder distribution during COVID-19. Folding model achieved 88% reduction in unit print time vs. standard model — enabling scaled FDM production at high throughput. Polycarbonate shields die-cut for consistent, high-quantity output.',
-    has3d:false
+    org: 'COVID Response',
+    name: 'Face Shield Production',
+    img: 'images/faceshield.webp',
+    tags: ['Inventor', 'Fusion 360', '3D Printing', 'DFM', 'Rapid Prototyping'],
+    desc: 'Two face shield variants for first responder distribution during COVID-19. Folding model achieved 88% reduction in unit print time vs. standard model — enabling scaled FDM production at high throughput. Polycarbonate shields die-cut for consistent, high-quantity output.',
+    specs: { software: 'Inventor · Fusion 360', reduction: '−88% print time', qty: 'First responders' }
   },
   {
-    org:'FRC Team 6800 Valor',
-    name:'2021 Indexer & Feeder System',
-    img:'images/indexer.jpg',
-    tags:['OnShape','CNC','3D Printing','Robotics','DFM'],
-    desc:'Revolving indexer storing 6 game elements with internalized gearbox under 2" height. Bearing stackup constrains translation, allows Z-axis rotation under large loads. Dual-motor feeder; dead axle center rod with carbon-nylon supports. 1-screw quick-release drum for full serviceability.',
-    has3d:true
+    org: 'FRC Team 6800 Valor',
+    name: '2021 Indexer &amp; Feeder System',
+    img: 'images/indexer.webp',
+    tags: ['OnShape', 'CNC', '3D Printing', 'Robotics', 'DFM'],
+    desc: 'Revolving indexer storing 6 game elements with internalized gearbox under 2" height. Bearing stackup constrains translation, allows Z-axis rotation under large loads. Dual-motor feeder; dead axle center rod with carbon-nylon supports. 1-screw quick-release drum for full serviceability.',
+    specs: { software: 'OnShape', capacity: '6 elements', clearance: '<2 in height' }
   }
 ];
 
-// ── Build project cards ──
-const grid = document.getElementById('projectsGrid');
+/* ── BUILD PROJECT CARDS ──────────────────────────────────── */
+const grid = document.getElementById('projects-grid');
 
-PROJECTS.forEach((p, idx) => {
+PROJECTS.forEach(p => {
   const card = document.createElement('div');
   card.className = 'project-card';
+
+  // Build spec rows HTML
+  const specEntries = Object.entries(p.specs);
+  const specHTML = specEntries.map(([k, v]) => `
+    <div class="drawer-spec">
+      <span class="drawer-spec-key">${k.replace(/_/g,' ')}</span>
+      <span class="drawer-spec-val">${v}</span>
+    </div>
+  `).join('');
+
   card.innerHTML = `
     <div class="project-img-wrap">
       <div class="img-placeholder">
-        <div class="ph-icon">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--nardo-dim)"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-        </div>
-        <span>Add image → images/${p.img.split('/')[1]}</span>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="color:var(--text-faint)">
+          <rect x="3" y="3" width="18" height="18" rx="1"/>
+          <path d="M3 9h18M9 21V9"/>
+        </svg>
+        <span>Image pending</span>
       </div>
-      <img src="${p.img}" alt="${p.name}" style="display:none" onerror="this.style.display='none'" onload="this.style.display='block';this.previousElementSibling.style.display='none'"/>
+      <img src="${p.img}" alt="${p.name}"
+           style="display:none;position:absolute;inset:0;"
+           onload="this.style.display='block';this.previousElementSibling.style.display='none'"
+           onerror="this.style.display='none'" />
     </div>
     <div class="project-body">
       <div class="project-org">${p.org}</div>
       <div class="project-name">${p.name}</div>
     </div>
-    <div class="project-tags">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-    <div class="project-expand-hint">
-      <span class="expand-label">Expand</span>
+    <div class="project-tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+    <div class="project-expand">
+      <span class="expand-label">Details</span>
       <div class="expand-icon">+</div>
     </div>
     <div class="project-drawer">
       <div class="drawer-inner">
         <p class="project-desc">${p.desc}</p>
-        ${p.has3d ? `
-        <div class="gltf-viewer-wrap" data-viewer>
-          <div class="gltf-drop-zone">
-            <div class="viewer-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--nardo)"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-            </div>
-            <p>Drop .glb / .gltf here</p>
-            <small>or</small>
-            <button class="gltf-file-btn">Browse File</button>
-            <input type="file" accept=".glb,.gltf" style="display:none"/>
-          </div>
-          <div class="gltf-controls">
-            <button class="gltf-ctrl-btn" data-action="reset">Reset View</button>
-            <button class="gltf-ctrl-btn" data-action="remove">Remove</button>
-          </div>
-          <span class="gltf-viewer-label">Interactive 3D · Drag to rotate · Scroll to zoom</span>
-        </div>` : ''}
+        <div class="drawer-spec-row">${specHTML}</div>
       </div>
     </div>
   `;
 
-  // Expand toggle
-  const hint = card.querySelector('.project-expand-hint');
-  const imgWrap = card.querySelector('.project-img-wrap');
-  const toggle = () => {
-    const open = card.classList.toggle('expanded');
-    hint.querySelector('.expand-label').textContent = open ? 'Collapse' : 'Expand';
-    if(open){
-      const viewer = card.querySelector('[data-viewer]');
-      if(viewer && !viewer.dataset.ready) initViewer(viewer);
-    }
-  };
-  hint.addEventListener('click', toggle);
-  imgWrap.addEventListener('click', toggle);
+  // Toggle expand
+  const toggle = () => card.classList.toggle('expanded');
+  card.querySelector('.project-expand').addEventListener('click', toggle);
+  card.querySelector('.project-img-wrap').addEventListener('click', toggle);
 
   grid.appendChild(card);
 });
 
-// ── Scroll reveal ──
+/* ── HERO CANVAS ANIMATION ────────────────────────────────── */
+(function initCanvas() {
+  const canvas = document.getElementById('hero-canvas');
+  const ctx = canvas.getContext('2d');
+
+  let W, H, particles, animId;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  // Particles: slow-drifting nodes that connect when close
+  function makeParticle() {
+    return {
+      x:  Math.random() * W,
+      y:  Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.18,
+      vy: (Math.random() - 0.5) * 0.18,
+      r:  Math.random() * 1.2 + 0.4,
+      a:  Math.random() * 0.45 + 0.1
+    };
+  }
+
+  function init() {
+    resize();
+    const count = Math.min(Math.floor((W * H) / 14000), 90);
+    particles = Array.from({ length: count }, makeParticle);
+  }
+
+  const GOLD = '197,160,89';
+  const LINK_DIST = 140;
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Update positions
+    for (const p of particles) {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0) p.x = W;
+      if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H;
+      if (p.y > H) p.y = 0;
+    }
+
+    // Draw connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < LINK_DIST) {
+          const alpha = (1 - dist / LINK_DIST) * 0.06;
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(${GOLD},${alpha})`;
+          ctx.lineWidth = 0.5;
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Draw nodes
+    for (const p of particles) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${GOLD},${p.a})`;
+      ctx.fill();
+    }
+
+    animId = requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => { init(); });
+  init();
+  draw();
+})();
+
+/* ── SCROLL REVEAL ────────────────────────────────────────── */
 const revealEls = document.querySelectorAll('.reveal');
-const ro = new IntersectionObserver(entries => {
-  entries.forEach((e,i)=>{ if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'),i*60); ro.unobserve(e.target); }});
-},{threshold:.08});
-revealEls.forEach(el=>ro.observe(el));
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 60);
+      revealObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08 });
+revealEls.forEach(el => revealObs.observe(el));
 
-// ── Nav highlight ──
-const navSections = document.querySelectorAll('section[id]');
+/* ── NAV ACTIVE STATE ─────────────────────────────────────── */
+const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-links a');
-window.addEventListener('scroll',()=>{
-  let cur='';
-  navSections.forEach(s=>{ if(window.scrollY>=s.offsetTop-120) cur=s.id; });
-  navLinks.forEach(a=>{ a.style.color=a.getAttribute('href')===`#${cur}`?'var(--gold-mid)':'var(--nardo-light)'; });
-});
 
-// ── Three.js GLTF Viewer ──
-function initViewer(viewerEl){
-  viewerEl.dataset.ready = 'true';
-  const dropzone = viewerEl.querySelector('.gltf-drop-zone');
-  const fileInput = viewerEl.querySelector('input[type="file"]');
-  const fileBtn  = viewerEl.querySelector('.gltf-file-btn');
-  const controls = viewerEl.querySelector('.gltf-controls');
-  let renderer, scene, camera, orbit, animId, mesh;
-
-  fileBtn.addEventListener('click',()=>fileInput.click());
-  fileInput.addEventListener('change',()=>{ if(fileInput.files[0]) load(fileInput.files[0]); });
-  viewerEl.addEventListener('dragover',e=>{e.preventDefault();dropzone.classList.add('drag-over');});
-  viewerEl.addEventListener('dragleave',()=>dropzone.classList.remove('drag-over'));
-  viewerEl.addEventListener('drop',e=>{
-    e.preventDefault(); dropzone.classList.remove('drag-over');
-    const f=e.dataTransfer.files[0];
-    if(f&&(f.name.endsWith('.glb')||f.name.endsWith('.gltf'))) load(f);
+const navObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
+      });
+    }
   });
-  controls.querySelectorAll('[data-action]').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      if(btn.dataset.action==='reset'&&orbit) orbit.reset();
-      if(btn.dataset.action==='remove'){ teardown(); dropzone.style.display='flex'; controls.style.display='none'; }
-    });
-  });
+}, { rootMargin: '-40% 0px -55% 0px' });
 
-  function load(file){
-    const url=URL.createObjectURL(file);
-    dropzone.style.display='none'; controls.style.display='flex';
-    if(!renderer) setup();
-    new THREE.GLTFLoader().load(url,gltf=>{
-      if(mesh) scene.remove(mesh);
-      mesh=gltf.scene;
-      const box=new THREE.Box3().setFromObject(mesh);
-      const sz=box.getSize(new THREE.Vector3());
-      const sc=2/Math.max(sz.x,sz.y,sz.z);
-      mesh.scale.setScalar(sc);
-      mesh.position.sub(box.getCenter(new THREE.Vector3()).multiplyScalar(sc));
-      scene.add(mesh);
-      URL.revokeObjectURL(url);
-    },undefined,err=>{
-      console.error(err); dropzone.style.display='flex'; controls.style.display='none';
-    });
-  }
-
-  function setup(){
-    const w=viewerEl.clientWidth, h=viewerEl.clientHeight||220;
-    renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
-    renderer.setSize(w,h); renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-    renderer.outputEncoding=THREE.sRGBEncoding;
-    renderer.toneMapping=THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure=1.2;
-    viewerEl.insertBefore(renderer.domElement,dropzone);
-    scene=new THREE.Scene();
-    camera=new THREE.PerspectiveCamera(45,w/h,.01,1000);
-    camera.position.set(0,1.5,3.5);
-    scene.add(new THREE.AmbientLight(0xffffff,.4));
-    const k=new THREE.DirectionalLight(0xD2AC47,1.8); k.position.set(3,4,3); scene.add(k);
-    const f=new THREE.DirectionalLight(0x9ABED5,.6); f.position.set(-3,1,-2); scene.add(f);
-    const r=new THREE.DirectionalLight(0xF7EF8A,.5); r.position.set(0,-2,-3); scene.add(r);
-    orbit=new THREE.OrbitControls(camera,renderer.domElement);
-    orbit.enableDamping=true; orbit.dampingFactor=.07;
-    orbit.autoRotate=true; orbit.autoRotateSpeed=.8;
-    orbit.minDistance=.5; orbit.maxDistance=20;
-    renderer.domElement.addEventListener('pointerdown',()=>orbit.autoRotate=false);
-    new ResizeObserver(()=>{
-      const nw=viewerEl.clientWidth,nh=viewerEl.clientHeight||220;
-      renderer.setSize(nw,nh); camera.aspect=nw/nh; camera.updateProjectionMatrix();
-    }).observe(viewerEl);
-    (function animate(){ animId=requestAnimationFrame(animate); orbit.update(); renderer.render(scene,camera); })();
-  }
-
-  function teardown(){
-    cancelAnimationFrame(animId);
-    if(renderer){ renderer.dispose(); renderer.domElement.remove(); renderer=null; }
-    viewerEl.dataset.ready='';
-  }
-}
+sections.forEach(s => navObs.observe(s));
 </script>
 </body>
 </html>
