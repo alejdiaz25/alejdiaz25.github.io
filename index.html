@@ -26,8 +26,9 @@
       --accent-gold-dim:  rgba(197,160,89,0.12);
       --accent-gold-glow: rgba(197,160,89,0.06);
 
-      --font-ui:    'Inter', system-ui, sans-serif;
-      --font-mono:  'JetBrains Mono', monospace;
+      --font-ui:      'Inter', system-ui, sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+      --font-display: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
       --nav-h:      60px;
       --ease-expo:  cubic-bezier(0.19, 1, 0.22, 1);
@@ -114,8 +115,9 @@
       margin-bottom: 0.75rem;
     }
     .section-title {
-      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-      font-weight: 300;
+      font-family: var(--font-display);
+      font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+      font-weight: 700;
       letter-spacing: -0.02em;
       color: var(--text-primary);
       margin-bottom: 3.5rem;
@@ -207,8 +209,9 @@
     }
 
     .hero-name {
-      font-size: clamp(3.5rem, 9vw, 8.5rem);
-      font-weight: 300;
+      font-family: var(--font-display);
+      font-size: clamp(3.2rem, 8.5vw, 8rem);
+      font-weight: 700;
       letter-spacing: -0.03em;
       line-height: 0.92;
       margin-bottom: 2rem;
@@ -888,10 +891,11 @@
     #contact { background: var(--bg-deep-space); border-top: 1px solid var(--border-machined); }
     .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
     .contact-heading {
+      font-family: var(--font-display);
       font-size: clamp(2rem, 4.5vw, 3.75rem);
-      font-weight: 300;
+      font-weight: 700;
       letter-spacing: -0.02em;
-      line-height: 1.05;
+      line-height: 1.1;
       margin-bottom: 1.5rem;
     }
     .contact-heading .gold {
@@ -1219,7 +1223,7 @@
         <div class="thumb-label">Front Unsprung — LHR-E</div>
       </a>
       <a href="projects.html" class="preview-thumb" data-project="rear-upright">
-        <img src="" alt="Rear Upright Assembly" />
+        <img src="images/Adobe Express - file.png" alt="Rear Upright Assembly" />
         <div class="thumb-label">Rear Upright — LHR-E</div>
       </a>
       <a href="projects.html" class="preview-thumb" data-project="frc-2023-robot">
@@ -1434,137 +1438,6 @@
 <script>
 'use strict';
 
-/* ── PROJECT DATA ─────────────────────────────────────────── */
-const PROJECTS = [
-  {
-    org: 'TREL',
-    name: '3DOF Reaction Control System',
-    img: 'images/rcs.webp',
-    tags: ['OnShape', 'FEA', 'MATLAB', 'Fluid Dynamics', 'Machining'],
-    desc: 'Sole design engineer for a cold gas nitrogen RCS — derived 3DOF rotational equations of motion and mechanical constraint equations for thrust, pressure, and mass flow. Modified TVC gimbal for 60° operating cone; designed slotted rack electronics board for 8 fluid lines. System validated as an inverted pendulum for attitude and roll stabilization.',
-    specs: { software: 'OnShape · MATLAB', material: 'Al-6061 · SS316', role: 'Solo Design Engineer' }
-  },
-  {
-    org: 'Longhorn Racing Electric',
-    name: 'Front Unsprung Assembly',
-    img: 'images/front-unsprung.webp',
-    tags: ['SOLIDWORKS', 'ANSYS FEA', 'GD&T', 'CNC', 'DFM'],
-    desc: 'Designed and fabricated front unsprung assemblies for the 2024–25 FSAE electric car using milled 7075 aluminum. Achieved 36% weight reduction via ANSYS FEA-driven optimization. Hub assembly with precision-selected bearings, custom hub nut, bearing seals, and integrated sensor housings.',
-    specs: { software: 'SOLIDWORKS · ANSYS', material: 'Al-7075', reduction: '−36% mass' }
-  },
-  {
-    org: 'Longhorn Racing Electric',
-    name: 'Rear Upright Assembly',
-    img: 'images/rear-upright.webp',
-    tags: ['SOLIDWORKS', 'ANSYS FEA', 'CNC', 'Sensor Design', 'DFM'],
-    desc: 'Redesigned rear unsprung assembly for 2023–24 FSAE car — 44% weight reduction through ANSYS FEA and GD&T-driven optimization. Developed an original magnetic flux framework for wheel speed sensor (2.5–5× signal amplitude improvement, SNR from 2 mT to 5–10 mT). Validated on vehicle.',
-    specs: { software: 'SOLIDWORKS · ANSYS', material: 'Al-7075', reduction: '−44% mass' }
-  },
-  {
-    org: 'FRC Team 6800 Valor',
-    name: '2023 Robot — Arm &amp; Elevator',
-    img: 'images/frc2023.webp',
-    tags: ['OnShape', 'FEA', 'CNC', '3D Printing', 'Robotics'],
-    desc: 'Excellence in Engineering Award, FRC World Championship 2023 (Galileo Division, #7 world ranking). 47" truss elevator with constant-force spring — 0.32s carriage travel. Double-jointed carbon fiber arm with custom herringbone wrist gear (±270° rotation). 8-motor swerve drive. Full in-house manufacturing from 6061 aluminum.',
-    specs: { software: 'OnShape', material: 'Al-6061 · CF', result: '#7 World' }
-  },
-  {
-    org: 'FRC Team 6800 Valor',
-    name: '2022 Robot — Precision Shooter',
-    img: 'images/frc2022.webp',
-    tags: ['OnShape', 'Motion Control', 'CNC', 'Vision Systems', 'Robotics'],
-    desc: '180° precision turret with dual flywheel — integrated vision for target-tracking and RPM control achieving 95% shot accuracy at any position. High-reduction gearbox with carbon-nylon sector gear for 24° hood angle travel. Modular design with independent subsystems for fast competition serviceability.',
-    specs: { software: 'OnShape', accuracy: '95% shot', turret: '180° range' }
-  },
-  {
-    org: 'Machine Elements Course',
-    name: 'RC Race Car',
-    img: 'images/rc-car.webp',
-    tags: ['SOLIDWORKS', 'Lathe', 'Laser Cutting', '3D Printing', 'DFM'],
-    desc: 'End-to-end design and manufacture: custom lathed axles (M4 tapped), laser-cut plywood chassis, servo rack & pinion steering (Ackermann geometry, 0.41m turning radius). RWD belt drivetrain with 3:1 ratio, custom 3D-printed pulleys. 5 m/s top speed, 3rd place at 19.83s qualifying time.',
-    specs: { software: 'SOLIDWORKS', top_speed: '5 m/s', result: '3rd Place' }
-  },
-  {
-    org: 'Agave Worldwide',
-    name: 'Smokeless Fire Pit',
-    img: 'images/firepit.webp',
-    tags: ['SOLIDWORKS', 'Sheet Metal', 'DFM', 'Prototyping', 'Materials'],
-    desc: 'Full 316L stainless steel sheet metal construction (.048", 0.090", 0.12" sheets) designed for high-rate production with integrated bending, die shaping, and rolling tolerances. Fully parametric SOLIDWORKS model. Prototype iterated from thermal test data.',
-    specs: { software: 'SOLIDWORKS', material: 'SS-316L', diameter: '36 in' }
-  },
-  {
-    org: 'COVID Response',
-    name: 'Face Shield Production',
-    img: 'images/faceshield.webp',
-    tags: ['Inventor', 'Fusion 360', '3D Printing', 'DFM', 'Rapid Prototyping'],
-    desc: 'Two face shield variants for first responder distribution during COVID-19. Folding model achieved 88% reduction in unit print time vs. standard model — enabling scaled FDM production at high throughput. Polycarbonate shields die-cut for consistent, high-quantity output.',
-    specs: { software: 'Inventor · Fusion 360', reduction: '−88% print time', qty: 'First responders' }
-  },
-  {
-    org: 'FRC Team 6800 Valor',
-    name: '2021 Indexer &amp; Feeder System',
-    img: 'images/indexer.webp',
-    tags: ['OnShape', 'CNC', '3D Printing', 'Robotics', 'DFM'],
-    desc: 'Revolving indexer storing 6 game elements with internalized gearbox under 2" height. Bearing stackup constrains translation, allows Z-axis rotation under large loads. Dual-motor feeder; dead axle center rod with carbon-nylon supports. 1-screw quick-release drum for full serviceability.',
-    specs: { software: 'OnShape', capacity: '6 elements', clearance: '<2 in height' }
-  }
-];
-
-/* ── BUILD PROJECT CARDS ──────────────────────────────────── */
-const grid = document.getElementById('projects-grid');
-
-if (grid) PROJECTS.forEach(p => {
-  const card = document.createElement('div');
-  card.className = 'project-card';
-
-  // Build spec rows HTML
-  const specEntries = Object.entries(p.specs);
-  const specHTML = specEntries.map(([k, v]) => `
-    <div class="drawer-spec">
-      <span class="drawer-spec-key">${k.replace(/_/g,' ')}</span>
-      <span class="drawer-spec-val">${v}</span>
-    </div>
-  `).join('');
-
-  card.innerHTML = `
-    <div class="project-img-wrap">
-      <div class="img-placeholder">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="color:var(--text-faint)">
-          <rect x="3" y="3" width="18" height="18" rx="1"/>
-          <path d="M3 9h18M9 21V9"/>
-        </svg>
-        <span>Image pending</span>
-      </div>
-      <img src="${p.img}" alt="${p.name}"
-           style="display:none;position:absolute;inset:0;"
-           onload="this.style.display='block';this.previousElementSibling.style.display='none'"
-           onerror="this.style.display='none'" />
-    </div>
-    <div class="project-body">
-      <div class="project-org">${p.org}</div>
-      <div class="project-name">${p.name}</div>
-    </div>
-    <div class="project-tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
-    <div class="project-expand">
-      <span class="expand-label">Details</span>
-      <div class="expand-icon">+</div>
-    </div>
-    <div class="project-drawer">
-      <div class="drawer-inner">
-        <p class="project-desc">${p.desc}</p>
-        <div class="drawer-spec-row">${specHTML}</div>
-      </div>
-    </div>
-  `;
-
-  // Toggle expand
-  const toggle = () => card.classList.toggle('expanded');
-  card.querySelector('.project-expand').addEventListener('click', toggle);
-  card.querySelector('.project-img-wrap').addEventListener('click', toggle);
-
-  grid.appendChild(card);
-}); // end if (grid)
-
 /* ── HERO CANVAS ANIMATION ────────────────────────────────── */
 (function initCanvas() {
   const canvas = document.getElementById('hero-canvas');
@@ -1664,8 +1537,12 @@ const navLinks = document.querySelectorAll('.nav-links a');
 const navObs = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
+      /* projects-preview maps to the external projects.html nav link */
+      const href = entry.target.id === 'projects-preview'
+        ? 'projects.html'
+        : '#' + entry.target.id;
       navLinks.forEach(a => {
-        a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
+        a.classList.toggle('active', a.getAttribute('href') === href);
       });
     }
   });
