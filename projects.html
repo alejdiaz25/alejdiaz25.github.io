@@ -773,10 +773,10 @@
         pointer-events: auto;
       }
 
-      .load-3d-btn { display: none; }
+      .load-3d-btn { font-size: 0.55rem; padding: 0.5rem 1rem; }
       .carousel-side-btn { display: none; }
 
-      #three-stage { touch-action: pan-y; }
+      #three-stage { touch-action: none; }
 
       .stage-header { display: none; }
 
@@ -1586,6 +1586,50 @@
     window.addEventListener('resize', () => {
       state.isMobile = window.innerWidth < 768;
     });
+
+    /* ─────────────────────────────────────────────────────────
+       SWIPE SUPPORT (carousel)
+    ───────────────────────────────────────────────────────── */
+    (function () {
+      let startX = 0;
+      let startY = 0;
+      let tracking = false;
+
+      $carouselWrap.addEventListener('touchstart', function (e) {
+        /* Don't hijack touches on the 3D canvas when model is loaded */
+        if (state.modelLoaded && state.slideIndex === 0 &&
+            e.target.closest('#three-stage')) return;
+        const t = e.touches[0];
+        startX = t.clientX;
+        startY = t.clientY;
+        tracking = true;
+      }, { passive: true });
+
+      $carouselWrap.addEventListener('touchmove', function (e) {
+        if (!tracking) return;
+        const dx = e.touches[0].clientX - startX;
+        const dy = e.touches[0].clientY - startY;
+        /* If moving more vertically, let the page scroll */
+        if (Math.abs(dy) > Math.abs(dx)) {
+          tracking = false;
+          return;
+        }
+        /* Prevent vertical scroll while swiping horizontally */
+        e.preventDefault();
+      }, { passive: false });
+
+      $carouselWrap.addEventListener('touchend', function (e) {
+        if (!tracking) return;
+        tracking = false;
+        const endX = e.changedTouches[0].clientX;
+        const dx = endX - startX;
+        const threshold = 40;
+        if (!state.activeId) return;
+        const project = PROJECTS.find(p => p.id === state.activeId);
+        if (dx < -threshold) goToSlide(state.slideIndex + 1, project);
+        else if (dx > threshold) goToSlide(state.slideIndex - 1, project);
+      }, { passive: true });
+    })();
 
     /* ─────────────────────────────────────────────────────────
        INIT
