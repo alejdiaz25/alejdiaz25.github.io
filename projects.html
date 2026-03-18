@@ -13,8 +13,15 @@
   <link rel="stylesheet" href="css/layout.css" />
   <link rel="stylesheet" href="css/animations.css" />
 
-  <!-- model-viewer -->
-  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+  <!-- Three.js importmap (required by CDN module internals) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/"
+    }
+  }
+  </script>
 
   <!-- Anime.js -->
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
@@ -500,21 +507,20 @@
       opacity: 0.7;
     }
 
-    /* model-viewer singleton — overlays slide 0 */
-    #model-stage {
+    /* Three.js canvas — overlays slide 0 */
+    #three-stage {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       z-index: 4;
-      background: transparent;
       visibility: hidden;
       opacity: 0;
       transition: opacity 260ms var(--ease-expo);
       touch-action: pan-y;
-      --poster-color: transparent;
+      display: block;
     }
-    #model-stage.loaded {
+    #three-stage.loaded {
       visibility: visible;
       opacity: 1;
     }
@@ -726,7 +732,7 @@
 
       .load-3d-btn { display: none; }
 
-      model-viewer { touch-action: pan-y; }
+      #three-stage { touch-action: pan-y; }
 
       .stage-header { display: none; }
 
@@ -772,7 +778,6 @@
   <nav>
     <a class="nav-logo" href="index.html">Alejandro Diaz<span> — </span>Portfolio</a>
     <ul class="nav-links">
-      <li><a href="index.html#hero">Home</a></li>
       <li><a href="index.html#about">About</a></li>
       <li><a href="index.html#experience">Experience</a></li>
       <li><a href="projects.html" class="active">Projects</a></li>
@@ -861,19 +866,8 @@
                 <button class="load-3d-btn" id="load-3d-btn">Load Interactive 3D</button>
               </div>
 
-              <!-- ONE model-viewer singleton -->
-              <model-viewer
-                id="model-stage"
-                camera-controls
-                auto-rotate
-                auto-rotate-delay="2000"
-                rotation-per-second="20deg"
-                environment-image="neutral"
-                shadow-intensity="0"
-                exposure="0.9"
-                touch-action="pan-y"
-                alt="3D CAD model"
-              ></model-viewer>
+              <!-- Three.js canvas singleton -->
+              <canvas id="three-stage"></canvas>
 
             </div>
           </div>
@@ -909,6 +903,7 @@
   <!-- Mobile "View Specs" button (injected into each project card on mobile) -->
 
   <script src="js/scramble.js"></script>
+  <script src="js/viewer.js"></script>
   <script>
     /* ─────────────────────────────────────────────────────────
        PROJECT DATA
@@ -931,7 +926,7 @@
         software: ['OnShape', 'SOLIDWORKS', 'MATLAB'],
         tags: ['RCS', 'TVC', 'Fluid Dynamics', 'FEA', 'Machining', 'Robotics'],
         preview: '',
-        model: '',
+        model: 'assets/models/rcs-0000a.glb',
         gallery: ['', ''],
       },
       {
@@ -1142,8 +1137,8 @@
     const state = {
       activeId:      null,   // currently selected project id
       slideIndex:    0,      // current carousel slide (0 = stage, 1+ = gallery)
-      modelLoaded:   false,  // has model-viewer been given a src for this project
-      modelSrc:      null,   // src currently loaded in model-viewer
+      modelLoaded:   false,
+      modelSrc:      null,
       isMobile:      window.innerWidth < 768,
     };
 
@@ -1160,7 +1155,7 @@
     const $placeholder = document.getElementById('preview-placeholder');
     const $load3dOverlay = document.getElementById('load-3d-overlay');
     const $load3dBtn   = document.getElementById('load-3d-btn');
-    const $modelStage  = document.getElementById('model-stage');
+    const $threeStage  = document.getElementById('three-stage');
     const $modelSpinner = document.getElementById('model-spinner');
     const $carouselWrap = document.getElementById('carousel-wrap');
     const $prevBtn     = document.getElementById('carousel-prev');
@@ -1398,15 +1393,8 @@
       const slides = $carouselWrap.querySelectorAll('.carousel-slide');
       slides.forEach((s, i) => s.classList.toggle('active', i === index));
 
-      /* Handle model-viewer visibility */
-      /* CRITICAL: visibility:hidden not display:none — prevents WebGL context loss */
-      if (index === 0 && state.modelLoaded) {
-        $modelStage.style.visibility = 'visible';
-        $modelStage.style.pointerEvents = 'auto';
-      } else {
-        $modelStage.style.visibility = 'hidden';
-        $modelStage.style.pointerEvents = 'none';
-      }
+      /* Handle Three.js canvas visibility */
+      ModelViewer.setVisible(index === 0 && state.modelLoaded);
 
       /* Update dots */
       $dots.querySelectorAll('.carousel-dot').forEach((d, i) => {
@@ -1425,51 +1413,42 @@
     }
 
     /* ─────────────────────────────────────────────────────────
-       MODEL VIEWER — LOAD ON DEMAND
+       THREE.JS MODEL VIEWER — delegates to js/viewer.js
     ───────────────────────────────────────────────────────── */
-    function loadModel() {
+    window.addEventListener('resize', () => ModelViewer.resize());
+
+    async function loadModel() {
       const project = PROJECTS.find(p => p.id === state.activeId);
       if (!project || !project.model) return;
       if (state.modelLoaded && state.modelSrc === project.model) return;
 
-      /* Show spinner */
       $modelSpinner.classList.add('visible');
-
-      /* Set src — this triggers download + parse */
-      $modelStage.src = project.model;
-      state.modelSrc = project.model;
-
-      /* Hide load button immediately */
       $load3dOverlay.classList.remove('visible');
+
+      try {
+        await ModelViewer.init($threeStage);
+        await ModelViewer.load(project.model);
+
+        state.modelLoaded = true;
+        state.modelSrc = project.model;
+        $modelSpinner.classList.remove('visible');
+        $threeStage.classList.add('loaded');
+
+        if (state.slideIndex === 0) {
+          ModelViewer.setVisible(true);
+        }
+      } catch (e) {
+        console.error('Model load failed:', e);
+        state.modelLoaded = false;
+        $modelSpinner.classList.remove('visible');
+        if (project.model) $load3dOverlay.classList.add('visible');
+      }
     }
 
-    /* Called when model-viewer fires 'load' */
-    $modelStage.addEventListener('load', () => {
-      state.modelLoaded = true;
-      $modelSpinner.classList.remove('visible');
-      $modelStage.classList.add('loaded');
-      /* Only show if still on slide 0 */
-      if (state.slideIndex === 0) {
-        $modelStage.style.visibility = 'visible';
-        $modelStage.style.pointerEvents = 'auto';
-      }
-    });
-
-    /* Error fallback */
-    $modelStage.addEventListener('error', () => {
-      state.modelLoaded = false;
-      $modelSpinner.classList.remove('visible');
-      const project = PROJECTS.find(p => p.id === state.activeId);
-      if (project && project.model) $load3dOverlay.classList.add('visible');
-    });
-
     function unloadModel() {
-      /* Hide viewer without removing from DOM */
-      $modelStage.style.visibility = 'hidden';
-      $modelStage.style.pointerEvents = 'none';
-      $modelStage.classList.remove('loaded');
-      /* Clear src to release GPU memory */
-      $modelStage.removeAttribute('src');
+      $threeStage.classList.remove('loaded');
+      ModelViewer.setVisible(false);
+      ModelViewer.unload();
       state.modelLoaded = false;
       state.modelSrc = null;
       $modelSpinner.classList.remove('visible');
@@ -1480,7 +1459,7 @@
     ───────────────────────────────────────────────────────── */
 
     $load3dBtn.addEventListener('click', () => {
-      loadModel();
+      loadModel().catch(e => console.error('loadModel failed:', e));
     });
 
     $prevBtn.addEventListener('click', () => {
