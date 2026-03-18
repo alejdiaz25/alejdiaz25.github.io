@@ -369,7 +369,7 @@
     }
 
     .stage-header {
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: space-between;
       padding: 0 1.5rem;
@@ -378,6 +378,7 @@
       border-bottom: 1px solid var(--border-dim);
       flex-shrink: 0;
     }
+    #right-pane.has-project .stage-header { display: flex; }
     .stage-project-name {
       font-family: var(--font-mono);
       font-size: 0.58rem;
@@ -427,18 +428,17 @@
 
     /* Static preview image */
     .preview-img {
-      width: calc(100% - 3rem);
-      height: calc(100% - 3rem);
+      max-width: calc(100% - 3rem);
+      max-height: calc(100% - 3rem);
       object-fit: contain;
-      margin: 1.5rem;
-      border: 1px solid rgba(197,160,89,0.25);
+      border: 1px solid rgba(197,160,89,0.45);
     }
 
     /* Placeholder when no image is set */
     .preview-placeholder {
       width: 100%;
       height: 100%;
-      display: flex;
+      display: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -458,14 +458,16 @@
       opacity: 0.5;
     }
 
-    /* HUD corner brackets around the stage */
+    /* HUD corner brackets around the stage — hidden until project selected */
     .hud-bracket {
       position: absolute;
       width: 18px;
       height: 18px;
       pointer-events: none;
       z-index: 2;
+      display: none;
     }
+    #right-pane.has-project .hud-bracket { display: block; }
     .hud-bracket.tl { top: 12px; left: 12px; border-top: 1px solid var(--accent-gold); border-left: 1px solid var(--accent-gold); opacity: 0.45; }
     .hud-bracket.tr { top: 12px; right: 12px; border-top: 1px solid var(--accent-gold); border-right: 1px solid var(--accent-gold); opacity: 0.45; }
     .hud-bracket.bl { bottom: 12px; left: 12px; border-bottom: 1px solid var(--accent-gold); border-left: 1px solid var(--accent-gold); opacity: 0.45; }
@@ -550,11 +552,10 @@
 
     /* Gallery slides (1+) */
     .gallery-img {
-      width: calc(100% - 3rem);
-      height: calc(100% - 3rem);
+      max-width: calc(100% - 3rem);
+      max-height: calc(100% - 3rem);
       object-fit: contain;
-      margin: 1.5rem;
-      border: 1px solid rgba(197,160,89,0.25);
+      border: 1px solid rgba(197,160,89,0.45);
     }
     .gallery-placeholder {
       width: 100%;
@@ -579,7 +580,7 @@
 
     /* Carousel controls */
     .carousel-controls {
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: space-between;
       padding: 0 1.5rem;
@@ -588,6 +589,7 @@
       border-top: 1px solid var(--border-dim);
       flex-shrink: 0;
     }
+    #right-pane.has-project .carousel-controls { display: flex; }
     .carousel-nav {
       display: flex;
       align-items: center;
@@ -669,46 +671,19 @@
 
     /* ── IDLE STATE (no project selected) ───────────────────── */
     .idle-message {
+      position: absolute;
+      inset: 0;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100%;
-      gap: 0.75rem;
-      padding: 2rem;
-      text-align: center;
-    }
-    .idle-crosshair {
-      position: relative;
-      width: 40px;
-      height: 40px;
-      margin-bottom: 0.5rem;
-    }
-    .idle-crosshair::before,
-    .idle-crosshair::after {
-      content: '';
-      position: absolute;
-      background: var(--border-machined);
-    }
-    .idle-crosshair::before { width: 1px; height: 100%; left: 50%; top: 0; }
-    .idle-crosshair::after  { height: 1px; width: 100%; top: 50%; left: 0; }
-    .idle-crosshair-ring {
-      position: absolute;
-      inset: 6px;
-      border: 1px solid var(--border-machined);
-      border-radius: 50%;
+      z-index: 1;
     }
     .idle-label {
       font-family: var(--font-mono);
-      font-size: 0.6rem;
+      font-size: 0.58rem;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--text-faint);
-    }
-    .idle-sub {
-      font-size: 0.75rem;
-      color: var(--text-faint);
-      opacity: 0.6;
     }
 
     /* ── ANIMATIONS ─────────────────────────────────────────── */
@@ -884,8 +859,8 @@
           <button class="carousel-side-btn left" id="carousel-side-prev">&#8592;</button>
           <button class="carousel-side-btn right" id="carousel-side-next">&#8594;</button>
 
-          <!-- Slide 0 — 3D Stage -->
-          <div class="carousel-slide active" id="slide-0">
+          <!-- Slide 0 — 3D Stage (hidden until project with model selected) -->
+          <div class="carousel-slide" id="slide-0" style="display:none">
             <div class="slide-stage" id="slide-stage">
 
               <!-- Static render placeholder -->
@@ -916,11 +891,7 @@
           <!-- Gallery slides (1, 2) — cloned by JS per project -->
           <!-- Idle state overlay -->
           <div class="idle-message" id="idle-message">
-            <div class="idle-crosshair">
-              <div class="idle-crosshair-ring"></div>
-            </div>
-            <span class="idle-label">No project selected</span>
-            <span class="idle-sub">Choose from the index</span>
+            <span class="idle-label">Select a project</span>
           </div>
 
         </div><!-- /carousel-wrap -->
@@ -1349,8 +1320,9 @@
        SHOW STAGE ASSETS FOR PROJECT
     ───────────────────────────────────────────────────────── */
     function showProjectStage(project) {
-      /* Hide idle message */
+      /* Hide idle message, activate right pane */
       $idleMsg.style.display = 'none';
+      document.getElementById('right-pane').classList.add('has-project');
 
       /* Update stage name */
       $stageName.textContent = project.title;
