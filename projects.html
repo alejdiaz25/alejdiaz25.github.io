@@ -92,6 +92,9 @@
     .project-viewer.specs-open {
       grid-template-columns: var(--left-w) var(--center-w) 1fr;
     }
+    .project-viewer.specs-open.wide-specs {
+      --center-w: 480px;
+    }
 
     /* ── LEFT PANE ──────────────────────────────────────────── */
     #left-pane {
@@ -1359,6 +1362,9 @@
       /* Slide 0 is exclusively for the 3D viewer — no image underneath */
       $prevImg.style.display = 'none';
       $placeholder.style.display = 'none';
+
+      /* Widen specs pane when no interactive 3D to show */
+      $viewer.classList.toggle('wide-specs', !project.model);
 
       /* Show "Load Interactive 3D" button only if model exists */
       if (project.model) {
