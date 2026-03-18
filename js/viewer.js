@@ -9,12 +9,6 @@
   var CDN = 'https://cdn.jsdelivr.net/npm/three@0.163.0';
   var DRACO_PATH = CDN + '/examples/jsm/libs/draco/';
 
-  /* Zoom / spin thresholds */
-  var MIN_DISTANCE = 0.4;
-  var MAX_DISTANCE = 3.0;
-  var DEFAULT_DISTANCE = 1.24; /* ~length of vec(0, 0.3, 1.2) */
-  var CLOSE_ZOOM_THRESHOLD = 0.7; /* stop spin when closer than this */
-
   var THREE, GLTFLoader, DRACOLoader, OrbitControls;
   var renderer, scene, camera, controls, modelGroup, rafId;
   var _canvas = null;
@@ -25,6 +19,7 @@
   var _resetBtn = null;
   var _defaultCamPos = null;
   var _defaultTarget = null;
+  var _fitDistance = 1.2; /* updated per model on load */
 
   async function importDeps() {
     if (THREE) return;
@@ -97,8 +92,8 @@
     if (!controls || !camera) return;
     var dist = camera.position.distanceTo(controls.target);
 
-    /* Stop spin when zoomed in close */
-    _autoSpin = dist >= CLOSE_ZOOM_THRESHOLD;
+    /* Stop spin when zoomed in past 60% of the fit distance */
+    _autoSpin = dist >= _fitDistance * 0.6;
 
     /* Show reset button when user has moved the view */
     if (!_userInteracted) {
@@ -125,8 +120,6 @@
     controls.enablePan = false;
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
-    controls.minDistance = MIN_DISTANCE;
-    controls.maxDistance = MAX_DISTANCE;
     controls.enabled = false;
 
     controls.addEventListener('change', onControlsChange);
@@ -232,6 +225,18 @@
           _src = url;
           _autoSpin = true;
           _userInteracted = false;
+
+          /* Zoom-to-fit: position camera so model fills the view */
+          var sphere = new THREE.Box3().setFromObject(group).getBoundingSphere(new THREE.Sphere());
+          var fov = camera.fov * (Math.PI / 180);
+          var dist = sphere.radius / Math.sin(fov / 2);
+          var fitDist = dist * 1.15; /* slight padding */
+
+          _fitDistance = fitDist;
+          camera.position.set(0, sphere.center.y, fitDist);
+          controls.target.copy(sphere.center);
+          controls.minDistance = fitDist * 0.25;
+          controls.maxDistance = fitDist * 3.0;
 
           /* Store default camera state for reset */
           _defaultCamPos = camera.position.clone();
