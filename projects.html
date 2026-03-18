@@ -476,10 +476,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-end;
-      padding-bottom: 2.5rem;
+      justify-content: center;
       z-index: 3;
-      /* Only shows when model NOT loaded */
       pointer-events: none;
     }
     .load-3d-overlay.visible { pointer-events: auto; }
@@ -487,13 +485,13 @@
     .load-3d-btn {
       display: inline-flex;
       align-items: center;
-      gap: 0.6rem;
-      padding: 0.55rem 1.25rem;
+      gap: 0.75rem;
+      padding: 0.75rem 1.75rem;
       background: rgba(9,10,12,0.85);
       border: 1px solid var(--accent-gold);
       color: var(--accent-gold);
       font-family: var(--font-mono);
-      font-size: 0.6rem;
+      font-size: 0.7rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       cursor: pointer;
@@ -503,7 +501,7 @@
     .load-3d-btn:hover { background: var(--accent-gold-dim); }
     .load-3d-btn::before {
       content: '⬡';
-      font-size: 0.65rem;
+      font-size: 0.75rem;
       opacity: 0.7;
     }
 
@@ -631,6 +629,41 @@
       color: var(--text-faint);
     }
 
+    /* Side carousel arrows (overlaid on the stage) */
+    .carousel-side-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 6;
+      width: 36px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(9,10,12,0.7);
+      border: 1px solid var(--border-machined);
+      color: var(--text-faint);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      transition: color 0.18s, border-color 0.18s, background 0.18s;
+      user-select: none;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .carousel-side-btn.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .carousel-side-btn:hover {
+      color: var(--accent-gold);
+      border-color: var(--accent-gold);
+      background: rgba(9,10,12,0.85);
+    }
+    .carousel-side-btn.left  { left: 12px; }
+    .carousel-side-btn.right { right: 12px; }
+
     /* ── IDLE STATE (no project selected) ───────────────────── */
     .idle-message {
       display: flex;
@@ -731,6 +764,7 @@
       }
 
       .load-3d-btn { display: none; }
+      .carousel-side-btn { display: none; }
 
       #three-stage { touch-action: pan-y; }
 
@@ -843,6 +877,10 @@
           <div class="hud-bracket bl"></div>
           <div class="hud-bracket br"></div>
 
+          <!-- Side carousel arrows -->
+          <button class="carousel-side-btn left" id="carousel-side-prev">&#8592;</button>
+          <button class="carousel-side-btn right" id="carousel-side-next">&#8594;</button>
+
           <!-- Slide 0 — 3D Stage -->
           <div class="carousel-slide active" id="slide-0">
             <div class="slide-stage" id="slide-stage">
@@ -925,9 +963,9 @@
         ],
         software: ['OnShape', 'SOLIDWORKS', 'MATLAB'],
         tags: ['RCS', 'TVC', 'Fluid Dynamics', 'FEA', 'Machining', 'Robotics'],
-        preview: '',
+        preview: 'images/rcs-1000a onshape.png',
         model: 'assets/models/rcs-0000a.glb',
-        gallery: ['', ''],
+        gallery: ['images/rcs-1000a structures.jpg', 'images/rcs-1000a electronics.jpg', 'images/rcs-1000a prints.jpg'],
       },
       {
         id: 'front-unsprung',
@@ -945,9 +983,9 @@
         ],
         software: ['SOLIDWORKS', 'ANSYS FEA'],
         tags: ['FSAE', 'FEA', 'CNC', 'DFM', 'Machining'],
-        preview: '',
+        preview: 'images/lhr-2024 exploded.jpg',
         model: '',
-        gallery: ['', ''],
+        gallery: ['images/lhr-2024 FEAsecond.png', 'images/lhr-2024 machining.jpg', 'images/lhr-2024 uprightreal.png'],
       },
       {
         id: 'rear-upright',
@@ -965,9 +1003,9 @@
         ],
         software: ['SOLIDWORKS', 'ANSYS FEA'],
         tags: ['FSAE', 'FEA', 'CNC', 'DFM', 'Sensor Design'],
-        preview: 'images/Adobe Express - file.png',
+        preview: 'images/lhr-2023 wheelasm.png',
         model: '',
-        gallery: ['', ''],
+        gallery: ['images/lhr-2023 FEAfirst.png', 'images/lhr-2023 asm.jpg'],
       },
       {
         id: 'frc-2023-robot',
@@ -985,9 +1023,9 @@
         ],
         software: ['OnShape', 'SOLIDWORKS'],
         tags: ['FRC', 'Robotics', 'CNC', 'FEA', '3D Printing', 'DFM'],
-        preview: '',
+        preview: 'images/val-2023 full cad.png',
         model: '',
-        gallery: ['', ''],
+        gallery: ['images/val-2023 moving.jpg', 'images/val-2023 conehold.jpg'],
       },
       {
         id: 'frc-2023-arm',
@@ -1005,9 +1043,9 @@
         ],
         software: ['OnShape', 'SOLIDWORKS'],
         tags: ['FRC', 'Robotics', 'FEA', 'CNC', '3D Printing', 'DFM'],
-        preview: '',
+        preview: 'images/val-2023 armelevcad.png',
         model: '',
-        gallery: ['', ''],
+        gallery: ['images/val-2023 arm.png', 'images/val-2023 elevcad.png', 'images/val-2023 armextension.jpg'],
       },
       {
         id: 'frc-2022-robot',
@@ -1025,9 +1063,9 @@
         ],
         software: ['OnShape', 'SOLIDWORKS'],
         tags: ['FRC', 'Robotics', 'Motion Control', 'Vision Systems', 'CNC'],
-        preview: '',
+        preview: 'images/val-2022-full cad.png',
         model: '',
-        gallery: ['', ''],
+        gallery: ['images/val-2022 climb.png', 'images/val-2022 high rate indexersys cad.png'],
       },
       {
         id: 'frc-2021-indexer',
@@ -1045,9 +1083,9 @@
         ],
         software: ['OnShape', 'SOLIDWORKS'],
         tags: ['FRC', 'Robotics', 'CNC', '3D Printing', 'DFM'],
-        preview: '',
+        preview: 'images/val-2021 indexer.png',
         model: '',
-        gallery: ['', ''],
+        gallery: ['images/val-2021 indexerdrum.png', 'images/val-2021 indexergb.png', 'images/valor-2021 indexerbottom.png'],
       },
       {
         id: 'frc-2021-feeder',
@@ -1065,9 +1103,9 @@
         ],
         software: ['OnShape'],
         tags: ['FRC', 'Robotics', 'CNC', 'DFM', 'Rapid Prototyping'],
-        preview: '',
+        preview: 'images/val-2021 high rate feed cad.png',
         model: '',
-        gallery: ['', ''],
+        gallery: ['images/val-2021 high rate cad.png'],
       },
       {
         id: 'rc-car',
@@ -1085,9 +1123,9 @@
         ],
         software: ['SOLIDWORKS'],
         tags: ['Machining', 'Laser Cutting', '3D Printing', 'Kinematic Design', 'DFM'],
-        preview: '',
+        preview: 'images/rg3-0000 full cad.png',
         model: '',
-        gallery: ['', ''],
+        gallery: [],
       },
       {
         id: 'smokeless-firepit',
@@ -1105,9 +1143,9 @@
         ],
         software: ['SOLIDWORKS'],
         tags: ['Sheet Metal', 'DFM', 'Prototyping', 'Materials', 'Machining'],
-        preview: '',
+        preview: 'images/agw-0000 full cad.png',
         model: '',
-        gallery: ['', ''],
+        gallery: ['images/agw-0000 spliceview.png'],
       },
       {
         id: 'face-shield',
@@ -1125,9 +1163,9 @@
         ],
         software: ['Autodesk Inventor', 'Fusion 360'],
         tags: ['3D Printing', 'DFM', 'Rapid Prototyping', 'Sheet Metal', 'Design Optimization'],
-        preview: '',
+        preview: 'images/cvr-0000 faceshield.png',
         model: '',
-        gallery: ['', ''],
+        gallery: ['images/cvr-0000 foldable.png'],
       },
     ];
 
@@ -1166,6 +1204,8 @@
     const $stageCounter = document.getElementById('stage-slide-counter');
     const $projectCount = document.getElementById('project-count');
     const $backdrop    = document.getElementById('sheet-backdrop');
+    const $sidePrev    = document.getElementById('carousel-side-prev');
+    const $sideNext    = document.getElementById('carousel-side-next');
 
     /* ─────────────────────────────────────────────────────────
        RENDER LEFT PANE
@@ -1410,6 +1450,15 @@
       $nextBtn.disabled = index === total - 1;
       $slideLabel.textContent = labels[index] || '—';
       $stageCounter.textContent = total > 1 ? `${String(index + 1).padStart(2,'0')} / ${String(total).padStart(2,'0')}` : '—';
+
+      /* Side arrows — show only when there are multiple slides */
+      if (total > 1) {
+        $sidePrev.classList.toggle('visible', index > 0);
+        $sideNext.classList.toggle('visible', index < total - 1);
+      } else {
+        $sidePrev.classList.remove('visible');
+        $sideNext.classList.remove('visible');
+      }
     }
 
     /* ─────────────────────────────────────────────────────────
@@ -1468,6 +1517,16 @@
     });
 
     $nextBtn.addEventListener('click', () => {
+      const project = PROJECTS.find(p => p.id === state.activeId);
+      goToSlide(state.slideIndex + 1, project);
+    });
+
+    $sidePrev.addEventListener('click', () => {
+      const project = PROJECTS.find(p => p.id === state.activeId);
+      goToSlide(state.slideIndex - 1, project);
+    });
+
+    $sideNext.addEventListener('click', () => {
       const project = PROJECTS.find(p => p.id === state.activeId);
       goToSlide(state.slideIndex + 1, project);
     });
