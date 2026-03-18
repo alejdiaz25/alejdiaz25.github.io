@@ -43,8 +43,9 @@
   function createResetButton() {
     if (_resetBtn) return;
     _resetBtn = document.createElement('button');
-    _resetBtn.textContent = 'Reset View';
     _resetBtn.className = 'viewer-reset-btn';
+    _resetBtn.title = 'Reset view';
+    _resetBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M3 12L12 3l9 9"/><path d="M5 10v10h14V10"/></svg>';
     _resetBtn.addEventListener('click', resetView);
     _canvas.parentElement.appendChild(_resetBtn);
   }
