@@ -199,6 +199,38 @@
             transparent: true,
           });
 
+          /* Strip loose/outlier geometry: remove meshes whose bounding
+             sphere center is far from the overall model center relative
+             to the model's total extent — catches stray vertices. */
+          var allMeshes = [];
+          root.traverse(function (child) {
+            if (child.isMesh) allMeshes.push(child);
+          });
+
+          if (allMeshes.length > 1) {
+            var modelBox = new THREE.Box3().setFromObject(root);
+            var modelCenter = modelBox.getCenter(new THREE.Vector3());
+            var modelSize = modelBox.getSize(new THREE.Vector3());
+            var maxExtent = Math.max(modelSize.x, modelSize.y, modelSize.z);
+
+            allMeshes.forEach(function (mesh) {
+              mesh.geometry.computeBoundingSphere();
+              var bs = mesh.geometry.boundingSphere;
+              /* Tiny mesh whose volume is negligible (<0.1% of model extent) */
+              var isTiny = bs.radius < maxExtent * 0.001;
+              /* Mesh center far from the model center (>60% of extent away) */
+              var worldCenter = bs.center.clone();
+              mesh.localToWorld(worldCenter);
+              var distFromCenter = worldCenter.distanceTo(modelCenter);
+              var isFar = distFromCenter > maxExtent * 0.6;
+
+              if (isTiny || (isFar && bs.radius < maxExtent * 0.02)) {
+                if (mesh.parent) mesh.parent.remove(mesh);
+                mesh.geometry.dispose();
+              }
+            });
+          }
+
           root.traverse(function (child) {
             if (child.isMesh) {
               child.material = baseMat;

@@ -4,8 +4,6 @@
     "title": "Engineer.<br>Builder.<br>Founder.",
     "stats": [
       { "num": "3.84", "label": "GPA" },
-      { "num": "2×", "label": "Northrop Grumman" },
-      { "num": "#7", "label": "FRC World 2023" },
       { "num": "Dec '26", "label": "Graduation" }
     ],
     "paragraphs": [
@@ -14,7 +12,8 @@
       "Outside of engineering, I serve as <strong>COO of Cascade</strong>, an agentic AI research platform for university life sciences labs, and mentor the next generation of robotics engineers through <strong>FRC Team 6800 Valor</strong>.",
       "I'm drawn to problems where the physics is hard, the tolerances are tight, and the stakes are real."
     ],
-    "clearance": "Active U.S. Secret Security Clearance (DoD)"
+    "clearance": "Active U.S. Secret Security Clearance (DoD)",
+    "headshot": { "src": "images/headshot.jpg", "alt": "Alejandro Diaz", "width": 428, "height": 600 }
   },
   "experience": {
     "eyebrow": "002 — Experience",
@@ -50,24 +49,6 @@
           "Developed fully parametric SOLIDWORKS CAD models with bending and die design for flexible iteration."
         ]
       }
-    ]
-  },
-  "projectsPreview": {
-    "eyebrow": "003 — Projects",
-    "title": "Engineering Projects",
-    "link": { "text": "11 projects — interactive viewer →", "href": "projects.html" },
-    "thumbs": [
-      { "id": "rcs-3dof", "img": "images/rcs-1000a onshape.png", "alt": "3DOF Reaction Control System", "label": "3DOF RCS — TREL", "width": 1284, "height": 1272 },
-      { "id": "front-unsprung", "img": "images/lhr-2024 exploded.jpg", "alt": "Front Unsprung Assembly", "label": "Front Unsprung — LHR-E", "width": 2560, "height": 1440 },
-      { "id": "rear-upright", "img": "images/lhr-2023 wheelasm.png", "alt": "Rear Upright Assembly", "label": "Rear Upright — LHR-E", "width": 4928, "height": 3264 },
-      { "id": "frc-2023-robot", "img": "images/val-2023 full cad.png", "alt": "2023 Competition Robot", "label": "2023 FRC Robot — Worlds", "width": 1199, "height": 1600 },
-      { "id": "frc-2023-arm", "img": "images/val-2023 armelevcad.png", "alt": "2023 Arm + Elevator", "label": "2023 Arm + Elevator", "width": 960, "height": 1338 },
-      { "id": "frc-2022-robot", "img": "images/val-2022-full cad.png", "alt": "2022 Robot + Precision Shooter", "label": "2022 FRC Robot", "width": 1199, "height": 1600 },
-      { "id": "frc-2021-indexer", "img": "images/val-2021 indexer.png", "alt": "2021 Indexer Mechanism", "label": "2021 Indexer", "width": 1924, "height": 1202 },
-      { "id": "frc-2021-feeder", "img": "images/val-2021 high rate feed cad.png", "alt": "2021 High Rate Feeder", "label": "2021 Feeder", "width": 1906, "height": 1294 },
-      { "id": "rc-car", "img": "images/rg3-0000 full cad.png", "alt": "RC Race Car", "label": "RC Race Car — ME 338", "width": 1196, "height": 681 },
-      { "id": "smokeless-firepit", "img": "images/agw-0000 full cad.png", "alt": "Smokeless Fire Pit", "label": "Smokeless Fire Pit — Agave", "width": 889, "height": 740 },
-      { "id": "face-shield", "img": "images/cvr-0000 faceshield.png", "alt": "Face Shield Production", "label": "Face Shield — COVID Rangers", "width": 2360, "height": 1338 }
     ]
   },
   "coursework": {

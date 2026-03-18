@@ -215,10 +215,12 @@
 
 /* ── CONTENT RENDERER — fetches content.json, populates all sections ── */
 (function () {
-  fetch('content.json')
-    .then(r => r.json())
-    .then(renderAll)
-    .catch(e => console.error('Failed to load content.json:', e));
+  Promise.all([
+    fetch('content.json').then(r => r.json()),
+    fetch('projects.json').then(r => r.json()),
+  ])
+    .then(([C, P]) => renderAll(C, P))
+    .catch(e => console.error('Failed to load data:', e));
 
   function esc(s) {
     const d = document.createElement('div');
@@ -226,10 +228,10 @@
     return d.innerHTML;
   }
 
-  function renderAll(C) {
+  function renderAll(C, P) {
     renderAbout(C.about);
     renderExperience(C.experience);
-    renderProjectsPreview(C.projectsPreview);
+    renderProjectsPreview(P.preview);
     renderCoursework(C.coursework);
     renderSkills(C.skills);
     renderContact(C.contact);
@@ -246,7 +248,14 @@
       `<div class="stat-cell"><div class="stat-num">${esc(s.num)}</div><div class="stat-label">${esc(s.label)}</div></div>`
     ).join('');
     const parasHtml = d.paragraphs.map(p => `<p>${p}</p>`).join('');
+    const hs = d.headshot;
+    const headshotHtml = hs
+      ? `<div class="about-headshot enter-fade" style="transition-delay:80ms">
+           <img src="${esc(hs.src)}" alt="${esc(hs.alt)}" width="${hs.width}" height="${hs.height}" loading="lazy" />
+         </div>`
+      : '';
     el.innerHTML = `
+      ${headshotHtml}
       <div>
         <p class="section-eyebrow enter-fade" style="transition-delay:0ms">${esc(d.eyebrow)}</p>
         <div class="rule"></div>
