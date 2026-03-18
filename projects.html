@@ -6,109 +6,29 @@
   <title>Projects — Alejandro Diaz</title>
   <meta name="description" content="Engineering project portfolio — aerospace, robotics, and advanced manufacturing." />
 
-  <!-- Fonts -->
+  <!-- Stylesheets -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/animations.css" />
 
   <!-- model-viewer -->
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 
+  <!-- Anime.js -->
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+
   <style>
-    /* ── TOKENS ─────────────────────────────────────────────── */
+    /* ── PROJECTS PAGE OVERRIDES ───────────────────────────── */
     :root {
-      --bg-deep-space:    #090A0C;
-      --surface-titanium: #16181D;
-      --surface-raised:   #1C1F26;
-      --border-machined:  #2A2D35;
-      --border-dim:       #1E2028;
-      --text-primary:     #F3F4F6;
-      --text-muted:       #8B909A;
-      --text-faint:       #4B5060;
-      --accent-gold:      #C5A059;
-      --accent-gold-dim:  rgba(197,160,89,0.12);
-      --accent-gold-glow: rgba(197,160,89,0.06);
-
-      --font-ui:      'Inter', system-ui, sans-serif;
-      --font-mono:    'JetBrains Mono', monospace;
-      --font-display: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-
-      --nav-h:     60px;
-      --ease-expo: cubic-bezier(0.19, 1, 0.22, 1);
-      --ease-sine: cubic-bezier(0.37, 0, 0.63, 1);
-
       --left-w:   260px;
       --center-w: 360px;
     }
 
-    /* ── RESET ──────────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
     body {
-      background: var(--bg-deep-space);
-      color: var(--text-primary);
-      font-family: var(--font-ui);
-      font-weight: 300;
-      line-height: 1.7;
-      overflow-x: hidden;
       overflow-y: hidden; /* viewer is full-height */
     }
-    a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
-    ::-webkit-scrollbar { width: 3px; }
-    ::-webkit-scrollbar-track { background: var(--bg-deep-space); }
-    ::-webkit-scrollbar-thumb { background: var(--border-machined); }
-
-    /* ── NOISE ──────────────────────────────────────────────── */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.028;
-      pointer-events: none;
-      z-index: 9999;
-    }
-
-    /* ── NAV ────────────────────────────────────────────────── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 900;
-      height: var(--nav-h);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 2.5rem;
-      background: rgba(9,10,12,0.88);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border-machined);
-    }
-    .nav-logo {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--accent-gold);
-    }
-    .nav-logo span { color: var(--text-faint); }
-    .nav-links {
-      display: flex;
-      gap: 0;
-      list-style: none;
-    }
-    .nav-links a {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      padding: 0.4rem 1rem;
-      border: 1px solid transparent;
-      transition: color 0.2s, border-color 0.2s;
-    }
-    .nav-links a:hover { color: var(--text-primary); border-color: var(--border-machined); }
-    .nav-links a.active { color: var(--accent-gold); }
 
     /* ── PAGE SHELL ─────────────────────────────────────────── */
     .page-shell {
@@ -355,6 +275,7 @@
       color: var(--text-primary);
       line-height: 1.2;
       margin-bottom: 0.2rem;
+      transition: opacity 0.3s ease;
     }
     .spec-project-org {
       font-family: var(--font-mono);
@@ -363,6 +284,7 @@
       text-transform: uppercase;
       color: var(--accent-gold);
       margin-bottom: 1rem;
+      transition: opacity 0.3s ease;
     }
     .spec-project-desc {
       font-size: 0.8rem;
@@ -382,6 +304,7 @@
       color: var(--text-faint);
       margin-bottom: 0.5rem;
       margin-top: 1.25rem;
+      transition: opacity 0.3s ease;
     }
     .spec-row {
       display: grid;
@@ -389,6 +312,7 @@
       border-bottom: 1px solid var(--border-dim);
       padding: 0.45rem 0;
       align-items: start;
+      transition: opacity 0.3s ease;
     }
     .spec-row:last-of-type { border-bottom: none; }
     .spec-key {
@@ -399,12 +323,14 @@
       color: var(--text-faint);
       padding-right: 0.75rem;
       line-height: 1.6;
+      transition: opacity 0.3s ease;
     }
     .spec-val {
       font-family: var(--font-mono);
       font-size: 0.62rem;
       color: var(--text-muted);
       line-height: 1.6;
+      transition: opacity 0.3s ease;
     }
     .spec-val.gold { color: var(--accent-gold); }
 
@@ -844,8 +770,9 @@
 
   <!-- ── NAV ──────────────────────────────────────────────── -->
   <nav>
-    <a class="nav-logo" href="index.html">AD<span>/</span>ME</a>
+    <a class="nav-logo" href="index.html">Alejandro Diaz<span> — </span>Portfolio</a>
     <ul class="nav-links">
+      <li><a href="index.html#hero">Home</a></li>
       <li><a href="index.html#about">About</a></li>
       <li><a href="index.html#experience">Experience</a></li>
       <li><a href="projects.html" class="active">Projects</a></li>
@@ -981,6 +908,7 @@
 
   <!-- Mobile "View Specs" button (injected into each project card on mobile) -->
 
+  <script src="js/scramble.js"></script>
   <script>
     /* ─────────────────────────────────────────────────────────
        PROJECT DATA
@@ -1290,10 +1218,43 @@
       /* Populate specs */
       renderSpecs(project);
 
-      /* Open specs panel */
+      /* Open specs panel first so the column transition starts
+         and elements get their real rendered widths */
       $viewer.classList.add('specs-open');
       $centerPane.classList.add('mobile-open');
       $backdrop.classList.add('visible');
+
+      setTimeout(() => {
+        const titleEl = document.querySelector('.spec-project-title');
+        if (titleEl) {
+          titleEl.dataset.scrambleOriginal = project.title;
+          new ScrambleText(titleEl, { duration: 700, delay: 0 }).run();
+        }
+        const orgEl = document.querySelector('.spec-project-org');
+        if (orgEl) {
+          const fullText = `${project.org} — ${project.subtitle}`;
+          /* Render full text invisibly to lock stable height before typing starts */
+          orgEl.style.opacity = '0';
+          orgEl.textContent = fullText;
+          orgEl.style.minHeight = orgEl.offsetHeight + 'px';
+          orgEl.textContent = '';
+          orgEl.style.opacity = '1';
+
+          const orgStart = performance.now();
+          const orgDuration = 700;
+          const orgTick = (now) => {
+            const progress = Math.min((now - orgStart) / orgDuration, 1);
+            orgEl.textContent = fullText.slice(0, Math.floor(progress * fullText.length));
+            if (progress < 1) {
+              requestAnimationFrame(orgTick);
+            } else {
+              orgEl.textContent = fullText;
+              orgEl.style.minHeight = '';
+            }
+          };
+          requestAnimationFrame(orgTick);
+        }
+      }, 350);
 
       /* Show stage assets */
       showProjectStage(project);
@@ -1310,14 +1271,23 @@
     /* ─────────────────────────────────────────────────────────
        RENDER SPECS PANEL
     ───────────────────────────────────────────────────────── */
+    /* Split description text into sentence bullets.
+       Splits on '. ' followed by an uppercase letter — preserves all content. */
+    function descToBullets(text) {
+      const raw = text.replace(/\.\s+(?=[A-Z0-9])/g, '.|').split('|');
+      return raw.map(s => s.trim()).filter(s => s.length > 3);
+    }
+
     function renderSpecs(project) {
       const softwareStr = project.software.join(' · ');
       const tagsHtml = project.tags.map(t => `<span class="spec-tag">${t}</span>`).join('');
+      const bullets = descToBullets(project.description);
+      const bulletsHtml = bullets.map(s => `<li>${s}</li>`).join('');
 
       $centerContent.innerHTML = `
-        <div class="spec-project-title">${project.title}</div>
-        <div class="spec-project-org">${project.org} — ${project.subtitle}</div>
-        <p class="spec-project-desc">${project.description}</p>
+        <div class="spec-project-title" style="opacity:0">${project.title}</div>
+        <div class="spec-project-org" style="opacity:0">${project.org} — ${project.subtitle}</div>
+        <ul class="exp-bullets spec-project-desc">${bulletsHtml}</ul>
 
         <div class="spec-section-label">Technical Data</div>
         ${project.specs.map(s => `
@@ -1553,6 +1523,26 @@
        INIT
     ───────────────────────────────────────────────────────── */
     renderList();
+
+    /* Bind hover scramble on left-pane org labels */
+    document.querySelectorAll('.item-org').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        new ScrambleText(el, { duration: 400, contained: false }).run();
+      });
+    });
+
+    /* Nav hover scramble */
+    document.querySelectorAll('.nav-links a').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        new ScrambleText(el, { duration: 350 }).run();
+      });
+    });
+    const navLogo = document.querySelector('.nav-logo');
+    if (navLogo) {
+      navLogo.addEventListener('mouseenter', () => {
+        new ScrambleText(navLogo, { duration: 400 }).run();
+      });
+    }
   </script>
 
 </body>
