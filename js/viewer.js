@@ -6,27 +6,104 @@
 (function () {
   'use strict';
 
-  const CDN = 'https://cdn.jsdelivr.net/npm/three@0.163.0';
-  const DRACO_PATH = CDN + '/examples/jsm/libs/draco/';
+  var CDN = 'https://cdn.jsdelivr.net/npm/three@0.163.0';
+  var DRACO_PATH = CDN + '/examples/jsm/libs/draco/';
 
-  let THREE, GLTFLoader, DRACOLoader, OrbitControls;
-  let renderer, scene, camera, controls, modelGroup, rafId;
-  let _canvas = null;
-  let _src = null;
-  let _loaded = false;
+  /* Zoom / spin thresholds */
+  var MIN_DISTANCE = 0.4;
+  var MAX_DISTANCE = 3.0;
+  var DEFAULT_DISTANCE = 1.24; /* ~length of vec(0, 0.3, 1.2) */
+  var CLOSE_ZOOM_THRESHOLD = 0.7; /* stop spin when closer than this */
+
+  var THREE, GLTFLoader, DRACOLoader, OrbitControls;
+  var renderer, scene, camera, controls, modelGroup, rafId;
+  var _canvas = null;
+  var _src = null;
+  var _loaded = false;
+  var _autoSpin = true;
+  var _userInteracted = false;
+  var _resetBtn = null;
+  var _defaultCamPos = null;
+  var _defaultTarget = null;
 
   async function importDeps() {
     if (THREE) return;
-    const [threeMod, gltfMod, dracoMod, ctrlMod] = await Promise.all([
+    var results = await Promise.all([
       import(CDN + '/build/three.module.js'),
       import(CDN + '/examples/jsm/loaders/GLTFLoader.js'),
       import(CDN + '/examples/jsm/loaders/DRACOLoader.js'),
       import(CDN + '/examples/jsm/controls/OrbitControls.js'),
     ]);
-    THREE = threeMod;
-    GLTFLoader = gltfMod.GLTFLoader;
-    DRACOLoader = dracoMod.DRACOLoader;
-    OrbitControls = ctrlMod.OrbitControls;
+    THREE = results[0];
+    GLTFLoader = results[1].GLTFLoader;
+    DRACOLoader = results[2].DRACOLoader;
+    OrbitControls = results[3].OrbitControls;
+  }
+
+  function createResetButton() {
+    if (_resetBtn) return;
+    _resetBtn = document.createElement('button');
+    _resetBtn.textContent = 'Reset View';
+    _resetBtn.className = 'viewer-reset-btn';
+    _resetBtn.addEventListener('click', resetView);
+    _canvas.parentElement.appendChild(_resetBtn);
+  }
+
+  function showResetButton() {
+    if (!_resetBtn) createResetButton();
+    _resetBtn.classList.add('visible');
+  }
+
+  function hideResetButton() {
+    if (_resetBtn) _resetBtn.classList.remove('visible');
+  }
+
+  function resetView() {
+    if (!controls || !camera || !_defaultCamPos) return;
+    /* Animate camera back to default position */
+    var startPos = { x: camera.position.x, y: camera.position.y, z: camera.position.z };
+    var startTarget = { x: controls.target.x, y: controls.target.y, z: controls.target.z };
+    var startTime = performance.now();
+    var duration = 400;
+
+    function tick(now) {
+      var t = Math.min((now - startTime) / duration, 1);
+      /* ease-out cubic */
+      var e = 1 - Math.pow(1 - t, 3);
+      camera.position.set(
+        startPos.x + (_defaultCamPos.x - startPos.x) * e,
+        startPos.y + (_defaultCamPos.y - startPos.y) * e,
+        startPos.z + (_defaultCamPos.z - startPos.z) * e
+      );
+      controls.target.set(
+        startTarget.x + (_defaultTarget.x - startTarget.x) * e,
+        startTarget.y + (_defaultTarget.y - startTarget.y) * e,
+        startTarget.z + (_defaultTarget.z - startTarget.z) * e
+      );
+      controls.update();
+      if (t < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        _autoSpin = true;
+        _userInteracted = false;
+        hideResetButton();
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function onControlsChange() {
+    if (!controls || !camera) return;
+    var dist = camera.position.distanceTo(controls.target);
+
+    /* Stop spin when zoomed in close */
+    _autoSpin = dist >= CLOSE_ZOOM_THRESHOLD;
+
+    /* Show reset button when user has moved the view */
+    if (!_userInteracted) {
+      _userInteracted = true;
+    }
+    showResetButton();
   }
 
   async function init(canvas) {
@@ -47,10 +124,14 @@
     controls.enablePan = false;
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
+    controls.minDistance = MIN_DISTANCE;
+    controls.maxDistance = MAX_DISTANCE;
     controls.enabled = false;
 
+    controls.addEventListener('change', onControlsChange);
+
     scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-    const dir = new THREE.DirectionalLight(0xffffff, 0.8);
+    var dir = new THREE.DirectionalLight(0xffffff, 0.8);
     dir.position.set(2, 3, 4);
     scene.add(dir);
 
@@ -70,7 +151,7 @@
 
   function animate() {
     rafId = requestAnimationFrame(animate);
-    if (modelGroup) modelGroup.rotation.y += 0.003;
+    if (modelGroup && _autoSpin) modelGroup.rotation.y += 0.003;
     if (controls) controls.update();
     if (renderer && scene && camera) renderer.render(scene, camera);
   }
@@ -89,6 +170,9 @@
     }
     _loaded = false;
     _src = null;
+    _autoSpin = true;
+    _userInteracted = false;
+    hideResetButton();
   }
 
   function load(url) {
@@ -145,9 +229,16 @@
           modelGroup = group;
           _loaded = true;
           _src = url;
+          _autoSpin = true;
+          _userInteracted = false;
+
+          /* Store default camera state for reset */
+          _defaultCamPos = camera.position.clone();
+          _defaultTarget = controls.target.clone();
 
           controls.enabled = true;
           resize();
+          hideResetButton();
           resolve();
         },
         undefined,

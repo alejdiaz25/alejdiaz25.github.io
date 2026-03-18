@@ -527,6 +527,39 @@
       opacity: 1;
     }
 
+    /* Reset view button (injected by viewer.js) */
+    .viewer-reset-btn {
+      position: absolute;
+      bottom: 1.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 7;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1.25rem;
+      background: rgba(9,10,12,0.8);
+      border: 1px solid var(--border-machined);
+      color: var(--text-faint);
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 260ms var(--ease-expo), color 0.18s, border-color 0.18s;
+    }
+    .viewer-reset-btn.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .viewer-reset-btn:hover {
+      color: var(--accent-gold);
+      border-color: var(--accent-gold);
+    }
+
     /* Spinner overlay (MODEL_LOADING state) */
     .model-spinner {
       position: absolute;
