@@ -1,0 +1,105 @@
+/* ── KEYFRAMES ──────────────────────────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+@keyframes scan-line {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+@keyframes canvas-drift {}
+
+/* ── HERO — JS SCRAMBLE TARGETS (start hidden, JS reveals) ── */
+.hero-system-label   { opacity: 0; }
+.hero-name .first    { opacity: 0; }
+.hero-name .last-inner {
+  opacity: 0;
+  animation: shimmer 6s linear 1.5s infinite;
+}
+.hero-descriptor     { opacity: 0; }
+
+/* ── HERO — CSS FADE-UP (non-scrambled elements) ─────────── */
+.hero-data {
+  opacity: 0;
+  animation: fade-up 0.85s var(--ease-expo) 0.55s forwards;
+}
+.hero-cta {
+  opacity: 0;
+  animation: fade-up 0.85s var(--ease-expo) 0.7s forwards;
+}
+.hero-scroll {
+  opacity: 0;
+  animation: fade-up 0.85s var(--ease-expo) 1s forwards;
+}
+.hero-status {
+  opacity: 0;
+  animation: fade-up 0.85s var(--ease-expo) 0.9s forwards;
+}
+
+/* ── REVEAL (legacy compat) ────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.65s var(--ease-expo), transform 0.65s var(--ease-expo);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── ENTRANCE: FADE UP ─────────────────────────────────── */
+.enter-fade {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s cubic-bezier(0.19,1,0.22,1),
+              transform 0.7s cubic-bezier(0.19,1,0.22,1);
+}
+.enter-fade.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── ENTRANCE: SLIDE IN FROM LEFT ──────────────────────── */
+.enter-line {
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.5s cubic-bezier(0.19,1,0.22,1),
+              transform 0.5s cubic-bezier(0.19,1,0.22,1);
+}
+.enter-line.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ── ENTRANCE: STAGGER CHILDREN ────────────────────────── */
+.enter-stagger > * {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s cubic-bezier(0.19,1,0.22,1),
+              transform 0.5s cubic-bezier(0.19,1,0.22,1);
+}
+.enter-stagger.visible > *:nth-child(1)  { opacity:1; transform:none; transition-delay:0ms; }
+.enter-stagger.visible > *:nth-child(2)  { opacity:1; transform:none; transition-delay:60ms; }
+.enter-stagger.visible > *:nth-child(3)  { opacity:1; transform:none; transition-delay:120ms; }
+.enter-stagger.visible > *:nth-child(4)  { opacity:1; transform:none; transition-delay:180ms; }
+.enter-stagger.visible > *:nth-child(5)  { opacity:1; transform:none; transition-delay:240ms; }
+.enter-stagger.visible > *:nth-child(6)  { opacity:1; transform:none; transition-delay:300ms; }
+.enter-stagger.visible > *:nth-child(7)  { opacity:1; transform:none; transition-delay:360ms; }
+.enter-stagger.visible > *:nth-child(8)  { opacity:1; transform:none; transition-delay:420ms; }
+.enter-stagger.visible > *:nth-child(n+9){ opacity:1; transform:none; transition-delay:480ms; }
+
+/* ── RULE — ANIMATED WIDTH ─────────────────────────────── */
+.rule {
+  width: 0;
+  height: 1px;
+  background: var(--accent-gold);
+  opacity: 0.5;
+  margin-bottom: 1.25rem;
+  transition: width 0.6s cubic-bezier(0.19,1,0.22,1);
+}
+.rule.visible { width: 32px; }
