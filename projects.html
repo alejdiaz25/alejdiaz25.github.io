@@ -1352,26 +1352,24 @@
       /* Update stage name */
       $stageName.textContent = project.title;
 
-      /* Show preview image or placeholder */
-      if (project.preview) {
-        $prevImg.src = project.preview;
-        $prevImg.alt = project.title;
-        $prevImg.style.display = 'block';
-        $placeholder.style.display = 'none';
-      } else {
-        $prevImg.style.display = 'none';
-        $placeholder.style.display = 'flex';
-        $placeholder.querySelector('.preview-placeholder-label').textContent = project.title;
-      }
+      /* Slide 0 is exclusively for the 3D viewer — no image underneath */
+      $prevImg.style.display = 'none';
+      $placeholder.style.display = 'none';
 
       /* Show "Load Interactive 3D" button only if model exists */
       if (project.model) {
         $load3dOverlay.classList.add('visible');
+        $placeholder.style.display = 'none';
       } else {
         $load3dOverlay.classList.remove('visible');
+        /* Show a placeholder label on the 3D slide only if there's nothing else */
+        if (!project.preview && (!project.gallery || project.gallery.filter(Boolean).length === 0)) {
+          $placeholder.style.display = 'flex';
+          $placeholder.querySelector('.preview-placeholder-label').textContent = project.title;
+        }
       }
 
-      /* Build carousel dots (slide 0 + gallery slides) */
+      /* Build carousel slides (preview + gallery go into slides 1+) */
       buildCarouselDots(project);
     }
 
@@ -1387,28 +1385,34 @@
     function buildCarouselDots(project) {
       clearGallerySlides();
 
-      /* Build gallery slides */
-      const galleryImages = (project.gallery || []);
-      const total = 1 + galleryImages.length;
+      /* Combine preview + gallery into image slides (after slide 0 which is 3D-only) */
+      const imageSlides = [];
+      if (project.preview) imageSlides.push({ src: project.preview, label: 'Render' });
+      (project.gallery || []).forEach((src, i) => {
+        if (src) imageSlides.push({ src, label: `Photo ${i + 1}` });
+      });
 
-      galleryImages.forEach((src, i) => {
+      const hasModel = !!project.model;
+      const total = (hasModel ? 1 : 0) + imageSlides.length;
+
+      imageSlides.forEach((img, i) => {
+        const slideIdx = hasModel ? i + 1 : i;
         const slide = document.createElement('div');
         slide.className = 'carousel-slide';
-        slide.id = `slide-${i + 1}`;
-        if (src) {
-          slide.innerHTML = `<img class="gallery-img" src="${src}" alt="${project.title} — photo ${i+1}" loading="lazy" />`;
-        } else {
-          slide.innerHTML = `
-            <div class="gallery-placeholder">
-              <span class="gallery-placeholder-label">Photo ${i + 1} — Coming Soon</span>
-            </div>`;
-        }
+        slide.id = `slide-${slideIdx}`;
+        slide.innerHTML = `<img class="gallery-img" src="${img.src}" alt="${project.title} — ${img.label}" loading="lazy" />`;
         $carouselWrap.appendChild(slide);
       });
 
+      /* If no model, hide slide-0 (3D stage) */
+      document.getElementById('slide-0').style.display = hasModel ? '' : 'none';
+
       /* Build dots */
       $dots.innerHTML = '';
-      const labels = ['3D / Render', ...galleryImages.map((_, i) => `Photo ${i + 1}`)];
+      const labels = hasModel
+        ? ['Interactive 3D', ...imageSlides.map(s => s.label)]
+        : imageSlides.map(s => s.label);
+
       labels.forEach((label, i) => {
         const dot = document.createElement('div');
         dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
@@ -1417,31 +1421,44 @@
         $dots.appendChild(dot);
       });
 
-      updateCarouselControls(0, total, labels);
+      /* For no-model projects, start on first image slide */
+      if (!hasModel && imageSlides.length > 0) {
+        goToSlide(0, project);
+      } else {
+        updateCarouselControls(0, total, labels);
+      }
     }
 
     function goToSlide(index, project) {
       const project_ = project || PROJECTS.find(p => p.id === state.activeId);
-      const galleryCount = (project_ && project_.gallery) ? project_.gallery.filter(Boolean).length : 0;
-      const total = 1 + galleryCount;
+      if (!project_) return;
+
+      const hasModel = !!project_.model;
+      const imageSlides = [];
+      if (project_.preview) imageSlides.push('Render');
+      (project_.gallery || []).forEach((src, i) => { if (src) imageSlides.push(`Photo ${i + 1}`); });
+      const total = (hasModel ? 1 : 0) + imageSlides.length;
 
       /* Bounds check */
       index = Math.max(0, Math.min(index, total - 1));
       state.slideIndex = index;
 
-      /* Activate correct slide */
-      const slides = $carouselWrap.querySelectorAll('.carousel-slide');
+      /* Activate correct slide — visible slides only */
+      const slides = $carouselWrap.querySelectorAll('.carousel-slide:not([style*="display: none"])');
       slides.forEach((s, i) => s.classList.toggle('active', i === index));
 
-      /* Handle Three.js canvas visibility */
-      ModelViewer.setVisible(index === 0 && state.modelLoaded);
+      /* Handle Three.js canvas visibility — slide 0 is 3D only when model exists */
+      const isOnThreeSlide = hasModel && index === 0;
+      ModelViewer.setVisible(isOnThreeSlide && state.modelLoaded);
 
       /* Update dots */
       $dots.querySelectorAll('.carousel-dot').forEach((d, i) => {
         d.classList.toggle('active', i === index);
       });
 
-      const labels = ['3D / Render', ...((project_ && project_.gallery) ? project_.gallery.map((_, i) => `Photo ${i + 1}`) : [])];
+      const labels = hasModel
+        ? ['Interactive 3D', ...imageSlides]
+        : imageSlides;
       updateCarouselControls(index, total, labels);
     }
 
