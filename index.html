@@ -95,325 +95,39 @@
 <!-- ── ABOUT ─────────────────────────────────────────────────── -->
 <section id="about">
   <div class="container">
-    <div class="about-grid">
-      <div>
-        <p class="section-eyebrow enter-fade" style="transition-delay:0ms">001 — About</p>
-        <div class="rule"></div>
-        <h2 class="section-title enter-fade" style="transition-delay:160ms">Engineer.<br>Builder.<br>Founder.</h2>
-        <div class="stat-grid enter-stagger">
-          <div class="stat-cell">
-            <div class="stat-num">3.84</div>
-            <div class="stat-label">GPA</div>
-          </div>
-          <div class="stat-cell">
-            <div class="stat-num">2×</div>
-            <div class="stat-label">Northrop Grumman</div>
-          </div>
-          <div class="stat-cell">
-            <div class="stat-num">#7</div>
-            <div class="stat-label">FRC World 2023</div>
-          </div>
-          <div class="stat-cell">
-            <div class="stat-num">Dec '26</div>
-            <div class="stat-label">Graduation</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="about-body enter-fade">
-        <p>I'm a <strong>Mechanical Engineering student at UT Austin</strong> (graduating December 2026) with a Minor in Entrepreneurship, building hardware systems where tight tolerances and high stakes are the standard.</p>
-        <p>My work spans <strong>defense manufacturing at Northrop Grumman</strong> — developing Python ML pipelines for F-35 metrology data and contributing to next-generation LLM architectures for restricted programs — to leading structural design on <strong>liquid bi-propellant rockets at TREL</strong> and redesigning unsprung assemblies for <strong>Longhorn Racing Electric</strong>.</p>
-        <p>Outside of engineering, I serve as <strong>COO of Cascade</strong>, an agentic AI research platform for university life sciences labs, and mentor the next generation of robotics engineers through <strong>FRC Team 6800 Valor</strong>.</p>
-        <p>I'm drawn to problems where the physics is hard, the tolerances are tight, and the stakes are real.</p>
-        <div class="clearance-tag">
-          <div class="dot"></div>
-          <span>Active U.S. Secret Security Clearance (DoD)</span>
-        </div>
-      </div>
-    </div>
+    <div class="about-grid" id="about-content"></div>
   </div>
 </section>
 
 <!-- ── EXPERIENCE ──────────────────────────────────────────── -->
 <section id="experience">
-  <div class="container">
-    <p class="section-eyebrow enter-fade" style="transition-delay:0ms">002 — Experience</p>
-    <div class="rule"></div>
-    <h2 class="section-title enter-fade" style="transition-delay:160ms">Work Experience</h2>
-    <div class="exp-list">
-
-      <div class="exp-item enter-line">
-        <div class="exp-left">
-          <div class="exp-company">Northrop Grumman</div>
-          <div class="exp-period">May – Jul 2025</div>
-        </div>
-        <div>
-          <div class="exp-role">CORE Engineering Intern</div>
-          <ul class="exp-bullets">
-            <li>Developed a Python multivariate regression model on SMR laser tracker &amp; laser gauge metrology data to estimate F-35 fixture loading vectors — targeting elimination of an NC condition affecting ~33% of units (2–10 hrs unplanned rework each).</li>
-            <li>Automated QA workflows using Power Automate, reducing response times by 21.1% within three weeks.</li>
-            <li>Contributed to architecture of a private LLM for F-35, B-2, E-2D, and restricted programs; defined prompt hierarchy and test protocols.</li>
-            <li>Built a Power BI manager-suite dashboard with ML to fully automate a manual reporting process, saving ~312 hours annually.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="exp-item enter-line">
-        <div class="exp-left">
-          <div class="exp-company">Northrop Grumman</div>
-          <div class="exp-period">May – Jul 2024</div>
-        </div>
-        <div>
-          <div class="exp-role">Manufacturing Engineering Intern</div>
-          <ul class="exp-bullets">
-            <li>Designed 3D-printed production aids with precision depth gauges, reducing F-35B tool validation time by 25%.</li>
-            <li>Root cause analysis on sealant disbond conditions revealed $800K+ annual rework cost; new procedures cut unit rework by 10–20 hours.</li>
-            <li>Developed Tableau dashboards for CMM Romer Arm metrology trends and implemented new planning changes.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="exp-item enter-line">
-        <div class="exp-left">
-          <div class="exp-company">Agave Worldwide</div>
-          <div class="exp-period">Jul 2024</div>
-        </div>
-        <div>
-          <div class="exp-role">Lead Product Development Engineer</div>
-          <ul class="exp-bullets">
-            <li>Directed design of a 36" smokeless fire pit — solving airflow and heat distribution challenges with welded stainless steel construction for high-rate production.</li>
-            <li>Developed fully parametric SOLIDWORKS CAD models with bending and die design for flexible iteration.</li>
-          </ul>
-        </div>
-      </div>
-
-    </div>
-  </div>
+  <div class="container" id="experience-content"></div>
 </section>
 
 <!-- ── PROJECTS PREVIEW ───────────────────────────────────── -->
 <section id="projects-preview">
-  <div class="container">
-    <p class="section-eyebrow enter-fade" style="transition-delay:0ms">003 — Projects</p>
-    <div class="rule"></div>
-    <h2 class="section-title enter-fade" style="transition-delay:160ms">Engineering Projects</h2>
-    <a href="projects.html" class="preview-link">11 projects — interactive viewer →</a>
-    <div class="preview-grid enter-stagger">
-      <a href="projects.html" class="preview-thumb" data-project="rcs-3dof">
-        <img src="images/rcs-1000a onshape.png" alt="3DOF Reaction Control System" />
-        <div class="thumb-label">3DOF RCS — TREL</div>
-      </a>
-      <a href="projects.html" class="preview-thumb" data-project="front-unsprung">
-        <img src="images/lhr-2024 exploded.jpg" alt="Front Unsprung Assembly" />
-        <div class="thumb-label">Front Unsprung — LHR-E</div>
-      </a>
-      <a href="projects.html" class="preview-thumb" data-project="rear-upright">
-        <img src="images/lhr-2023 wheelasm.png" alt="Rear Upright Assembly" />
-        <div class="thumb-label">Rear Upright — LHR-E</div>
-      </a>
-      <a href="projects.html" class="preview-thumb" data-project="frc-2023-robot">
-        <img src="images/val-2023 full cad.png" alt="2023 Competition Robot" />
-        <div class="thumb-label">2023 FRC Robot — Worlds</div>
-      </a>
-      <a href="projects.html" class="preview-thumb" data-project="frc-2023-arm">
-        <img src="images/val-2023 armelevcad.png" alt="2023 Arm + Elevator" />
-        <div class="thumb-label">2023 Arm + Elevator</div>
-      </a>
-      <a href="projects.html" class="preview-thumb" data-project="frc-2022-robot">
-        <img src="images/val-2022-full cad.png" alt="2022 Robot + Precision Shooter" />
-        <div class="thumb-label">2022 FRC Robot</div>
-      </a>
-      <a href="projects.html" class="preview-thumb" data-project="frc-2021-indexer">
-        <img src="images/val-2021 indexer.png" alt="2021 Indexer Mechanism" />
-        <div class="thumb-label">2021 Indexer</div>
-      </a>
-      <a href="projects.html" class="preview-thumb" data-project="frc-2021-feeder">
-        <img src="images/val-2021 high rate feed cad.png" alt="2021 High Rate Feeder" />
-        <div class="thumb-label">2021 Feeder</div>
-      </a>
-      <a href="projects.html" class="preview-thumb" data-project="rc-car">
-        <img src="images/rg3-0000 full cad.png" alt="RC Race Car" />
-        <div class="thumb-label">RC Race Car — ME 338</div>
-      </a>
-      <a href="projects.html" class="preview-thumb" data-project="smokeless-firepit">
-        <img src="images/agw-0000 full cad.png" alt="Smokeless Fire Pit" />
-        <div class="thumb-label">Smokeless Fire Pit — Agave</div>
-      </a>
-      <a href="projects.html" class="preview-thumb" data-project="face-shield">
-        <img src="images/cvr-0000 faceshield.png" alt="Face Shield Production" />
-        <div class="thumb-label">Face Shield — COVID Rangers</div>
-      </a>
-    </div>
-  </div>
+  <div class="container" id="projects-preview-content"></div>
 </section>
 
 <!-- ── COURSEWORK ──────────────────────────────────────────── -->
 <section id="coursework">
-  <div class="container">
-    <p class="section-eyebrow enter-fade" style="transition-delay:0ms">004 — Academics</p>
-    <div class="rule"></div>
-    <h2 class="section-title enter-fade" style="transition-delay:160ms">Coursework</h2>
-    <div class="cw-grid">
-      <div>
-        <p style="font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:1rem;">Relevant Courses</p>
-        <div class="courses-table">
-          <div class="course-row"><div class="course-code">ME 344</div><div class="course-name">Dynamic Systems &amp; Controls</div></div>
-          <div class="course-row"><div class="course-code">ME 144L</div><div class="course-name">DSC Lab</div></div>
-          <div class="course-row"><div class="course-code">ME 338</div><div class="course-name">Machine Elements</div></div>
-          <div class="course-row"><div class="course-code">ME 318M</div><div class="course-name">Computational &amp; Engineering Methods</div></div>
-          <div class="course-row"><div class="course-code">ME 340</div><div class="course-name">Mechatronics</div></div>
-          <div class="course-row"><div class="course-code">ME 140L</div><div class="course-name">Mechatronics Lab</div></div>
-          <div class="course-row"><div class="course-code">ME 334</div><div class="course-name">Materials Engineering</div></div>
-          <div class="course-row"><div class="course-code">ME 330</div><div class="course-name">Fluid Mechanics</div></div>
-          <div class="course-row"><div class="course-code">ME 339</div><div class="course-name">Heat Transfer</div></div>
-          <div class="course-row"><div class="course-code">ME 316T</div><div class="course-name">Thermodynamics</div></div>
-          <div class="course-row"><div class="course-code">ME 314D</div><div class="course-name">Dynamics</div></div>
-          <div class="course-row"><div class="course-code">EM 319</div><div class="course-name">Mechanics of Solids</div></div>
-          <div class="course-row"><div class="course-code">ME 353</div><div class="course-name">Engineering Finance</div></div>
-          <div class="course-row"><div class="course-code">ME 366J</div><div class="course-name">ME Design Methodology</div></div>
-          <div class="course-row"><div class="course-code">MAN 327</div><div class="course-name">Innovation &amp; Entrepreneurship</div></div>
-          <div class="course-row"><div class="course-code">MAN 327E</div><div class="course-name">New Venture Mechanics</div></div>
-        </div>
-      </div>
-      <div>
-        <p style="font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:1rem;">Academic Projects</p>
-        <div class="cw-projects">
-          <div class="cw-card enter-line">
-            <div class="cw-label">Entrepreneurship — Active Venture</div>
-            <div class="cw-name">Cascade</div>
-            <div class="cw-desc">COO of a four-person startup building an agentic AI-powered research workflow platform for university medical and life sciences researchers. Architecting go-to-market strategy and operational infrastructure from zero to first customer.</div>
-            <div class="project-tags" style="padding:0.75rem 0 0;">
-              <span class="tag">AI / LLM</span><span class="tag">Operations</span><span class="tag">GTM</span><span class="tag">Research Tech</span>
-            </div>
-          </div>
-          <div class="cw-card enter-line">
-            <div class="cw-label">ME 366J — Senior Design</div>
-            <div class="cw-name">Rotary Friction Test Bed</div>
-            <div class="cw-desc">Designing a tribometer-style apparatus with faculty advisors Dr. Madhavan and Dr. Khare. Full mechanical design, pneumatic actuator integration, and tribology data acquisition for friction characterization at variable loading conditions.</div>
-            <div class="project-tags" style="padding:0.75rem 0 0;">
-              <span class="tag">SOLIDWORKS</span><span class="tag">Tribology</span><span class="tag">Pneumatics</span><span class="tag">Test &amp; Measurement</span>
-            </div>
-          </div>
-          <div class="cw-card enter-line">
-            <div class="cw-label">ME 144L — In Progress</div>
-            <div class="cw-name">DSC Final Project</div>
-            <div class="cw-desc">Dynamic Systems &amp; Controls capstone project — details to be added upon completion.</div>
-            <span class="cw-wip">In Progress</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="container" id="coursework-content"></div>
 </section>
 
 <!-- ── SKILLS ──────────────────────────────────────────────── -->
 <section id="skills">
-  <div class="container">
-    <p class="section-eyebrow enter-fade" style="transition-delay:0ms">005 — Capabilities</p>
-    <div class="rule"></div>
-    <h2 class="section-title enter-fade" style="transition-delay:160ms">Skills &amp; Tools</h2>
-    <div class="skills-grid">
-      <div>
-        <div class="skill-group-label">Design &amp; Analysis</div>
-        <div class="skill-tags enter-stagger">
-          <span class="skill-tag">CATIA V5</span>
-          <span class="skill-tag">SOLIDWORKS</span>
-          <span class="skill-tag">Autodesk Inventor</span>
-          <span class="skill-tag">Fusion 360</span>
-          <span class="skill-tag">OnShape</span>
-          <span class="skill-tag">ANSYS FEA</span>
-          <span class="skill-tag">PolyWorks</span>
-          <span class="skill-tag">GD&amp;T</span>
-        </div>
-      </div>
-      <div>
-        <div class="skill-group-label">Software &amp; Data</div>
-        <div class="skill-tags enter-stagger">
-          <span class="skill-tag">Python</span>
-          <span class="skill-tag">MATLAB</span>
-          <span class="skill-tag">Power BI</span>
-          <span class="skill-tag">Tableau</span>
-          <span class="skill-tag">BusinessObjects</span>
-          <span class="skill-tag">Java</span>
-          <span class="skill-tag">Excel</span>
-          <span class="skill-tag">GitHub</span>
-          <span class="skill-tag">Jira</span>
-          <span class="skill-tag">Power Automate</span>
-        </div>
-      </div>
-      <div>
-        <div class="skill-group-label">Manufacturing</div>
-        <div class="skill-tags enter-stagger">
-          <span class="skill-tag">Manual Lathe</span>
-          <span class="skill-tag">CNC Mill</span>
-          <span class="skill-tag">CNC Router</span>
-          <span class="skill-tag">Laser Cutting</span>
-          <span class="skill-tag">FDM 3D Printing</span>
-          <span class="skill-tag">Romer Arm</span>
-          <span class="skill-tag">SMR Laser Tracker</span>
-          <span class="skill-tag">Sheet Metal</span>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="container" id="skills-content"></div>
 </section>
 
 <!-- ── CONTACT ─────────────────────────────────────────────── -->
 <section id="contact">
   <div class="container">
-    <div class="contact-grid">
-      <div>
-        <p class="section-eyebrow enter-fade" style="transition-delay:0ms">006 — Contact</p>
-        <div class="rule"></div>
-        <h2 class="contact-heading">Let's build<br><span class="gold">something real.</span></h2>
-        <p class="contact-sub">Open to full-time roles starting January 2027 in robotics, aerospace, and advanced manufacturing. Always happy to connect with engineers doing interesting work.</p>
-        <a href="resume.pdf" class="btn-primary" target="_blank">Download Resume ↗</a>
-      </div>
-      <div class="contact-links enter-stagger">
-        <a href="mailto:alexjdiaz2503@gmail.com" class="contact-link">
-          <div class="contact-link-inner">
-            <div class="contact-link-label">Email</div>
-            <div class="contact-link-value">alexjdiaz2503@gmail.com</div>
-          </div>
-          <span class="contact-arrow">→</span>
-        </a>
-        <a href="https://linkedin.com/in/alejdiaz25" target="_blank" class="contact-link">
-          <div class="contact-link-inner">
-            <div class="contact-link-label">LinkedIn</div>
-            <div class="contact-link-value">linkedin.com/in/alejdiaz25</div>
-          </div>
-          <span class="contact-arrow">→</span>
-        </a>
-        <a href="https://github.com/alejdiaz25" target="_blank" class="contact-link">
-          <div class="contact-link-inner">
-            <div class="contact-link-label">GitHub</div>
-            <div class="contact-link-value">github.com/alejdiaz25</div>
-          </div>
-          <span class="contact-arrow">→</span>
-        </a>
-        <div class="contact-link" style="cursor:default;">
-          <div class="contact-link-inner">
-            <div class="contact-link-label">Location</div>
-            <div class="contact-link-value">Austin, Texas</div>
-          </div>
-          <span class="contact-arrow" style="font-size:0.6rem;letter-spacing:0.1em;">TX</span>
-        </div>
-      </div>
-    </div>
+    <div class="contact-grid" id="contact-content"></div>
   </div>
 </section>
 
 <!-- ── FOOTER ─────────────────────────────────────────────── -->
-<footer>
-  <p>© 2025 Alejandro Diaz — Mechanical Engineer</p>
-  <div class="footer-right">
-    <div class="footer-status">
-      <div class="dot"></div>
-      <span>Open to Opportunities</span>
-    </div>
-    <p>UT Austin · Dec 2026</p>
-  </div>
-</footer>
+<footer id="footer-content"></footer>
 
 <!-- ── SCRIPTS ─────────────────────────────────────────────── -->
 <script>
@@ -496,6 +210,190 @@
 })();
 </script>
 <script src="js/scramble.js"></script>
+<script>
+'use strict';
+
+/* ── CONTENT RENDERER — fetches content.json, populates all sections ── */
+(function () {
+  fetch('content.json')
+    .then(r => r.json())
+    .then(renderAll)
+    .catch(e => console.error('Failed to load content.json:', e));
+
+  function esc(s) {
+    const d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  function renderAll(C) {
+    renderAbout(C.about);
+    renderExperience(C.experience);
+    renderProjectsPreview(C.projectsPreview);
+    renderCoursework(C.coursework);
+    renderSkills(C.skills);
+    renderContact(C.contact);
+    renderFooter(C.footer);
+
+    /* Re-init scroll animations and scramble after DOM is populated */
+    if (window.initAnimations) window.initAnimations();
+  }
+
+  /* ── ABOUT ──────────────────────────────────────────────── */
+  function renderAbout(d) {
+    const el = document.getElementById('about-content');
+    const statsHtml = d.stats.map(s =>
+      `<div class="stat-cell"><div class="stat-num">${esc(s.num)}</div><div class="stat-label">${esc(s.label)}</div></div>`
+    ).join('');
+    const parasHtml = d.paragraphs.map(p => `<p>${p}</p>`).join('');
+    el.innerHTML = `
+      <div>
+        <p class="section-eyebrow enter-fade" style="transition-delay:0ms">${esc(d.eyebrow)}</p>
+        <div class="rule"></div>
+        <h2 class="section-title enter-fade" style="transition-delay:160ms">${d.title}</h2>
+        <div class="stat-grid enter-stagger">${statsHtml}</div>
+      </div>
+      <div class="about-body enter-fade">
+        ${parasHtml}
+        <div class="clearance-tag"><div class="dot"></div><span>${esc(d.clearance)}</span></div>
+      </div>`;
+  }
+
+  /* ── EXPERIENCE ─────────────────────────────────────────── */
+  function renderExperience(d) {
+    const el = document.getElementById('experience-content');
+    const itemsHtml = d.items.map(item => {
+      const bullets = item.bullets.map(b => `<li>${b}</li>`).join('');
+      return `<div class="exp-item enter-line">
+        <div class="exp-left">
+          <div class="exp-company">${esc(item.company)}</div>
+          <div class="exp-period">${esc(item.period)}</div>
+        </div>
+        <div>
+          <div class="exp-role">${esc(item.role)}</div>
+          <ul class="exp-bullets">${bullets}</ul>
+        </div>
+      </div>`;
+    }).join('');
+    el.innerHTML = `
+      <p class="section-eyebrow enter-fade" style="transition-delay:0ms">${esc(d.eyebrow)}</p>
+      <div class="rule"></div>
+      <h2 class="section-title enter-fade" style="transition-delay:160ms">${esc(d.title)}</h2>
+      <div class="exp-list">${itemsHtml}</div>`;
+  }
+
+  /* ── PROJECTS PREVIEW ───────────────────────────────────── */
+  function renderProjectsPreview(d) {
+    const el = document.getElementById('projects-preview-content');
+    const thumbsHtml = d.thumbs.map(t =>
+      `<a href="${esc(d.link.href)}" class="preview-thumb" data-project="${esc(t.id)}">
+        <img src="${esc(t.img)}" alt="${esc(t.alt)}" width="${t.width}" height="${t.height}" loading="lazy" />
+        <div class="thumb-label">${esc(t.label)}</div>
+      </a>`
+    ).join('');
+    el.innerHTML = `
+      <p class="section-eyebrow enter-fade" style="transition-delay:0ms">${esc(d.eyebrow)}</p>
+      <div class="rule"></div>
+      <h2 class="section-title enter-fade" style="transition-delay:160ms">${esc(d.title)}</h2>
+      <a href="${esc(d.link.href)}" class="preview-link">${esc(d.link.text)}</a>
+      <div class="preview-grid enter-stagger">${thumbsHtml}</div>`;
+  }
+
+  /* ── COURSEWORK ─────────────────────────────────────────── */
+  function renderCoursework(d) {
+    const el = document.getElementById('coursework-content');
+    const coursesHtml = d.courses.map(c =>
+      `<div class="course-row"><div class="course-code">${esc(c.code)}</div><div class="course-name">${esc(c.name)}</div></div>`
+    ).join('');
+    const projsHtml = d.academicProjects.map(p => {
+      const tagsHtml = (p.tags || []).map(t => `<span class="tag">${esc(t)}</span>`).join('');
+      const wipHtml = p.wip ? '<span class="cw-wip">In Progress</span>' : '';
+      const tagsBlock = tagsHtml ? `<div class="project-tags" style="padding:0.75rem 0 0;">${tagsHtml}</div>` : '';
+      return `<div class="cw-card enter-line">
+        <div class="cw-label">${esc(p.label)}</div>
+        <div class="cw-name">${esc(p.name)}</div>
+        <div class="cw-desc">${esc(p.desc)}</div>
+        ${tagsBlock}${wipHtml}
+      </div>`;
+    }).join('');
+    el.innerHTML = `
+      <p class="section-eyebrow enter-fade" style="transition-delay:0ms">${esc(d.eyebrow)}</p>
+      <div class="rule"></div>
+      <h2 class="section-title enter-fade" style="transition-delay:160ms">${esc(d.title)}</h2>
+      <div class="cw-grid">
+        <div>
+          <p style="font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:1rem;">Relevant Courses</p>
+          <div class="courses-table">${coursesHtml}</div>
+        </div>
+        <div>
+          <p style="font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:1rem;">Academic Projects</p>
+          <div class="cw-projects">${projsHtml}</div>
+        </div>
+      </div>`;
+  }
+
+  /* ── SKILLS ─────────────────────────────────────────────── */
+  function renderSkills(d) {
+    const el = document.getElementById('skills-content');
+    const groupsHtml = d.groups.map(g => {
+      const tags = g.tags.map(t => `<span class="skill-tag">${esc(t)}</span>`).join('');
+      return `<div>
+        <div class="skill-group-label">${esc(g.label)}</div>
+        <div class="skill-tags enter-stagger">${tags}</div>
+      </div>`;
+    }).join('');
+    el.innerHTML = `
+      <p class="section-eyebrow enter-fade" style="transition-delay:0ms">${esc(d.eyebrow)}</p>
+      <div class="rule"></div>
+      <h2 class="section-title enter-fade" style="transition-delay:160ms">${esc(d.title)}</h2>
+      <div class="skills-grid">${groupsHtml}</div>`;
+  }
+
+  /* ── CONTACT ────────────────────────────────────────────── */
+  function renderContact(d) {
+    const el = document.getElementById('contact-content');
+    const linksHtml = d.links.map(l => {
+      if (l.static) {
+        return `<div class="contact-link" style="cursor:default;">
+          <div class="contact-link-inner">
+            <div class="contact-link-label">${esc(l.label)}</div>
+            <div class="contact-link-value">${esc(l.value)}</div>
+          </div>
+          <span class="contact-arrow" style="font-size:0.6rem;letter-spacing:0.1em;">${esc(l.arrow)}</span>
+        </div>`;
+      }
+      const target = l.external ? ' target="_blank"' : '';
+      return `<a href="${esc(l.href)}"${target} class="contact-link">
+        <div class="contact-link-inner">
+          <div class="contact-link-label">${esc(l.label)}</div>
+          <div class="contact-link-value">${esc(l.value)}</div>
+        </div>
+        <span class="contact-arrow">→</span>
+      </a>`;
+    }).join('');
+    el.innerHTML = `
+      <div>
+        <p class="section-eyebrow enter-fade" style="transition-delay:0ms">${esc(d.eyebrow)}</p>
+        <div class="rule"></div>
+        <h2 class="contact-heading">${d.heading}</h2>
+        <p class="contact-sub">${esc(d.sub)}</p>
+        <a href="${esc(d.resumeHref)}" class="btn-primary" target="_blank">Download Resume ↗</a>
+      </div>
+      <div class="contact-links enter-stagger">${linksHtml}</div>`;
+  }
+
+  /* ── FOOTER ─────────────────────────────────────────────── */
+  function renderFooter(d) {
+    const el = document.getElementById('footer-content');
+    el.innerHTML = `
+      <p>${esc(d.copyright)}</p>
+      <div class="footer-right">
+        <div class="footer-status"><div class="dot"></div><span>${esc(d.status)}</span></div>
+        <p>${esc(d.school)}</p>
+      </div>`;
+  }
+})();
+</script>
 <script src="js/animations.js"></script>
 <script src="js/nav.js"></script>
 </body>

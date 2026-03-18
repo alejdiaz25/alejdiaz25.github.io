@@ -1,7 +1,6 @@
 'use strict';
 
 /* ── INTERSECTION OBSERVER — ENTRANCE ANIMATIONS ─────────── */
-const enterEls = document.querySelectorAll('[class*="enter-"], .rule');
 const enterObs = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
@@ -10,7 +9,26 @@ const enterObs = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.08 });
-enterEls.forEach(el => enterObs.observe(el));
+
+function observeEnterElements() {
+  document.querySelectorAll('[class*="enter-"]:not(.visible), .rule:not(.visible)').forEach(el => {
+    enterObs.observe(el);
+  });
+}
+
+/* Initial pass for any elements already in the DOM */
+observeEnterElements();
+
+/* Expose for re-init after dynamic content loads */
+window.initAnimations = function () {
+  observeEnterElements();
+
+  if (typeof ScrambleText === 'undefined') return;
+  bindHoverScramble('.section-eyebrow', 500);
+  bindHoverScramble('.exp-company', 400);
+  bindHoverScramble('.skill-group-label', 450);
+  bindHoverScramble('.stat-label', 350);
+};
 
 /* ── HERO SCRAMBLE ON LOAD ───────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
@@ -28,17 +46,16 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ── HOVER SCRAMBLE BINDINGS ─────────────────────────────── */
-  function bindHoverScramble(selector, duration) {
-    document.querySelectorAll(selector).forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        new ScrambleText(el, { duration }).run();
-      });
-    });
-  }
   bindHoverScramble('.nav-links a', 350);
-  bindHoverScramble('.section-eyebrow', 500);
-  bindHoverScramble('.exp-company', 400);
-  bindHoverScramble('.skill-group-label', 450);
-  bindHoverScramble('.stat-label', 350);
   bindHoverScramble('.hdc-label', 300);
 });
+
+function bindHoverScramble(selector, duration) {
+  document.querySelectorAll(selector).forEach(el => {
+    if (el._scrambleBound) return;
+    el._scrambleBound = true;
+    el.addEventListener('mouseenter', () => {
+      new ScrambleText(el, { duration }).run();
+    });
+  });
+}

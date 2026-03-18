@@ -1,0 +1,150 @@
+{
+  "about": {
+    "eyebrow": "001 — About",
+    "title": "Engineer.<br>Builder.<br>Founder.",
+    "stats": [
+      { "num": "3.84", "label": "GPA" },
+      { "num": "2×", "label": "Northrop Grumman" },
+      { "num": "#7", "label": "FRC World 2023" },
+      { "num": "Dec '26", "label": "Graduation" }
+    ],
+    "paragraphs": [
+      "I'm a <strong>Mechanical Engineering student at UT Austin</strong> (graduating December 2026) with a Minor in Entrepreneurship, building hardware systems where tight tolerances and high stakes are the standard.",
+      "My work spans <strong>defense manufacturing at Northrop Grumman</strong> — developing Python ML pipelines for F-35 metrology data and contributing to next-generation LLM architectures for restricted programs — to leading structural design on <strong>liquid bi-propellant rockets at TREL</strong> and redesigning unsprung assemblies for <strong>Longhorn Racing Electric</strong>.",
+      "Outside of engineering, I serve as <strong>COO of Cascade</strong>, an agentic AI research platform for university life sciences labs, and mentor the next generation of robotics engineers through <strong>FRC Team 6800 Valor</strong>.",
+      "I'm drawn to problems where the physics is hard, the tolerances are tight, and the stakes are real."
+    ],
+    "clearance": "Active U.S. Secret Security Clearance (DoD)"
+  },
+  "experience": {
+    "eyebrow": "002 — Experience",
+    "title": "Work Experience",
+    "items": [
+      {
+        "company": "Northrop Grumman",
+        "period": "May – Jul 2025",
+        "role": "CORE Engineering Intern",
+        "bullets": [
+          "Developed a Python multivariate regression model on SMR laser tracker &amp; laser gauge metrology data to estimate F-35 fixture loading vectors — targeting elimination of an NC condition affecting ~33% of units (2–10 hrs unplanned rework each).",
+          "Automated QA workflows using Power Automate, reducing response times by 21.1% within three weeks.",
+          "Contributed to architecture of a private LLM for F-35, B-2, E-2D, and restricted programs; defined prompt hierarchy and test protocols.",
+          "Built a Power BI manager-suite dashboard with ML to fully automate a manual reporting process, saving ~312 hours annually."
+        ]
+      },
+      {
+        "company": "Northrop Grumman",
+        "period": "May – Jul 2024",
+        "role": "Manufacturing Engineering Intern",
+        "bullets": [
+          "Designed 3D-printed production aids with precision depth gauges, reducing F-35B tool validation time by 25%.",
+          "Root cause analysis on sealant disbond conditions revealed $800K+ annual rework cost; new procedures cut unit rework by 10–20 hours.",
+          "Developed Tableau dashboards for CMM Romer Arm metrology trends and implemented new planning changes."
+        ]
+      },
+      {
+        "company": "Agave Worldwide",
+        "period": "Jul 2024",
+        "role": "Lead Product Development Engineer",
+        "bullets": [
+          "Directed design of a 36\" smokeless fire pit — solving airflow and heat distribution challenges with welded stainless steel construction for high-rate production.",
+          "Developed fully parametric SOLIDWORKS CAD models with bending and die design for flexible iteration."
+        ]
+      }
+    ]
+  },
+  "projectsPreview": {
+    "eyebrow": "003 — Projects",
+    "title": "Engineering Projects",
+    "link": { "text": "11 projects — interactive viewer →", "href": "projects.html" },
+    "thumbs": [
+      { "id": "rcs-3dof", "img": "images/rcs-1000a onshape.png", "alt": "3DOF Reaction Control System", "label": "3DOF RCS — TREL", "width": 1284, "height": 1272 },
+      { "id": "front-unsprung", "img": "images/lhr-2024 exploded.jpg", "alt": "Front Unsprung Assembly", "label": "Front Unsprung — LHR-E", "width": 2560, "height": 1440 },
+      { "id": "rear-upright", "img": "images/lhr-2023 wheelasm.png", "alt": "Rear Upright Assembly", "label": "Rear Upright — LHR-E", "width": 4928, "height": 3264 },
+      { "id": "frc-2023-robot", "img": "images/val-2023 full cad.png", "alt": "2023 Competition Robot", "label": "2023 FRC Robot — Worlds", "width": 1199, "height": 1600 },
+      { "id": "frc-2023-arm", "img": "images/val-2023 armelevcad.png", "alt": "2023 Arm + Elevator", "label": "2023 Arm + Elevator", "width": 960, "height": 1338 },
+      { "id": "frc-2022-robot", "img": "images/val-2022-full cad.png", "alt": "2022 Robot + Precision Shooter", "label": "2022 FRC Robot", "width": 1199, "height": 1600 },
+      { "id": "frc-2021-indexer", "img": "images/val-2021 indexer.png", "alt": "2021 Indexer Mechanism", "label": "2021 Indexer", "width": 1924, "height": 1202 },
+      { "id": "frc-2021-feeder", "img": "images/val-2021 high rate feed cad.png", "alt": "2021 High Rate Feeder", "label": "2021 Feeder", "width": 1906, "height": 1294 },
+      { "id": "rc-car", "img": "images/rg3-0000 full cad.png", "alt": "RC Race Car", "label": "RC Race Car — ME 338", "width": 1196, "height": 681 },
+      { "id": "smokeless-firepit", "img": "images/agw-0000 full cad.png", "alt": "Smokeless Fire Pit", "label": "Smokeless Fire Pit — Agave", "width": 889, "height": 740 },
+      { "id": "face-shield", "img": "images/cvr-0000 faceshield.png", "alt": "Face Shield Production", "label": "Face Shield — COVID Rangers", "width": 2360, "height": 1338 }
+    ]
+  },
+  "coursework": {
+    "eyebrow": "004 — Academics",
+    "title": "Coursework",
+    "courses": [
+      { "code": "ME 344", "name": "Dynamic Systems & Controls" },
+      { "code": "ME 144L", "name": "DSC Lab" },
+      { "code": "ME 338", "name": "Machine Elements" },
+      { "code": "ME 318M", "name": "Computational & Engineering Methods" },
+      { "code": "ME 340", "name": "Mechatronics" },
+      { "code": "ME 140L", "name": "Mechatronics Lab" },
+      { "code": "ME 334", "name": "Materials Engineering" },
+      { "code": "ME 330", "name": "Fluid Mechanics" },
+      { "code": "ME 339", "name": "Heat Transfer" },
+      { "code": "ME 316T", "name": "Thermodynamics" },
+      { "code": "ME 314D", "name": "Dynamics" },
+      { "code": "EM 319", "name": "Mechanics of Solids" },
+      { "code": "ME 353", "name": "Engineering Finance" },
+      { "code": "ME 366J", "name": "ME Design Methodology" },
+      { "code": "MAN 327", "name": "Innovation & Entrepreneurship" },
+      { "code": "MAN 327E", "name": "New Venture Mechanics" }
+    ],
+    "academicProjects": [
+      {
+        "label": "Entrepreneurship — Active Venture",
+        "name": "Cascade",
+        "desc": "COO of a four-person startup building an agentic AI-powered research workflow platform for university medical and life sciences researchers. Architecting go-to-market strategy and operational infrastructure from zero to first customer.",
+        "tags": ["AI / LLM", "Operations", "GTM", "Research Tech"]
+      },
+      {
+        "label": "ME 366J — Senior Design",
+        "name": "Rotary Friction Test Bed",
+        "desc": "Designing a tribometer-style apparatus with faculty advisors Dr. Madhavan and Dr. Khare. Full mechanical design, pneumatic actuator integration, and tribology data acquisition for friction characterization at variable loading conditions.",
+        "tags": ["SOLIDWORKS", "Tribology", "Pneumatics", "Test & Measurement"]
+      },
+      {
+        "label": "ME 144L — In Progress",
+        "name": "DSC Final Project",
+        "desc": "Dynamic Systems & Controls capstone project — details to be added upon completion.",
+        "wip": true
+      }
+    ]
+  },
+  "skills": {
+    "eyebrow": "005 — Capabilities",
+    "title": "Skills & Tools",
+    "groups": [
+      {
+        "label": "Design & Analysis",
+        "tags": ["CATIA V5", "SOLIDWORKS", "Autodesk Inventor", "Fusion 360", "OnShape", "ANSYS FEA", "PolyWorks", "GD&T"]
+      },
+      {
+        "label": "Software & Data",
+        "tags": ["Python", "MATLAB", "Power BI", "Tableau", "BusinessObjects", "Java", "Excel", "GitHub", "Jira", "Power Automate"]
+      },
+      {
+        "label": "Manufacturing",
+        "tags": ["Manual Lathe", "CNC Mill", "CNC Router", "Laser Cutting", "FDM 3D Printing", "Romer Arm", "SMR Laser Tracker", "Sheet Metal"]
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "006 — Contact",
+    "heading": "Let's build<br><span class=\"gold\">something real.</span>",
+    "sub": "Open to full-time roles starting January 2027 in robotics, aerospace, and advanced manufacturing. Always happy to connect with engineers doing interesting work.",
+    "resumeHref": "resume.pdf",
+    "links": [
+      { "label": "Email", "value": "alexjdiaz2503@gmail.com", "href": "mailto:alexjdiaz2503@gmail.com" },
+      { "label": "LinkedIn", "value": "linkedin.com/in/alejdiaz25", "href": "https://linkedin.com/in/alejdiaz25", "external": true },
+      { "label": "GitHub", "value": "github.com/alejdiaz25", "href": "https://github.com/alejdiaz25", "external": true },
+      { "label": "Location", "value": "Austin, Texas", "static": true, "arrow": "TX" }
+    ]
+  },
+  "footer": {
+    "copyright": "© 2025 Alejandro Diaz — Mechanical Engineer",
+    "status": "Open to Opportunities",
+    "school": "UT Austin · Dec 2026"
+  }
+}
