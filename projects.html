@@ -725,8 +725,9 @@
       .project-list { overflow-y: visible; }
 
       #right-pane {
-        height: 70vw;
-        min-height: 280px;
+        height: 72vw;
+        min-height: 300px;
+        max-height: 420px;
         border-bottom: 1px solid var(--border-dim);
       }
 
@@ -769,8 +770,8 @@
       }
       .sheet-backdrop.visible { display: block; }
 
-      /* Show specs button on mobile */
-      .mobile-specs-btn {
+      /* Show specs button only after a project is selected */
+      #right-pane.has-project ~ .mobile-specs-btn {
         display: flex;
       }
     }
@@ -914,6 +915,8 @@
 
       </div><!-- /right-pane -->
 
+      <button class="mobile-specs-btn" id="mobile-specs-btn">View Technical Specs ›</button>
+
     </div><!-- /project-viewer -->
 
   </div><!-- /page-shell -->
@@ -1021,8 +1024,10 @@
       /* Open specs panel first so the column transition starts
          and elements get their real rendered widths */
       $viewer.classList.add('specs-open');
-      $centerPane.classList.add('mobile-open');
-      $backdrop.classList.add('visible');
+      if (!state.isMobile) {
+        $centerPane.classList.add('mobile-open');
+        $backdrop.classList.add('visible');
+      }
 
       setTimeout(() => {
         const titleEl = document.querySelector('.spec-project-title');
@@ -1079,7 +1084,7 @@
 
       /* On mobile: scroll to right pane */
       if (state.isMobile) {
-        document.getElementById('right-pane').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        document.getElementById('right-pane').scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
 
@@ -1356,6 +1361,13 @@
       $centerPane.classList.remove('mobile-open');
       $backdrop.classList.remove('visible');
     }
+
+    /* Mobile "View Technical Specs" button */
+    var $mobileSpecsBtn = document.getElementById('mobile-specs-btn');
+    $mobileSpecsBtn.addEventListener('click', function () {
+      $centerPane.classList.add('mobile-open');
+      $backdrop.classList.add('visible');
+    });
 
     /* Mobile backdrop tap */
     $backdrop.addEventListener('click', closeSpecs);

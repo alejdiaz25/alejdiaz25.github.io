@@ -224,6 +224,15 @@
   /* ── PROJECTS PREVIEW ───────────────────────────────────── */
   function renderProjectsPreview(d) {
     const el = document.getElementById('projects-preview-content');
+    const COLS = 3;
+    const remainder = d.thumbs.length % COLS;
+    const wipHtml = remainder !== 0
+      ? `<div class="preview-wip">
+           <div class="preview-wip-icon">⬡</div>
+           <div class="preview-wip-label">In Development</div>
+           <div class="preview-wip-sub">More projects incoming</div>
+         </div>`
+      : '';
     const thumbsHtml = d.thumbs.map(t =>
       `<a href="projects.html?project=${esc(t.id)}" class="preview-thumb" data-project="${esc(t.id)}">
         <img src="${esc(t.img)}" alt="${esc(t.alt)}" width="${t.width}" height="${t.height}" loading="lazy" />
@@ -235,7 +244,7 @@
       <div class="rule"></div>
       <h2 class="section-title enter-fade" style="transition-delay:160ms">${esc(d.title)}</h2>
       <a href="${esc(d.link.href)}" class="preview-link">${esc(d.link.text)}</a>
-      <div class="preview-grid enter-stagger">${thumbsHtml}</div>`;
+      <div class="preview-grid enter-stagger">${thumbsHtml}${wipHtml}</div>`;
   }
 
   /* ── COURSEWORK ─────────────────────────────────────────── */
@@ -316,7 +325,7 @@
         <div class="rule"></div>
         <h2 class="contact-heading">${d.heading}</h2>
         <p class="contact-sub">${esc(d.sub)}</p>
-        <a href="${esc(d.resumeHref)}" class="btn-primary" target="_blank">Download Resume ↗</a>
+        <a href="${esc(d.resumeHref)}" class="btn-primary" target="_blank">View Resume ↗</a>
       </div>
       <div class="contact-links enter-stagger">${linksHtml}</div>`;
   }
