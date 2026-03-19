@@ -7,35 +7,34 @@
   'use strict';
 
   /* ── CONFIG ────────────────────────────────────────────── */
-  var GRID_SPACING = 34;
-  var WAVE1_AMP = 25;
-  var WAVE1_FREQ = 0.008;
-  var WAVE1_SPEED = 0.0004;
-  var WAVE2_AMP = 12;
-  var WAVE2_FREQ = 0.015;
-  var WAVE2_SPEED = 0.0007;
+  var WAVE1_AMP = 55;
+  var WAVE1_FREQ = 0.006;
+  var WAVE1_SPEED = 0.00035;
+  var WAVE2_AMP = 28;
+  var WAVE2_FREQ = 0.012;
+  var WAVE2_SPEED = 0.0006;
   var WAVE2_PHASE = 1.2;
 
-  /* 3D Camera — positioned above and behind, looking down and forward */
-  var CAM_FOV = 65;                                  // vertical FOV degrees
-  var CAM_PX = 0,   CAM_PY = 170, CAM_PZ = 200;    // camera position
-  var CAM_TX = 0,   CAM_TY = 0,   CAM_TZ = -100;   // look-at target
-  var REF_DEPTH = 130;                                // camera-Z where dot scale ≈ 1
+  /* 3D Camera — low, far back, shallow angle with yaw rotation */
+  var CAM_FOV = 58;
+  var CAM_PX = -200, CAM_PY = 220,  CAM_PZ = 420;
+  var CAM_TX = 180,  CAM_TY = -40,  CAM_TZ = -600;
+  var REF_DEPTH = 900;
 
   /* Grid on XZ ground plane (Y = 0 at rest, wave displaces Y) */
-  var GRID_COLS = 50, GRID_ROWS = 50;               // 50×50 = 2500 max
-  var GRID_Z_MIN = -1400, GRID_Z_MAX = 200;
+  var GRID_COLS = 55, GRID_ROWS = 65;
+  var GRID_Z_MIN = -3000, GRID_Z_MAX = 350;
 
   /* Particles */
-  var DOT_PEAK = 2.5;
-  var DOT_VALLEY = 1.0;
+  var DOT_PEAK = 3.0;
+  var DOT_VALLEY = 1.2;
 
   /* Alpha buckets — 4 levels */
-  var ALPHA_BUCKETS = [0.32, 0.48, 0.72, 0.92];
+  var ALPHA_BUCKETS = [0.12, 0.28, 0.55, 0.85];
 
   /* Ripple */
-  var RIPPLE_AMP = 20;
-  var RIPPLE_RADIUS = 200;
+  var RIPPLE_AMP = 16;
+  var RIPPLE_RADIUS = 160;
   var RIPPLE_SPEED = 3;
   var RIPPLE_DECAY = 1.2;
   var RIPPLE_THROTTLE = 60;
@@ -44,10 +43,10 @@
   /* Idle burst */
   var IDLE_MIN = 8000;
   var IDLE_MAX = 12000;
-  var BURST_RADIUS = 250;
-  var BURST_AMP = 40;
-  var BURST_DECAY = 2.5;
-  var BURST_SPEED = 1.5;
+  var BURST_RADIUS = 200;
+  var BURST_AMP = 55;
+  var BURST_DECAY = 4.5;
+  var BURST_SPEED = 1.0;
 
   /* ── STATE ─────────────────────────────────────────────── */
   var canvas, ctx;
@@ -92,16 +91,16 @@
   /* Stamped circle sprites — 5 color tiers × 8 sizes */
   var NUM_COLOR_TIERS = 5;
   var TIER_COLORS = [
-    [90,  68, 12],    // deep valley — darkest bronze
-    [125, 95, 18],    // valley — dark amber
-    [158, 122, 30],   // mid — warm bronze
-    [187, 150, 48],   // mid-peak — warm gold
-    [210, 172, 71]    // peak — bright gold
+    [55,  52, 48],    // deep valley — cool ash
+    [95,  88, 72],    // valley — muted khaki
+    [148, 128, 82],   // mid — desaturated bronze
+    [185, 158, 95],   // mid-peak — warm sand
+    [210, 182, 120]   // peak — pale gold
   ];
   var colorSprites = [];    // flat: [tier * SPRITE_STEPS + sizeIdx]
   var SPRITE_STEPS = 8;
-  var SPRITE_BASE = 0.5;
-  var SPRITE_INC = 0.5;
+  var SPRITE_BASE = 0.4;
+  var SPRITE_INC = 0.35;
   var NUM_BUCKETS = NUM_COLOR_TIERS * 4;  // 5 colors × 4 alphas = 20
 
   /* Sine LUT */
@@ -200,9 +199,9 @@
         c.height = size;
         var cx = c.getContext('2d');
         var center = size / 2;
-        var grad = cx.createRadialGradient(center, center, 0, center, center, r + 0.5);
+        var grad = cx.createRadialGradient(center, center, 0, center, center, r * 0.7);
         grad.addColorStop(0, 'rgba(' + cs + ',1)');
-        grad.addColorStop(0.6, 'rgba(' + cs + ',0.8)');
+        grad.addColorStop(0.7, 'rgba(' + cs + ',0.9)');
         grad.addColorStop(1, 'rgba(' + cs + ',0)');
         cx.fillStyle = grad;
         cx.fillRect(0, 0, size, size);
@@ -234,6 +233,7 @@
     camUY = camRZ * camFX - camRX * camFZ;
     camUZ = camRX * camFY - camRY * camFX;
 
+
     /* Vertical FOV projection scale */
     fovScaleV = H / (2 * Math.tan(CAM_FOV * 0.5 * Math.PI / 180));
   }
@@ -258,27 +258,32 @@
     var aspectW = W / H;
     var tmp = [0, 0]; // reusable projection output
 
-    /* Generate grid — columns per row scaled to visible width (frustum-aware) */
+    /* Generate grid — frustum-centered columns for yawed camera */
     var pts = []; // flat: [worldX, worldZ, ...]
     for (var row = 0; row < GRID_ROWS; row++) {
       var z = GRID_Z_MIN + row * zStep;
 
       /* Camera-space Z for a point at (0, 0, z) on ground plane */
-      var czRest = camFY * (-CAM_PY) + camFZ * (z - CAM_PZ);
+      var dxC = -CAM_PX, dzC = z - CAM_PZ;
+      var czRest = camFX * dxC + camFY * (-CAM_PY) + camFZ * dzC;
       if (czRest < 5) continue;
 
-      /* Visible half-width in world X at this depth (right vector is ~(1,0,0)) */
-      var halfX = Math.tan(halfFovH) * czRest * aspectW * 1.3;
+      /* Frustum center X: project camera right vector to find where the
+         optical axis intersects this row's Z plane in world X */
+      var centerX = CAM_PX + (camFX / camFZ) * (z - CAM_PZ);
+
+      /* Visible half-width in world X at this depth */
+      var halfX = Math.tan(halfFovH) * czRest * aspectW * 2.0;
 
       var xStep = 2 * halfX / GRID_COLS;
-      var xStart = -halfX + ((row & 1) ? xStep * 0.5 : 0);
+      var xStart = centerX - halfX + ((row & 1) ? xStep * 0.5 : 0);
 
       for (var col = 0; col < GRID_COLS; col++) {
         pts.push(xStart + col * xStep, z);
       }
     }
 
-    dotCount = Math.min(pts.length / 2, 2500);
+    dotCount = Math.min(pts.length / 2, 3500);
 
     /* Allocate typed arrays */
     baseBX    = new Float32Array(dotCount);
@@ -309,10 +314,16 @@
     }
   }
 
-  /* ── WAVE HEIGHT (world XZ coords) ─────────────────────── */
+  /* ── WAVE HEIGHT (world XZ coords) — asymmetric crest + spatial envelope ── */
   function waveHeight(x, z, time, noise) {
-    var h = fastSin(x * WAVE1_FREQ + time * WAVE1_SPEED) * WAVE1_AMP
-          + fastSin(z * WAVE2_FREQ + time * WAVE2_SPEED + WAVE2_PHASE) * WAVE2_AMP;
+    var raw = fastSin(x * WAVE1_FREQ + time * WAVE1_SPEED)
+            + fastSin(z * WAVE2_FREQ + time * WAVE2_SPEED + WAVE2_PHASE) * 0.5;
+    /* Asymmetric shaping — sharper crests, softer valleys */
+    var shaped = raw > 0 ? (0.6 * raw + 0.4 * raw * raw) : raw * 0.5;
+    var h = shaped * WAVE1_AMP;
+    /* Spatial envelope: gently attenuate near far edges of grid */
+    var envZ = clamp01(1 - Math.abs(z - (GRID_Z_MIN + GRID_Z_MAX) * 0.5) / ((GRID_Z_MAX - GRID_Z_MIN) * 0.52));
+    h *= 0.35 + 0.65 * envZ;
     h += fastSin((x + z) * 0.005 + time * 0.0003) * 8;
     h += noise;
     return h;
@@ -352,7 +363,7 @@
     envelope *= envelope;
     var spatial = 1 - delta / (BURST_RADIUS * 0.5);
     spatial *= spatial;
-    return fastSin(dist * 0.03 - age * 6) * BURST_AMP * envelope * spatial;
+    return fastSin(dist * 0.018 - age * 3.5) * BURST_AMP * envelope * spatial;
   }
 
   /* ── UPDATE ────────────────────────────────────────────── */
@@ -385,7 +396,7 @@
           envelope *= envelope;
           var spatial = 1 - delta / (RIPPLE_RADIUS * 0.5);
           spatial *= spatial;
-          h += fastSin(dist * 0.04 - age * 10) * RIPPLE_AMP * envelope * spatial;
+          h += fastSin(dist * 0.02 - age * 6) * RIPPLE_AMP * envelope * spatial;
         }
       }
 
@@ -422,20 +433,44 @@
       /* Size */
       projSize[i] = lerp(DOT_VALLEY, DOT_PEAK, normH) * baseScale[i];
 
-      /* Alpha from height: valley=0.25, flat=0.15, peak=0.7 */
+      /* Alpha from height — 3-segment curve: valleys visible, flats present, peaks bright */
       var a;
-      if (normH < 0.35) {
-        a = lerp(0.25, 0.15, normH / 0.35);
-      } else if (normH < 0.6) {
-        a = 0.15;
+      if (normH < 0.25) {
+        a = lerp(0.26, 0.18, normH / 0.25);
+      } else if (normH < 0.55) {
+        a = 0.18;
       } else {
-        a = lerp(0.15, 0.7, (normH - 0.6) / 0.4);
+        var t = (normH - 0.55) / 0.45;
+        a = lerp(0.16, 0.85, t * t);
       }
       if (a < 0.01) continue;
 
       /* Color tier from wave height (0–4) */
       var colorTier = (normH * NUM_COLOR_TIERS) | 0;
       if (colorTier >= NUM_COLOR_TIERS) colorTier = NUM_COLOR_TIERS - 1;
+
+      /* Shimmer: boost alpha + color tier near ripple wavefronts */
+      var shimmer = 0;
+      for (var r = 0; r < ripples.length; r++) {
+        var rp = ripples[r];
+        var age = (time - rp.birth) / 1000;
+        if (age > RIPPLE_DECAY) continue;
+        var dx = baseSX[i] - rp.x;
+        var dy = baseSY[i] - rp.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        var wavefront = age * RIPPLE_SPEED * 60;
+        var delta = Math.abs(dist - wavefront);
+        if (delta < RIPPLE_RADIUS * 0.4) {
+          var envelope = 1 - (age / RIPPLE_DECAY);
+          var spatial = 1 - delta / (RIPPLE_RADIUS * 0.4);
+          var s = envelope * envelope * spatial * spatial;
+          if (s > shimmer) shimmer = s;
+        }
+      }
+      if (shimmer > 0) {
+        a = a + (1 - a) * shimmer * 0.88;
+        colorTier = Math.min(colorTier + ((shimmer * 4.5) | 0), NUM_COLOR_TIERS - 1);
+      }
 
       /* Alpha bucket (quantize to nearest of 4 levels) */
       var alphaBucket = 0;

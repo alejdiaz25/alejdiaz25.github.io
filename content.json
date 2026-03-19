@@ -2,10 +2,7 @@
   "about": {
     "eyebrow": "001 — About",
     "title": "Engineer.<br>Builder.<br>Founder.",
-    "stats": [
-      { "num": "3.84", "label": "GPA" },
-      { "num": "Dec '26", "label": "Graduation" }
-    ],
+    "stats": [],
     "paragraphs": [
       "I'm a <strong>Mechanical Engineering student at UT Austin</strong> (graduating December 2026) with a Minor in Entrepreneurship, building hardware systems where tight tolerances and high stakes are the standard.",
       "My work spans <strong>defense manufacturing at Northrop Grumman</strong> — developing Python ML pipelines for F-35 metrology data and contributing to next-generation LLM architectures for restricted programs — to leading structural design on <strong>liquid bi-propellant rockets at TREL</strong> and redesigning unsprung assemblies for <strong>Longhorn Racing Electric</strong>.",
@@ -114,7 +111,7 @@
   "contact": {
     "eyebrow": "006 — Contact",
     "heading": "Let's build<br><span class=\"gold\">something real.</span>",
-    "sub": "Open to full-time roles starting January 2027 in robotics, aerospace, and advanced manufacturing. Always happy to connect with engineers doing interesting work.",
+    "sub": "Interested in robotics, aerospace, and advanced manufacturing. Always happy to connect with engineers doing interesting work.",
     "resumeHref": "resume.pdf",
     "links": [
       { "label": "Email", "value": "alexjdiaz2503@gmail.com", "href": "mailto:alexjdiaz2503@gmail.com" },

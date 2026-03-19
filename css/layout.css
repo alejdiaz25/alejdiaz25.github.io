@@ -82,8 +82,8 @@ section { padding: 7rem 0; }
   inset: 0;
   z-index: 1;
   background-image:
-    linear-gradient(rgba(197,160,89,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(197,160,89,0.03) 1px, transparent 1px);
+    linear-gradient(rgba(197,160,89,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(197,160,89,0.06) 1px, transparent 1px);
   background-size: 80px 80px;
   mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
 }
@@ -974,6 +974,7 @@ footer p {
   .preview-grid { grid-template-columns: 1fr; }
   .skills-grid { grid-template-columns: 1fr; }
   footer { flex-direction: column; gap: 0.75rem; text-align: center; }
-  .hero-data { width: 100%; }
+  .hero-data { width: fit-content; }
+  .hero-name { font-size: clamp(2.2rem, 5.5vw, 4rem); }
   .hero-status { display: none; }
 }
