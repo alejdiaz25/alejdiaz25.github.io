@@ -1538,8 +1538,10 @@
       var startScrollTop = 0;
       var startTime = 0;
       var pulling = false;
+      var onCanvas = false;
 
       $mobileDetail.addEventListener('touchstart', function (e) {
+        onCanvas = state.modelLoaded && !!e.target.closest('#three-stage');
         startY = e.touches[0].clientY;
         startScrollTop = $mobileDetail.scrollTop;
         startTime = Date.now();
@@ -1547,6 +1549,7 @@
       }, { passive: true });
 
       $mobileDetail.addEventListener('touchmove', function (e) {
+        if (onCanvas) return;
         if (startScrollTop > 0) return;
         var deltaY = e.touches[0].clientY - startY;
         if (deltaY > 0) {
