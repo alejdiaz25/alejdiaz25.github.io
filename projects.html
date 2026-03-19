@@ -1488,22 +1488,8 @@
        LOCK SCROLL WHILE DRAGGING 3D MODEL (mobile)
     ───────────────────────────────────────────────────────── */
     (function () {
-      var dragging3d = false;
-
-      $threeStage.addEventListener('touchstart', function () {
-        if (state.isMobile && state.modelLoaded) dragging3d = true;
-      }, { passive: true });
-
-      $threeStage.addEventListener('touchend', function () {
-        dragging3d = false;
-      }, { passive: true });
-
-      $threeStage.addEventListener('touchcancel', function () {
-        dragging3d = false;
-      }, { passive: true });
-
-      $mobileDetail.addEventListener('touchmove', function (e) {
-        if (dragging3d) e.preventDefault();
+      $threeStage.addEventListener('touchmove', function (e) {
+        if (state.isMobile && state.modelLoaded) e.preventDefault();
       }, { passive: false });
     })();
 
