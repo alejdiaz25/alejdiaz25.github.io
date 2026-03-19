@@ -133,9 +133,10 @@ section { padding: 7rem 0; }
 
 .hero-name {
   font-family: var(--font-display);
-  font-size: clamp(3.2rem, 8.5vw, 8rem);
+  font-size: clamp(2.8rem, 7vw, 6.5rem);
   font-weight: 700;
-  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   line-height: 0.92;
   margin-bottom: 2rem;
 }
@@ -322,11 +323,6 @@ section { padding: 7rem 0; }
   display: block;
   object-fit: cover;
   border: 1px solid var(--border-machined);
-  filter: grayscale(0.3);
-  transition: filter 0.4s var(--ease-sine);
-}
-.about-headshot img:hover {
-  filter: grayscale(0);
 }
 
 .stat-grid {

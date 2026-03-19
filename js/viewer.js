@@ -231,12 +231,47 @@
             });
           }
 
+          /* ── Render presets ──────────────────────────────────
+             "edges"     — EdgesGeometry only (sharp/prismatic models)
+             "dual"      — EdgesGeometry + subtle WireframeGeometry
+                           (filleted/organic CAD models)            */
+          var PRESETS = {
+            edges: { baseColor: 0x111111, edgeAngle: 20, edgeOpacity: 0.55, wireOpacity: 0 },
+            dual:  { baseColor: 0x1a1a1a, edgeAngle: 12, edgeOpacity: 0.55, wireOpacity: 0.15 },
+          };
+
+          /* Per-model preset map — default is "edges" */
+          var preset = PRESETS.edges;
+          if (url.indexOf('lhr2023 rear upright') !== -1 ||
+              url.indexOf('lhr2024 front upright') !== -1 ||
+              url.indexOf('rg3 000a') !== -1 ||
+              url.indexOf('sfp0000a') !== -1 ||
+              url.indexOf('cvr shield') !== -1) preset = PRESETS.dual;
+
+          var modelBaseMat = new THREE.MeshStandardMaterial({
+            color: preset.baseColor,
+            metalness: 0.4,
+            roughness: 0.6,
+          });
+          var modelEdgeMat = new THREE.LineBasicMaterial({
+            color: 0xffffff,
+            opacity: preset.edgeOpacity,
+            transparent: true,
+          });
+
           root.traverse(function (child) {
             if (child.isMesh) {
-              child.material = baseMat;
-              var edges = new THREE.EdgesGeometry(child.geometry, 20);
-              var lines = new THREE.LineSegments(edges, edgeMat);
-              child.add(lines);
+              child.material = modelBaseMat;
+              var edges = new THREE.EdgesGeometry(child.geometry, preset.edgeAngle);
+              child.add(new THREE.LineSegments(edges, modelEdgeMat));
+              if (preset.wireOpacity > 0) {
+                var wireMat = new THREE.LineBasicMaterial({
+                  color: 0xffffff,
+                  opacity: preset.wireOpacity,
+                  transparent: true,
+                });
+                child.add(new THREE.LineSegments(new THREE.WireframeGeometry(child.geometry), wireMat));
+              }
             }
           });
 

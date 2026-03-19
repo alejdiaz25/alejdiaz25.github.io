@@ -130,85 +130,8 @@
 <footer id="footer-content"></footer>
 
 <!-- ── SCRIPTS ─────────────────────────────────────────────── -->
-<script>
-'use strict';
-
-/* ── HERO CANVAS ANIMATION ────────────────────────────────── */
-(function initCanvas() {
-  const canvas = document.getElementById('hero-canvas');
-  const ctx = canvas.getContext('2d');
-
-  let W, H, particles, animId;
-
-  function resize() {
-    W = canvas.width  = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-
-  function makeParticle() {
-    return {
-      x:  Math.random() * W,
-      y:  Math.random() * H,
-      vx: (Math.random() - 0.5) * 0.18,
-      vy: (Math.random() - 0.5) * 0.18,
-      r:  Math.random() * 1.2 + 0.4,
-      a:  Math.random() * 0.45 + 0.1
-    };
-  }
-
-  function init() {
-    resize();
-    const count = Math.min(Math.floor((W * H) / 14000), 90);
-    particles = Array.from({ length: count }, makeParticle);
-  }
-
-  const GOLD = '197,160,89';
-  const LINK_DIST = 140;
-
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-
-    for (const p of particles) {
-      p.x += p.vx;
-      p.y += p.vy;
-      if (p.x < 0) p.x = W;
-      if (p.x > W) p.x = 0;
-      if (p.y < 0) p.y = H;
-      if (p.y > H) p.y = 0;
-    }
-
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < LINK_DIST) {
-          const alpha = (1 - dist / LINK_DIST) * 0.06;
-          ctx.beginPath();
-          ctx.strokeStyle = `rgba(${GOLD},${alpha})`;
-          ctx.lineWidth = 0.5;
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.stroke();
-        }
-      }
-    }
-
-    for (const p of particles) {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${GOLD},${p.a})`;
-      ctx.fill();
-    }
-
-    animId = requestAnimationFrame(draw);
-  }
-
-  window.addEventListener('resize', () => { init(); });
-  init();
-  draw();
-})();
-</script>
+<script src="hero-bg.js"></script>
+<script>window.initHeroBg();</script>
 <script src="js/scramble.js"></script>
 <script>
 'use strict';
@@ -239,6 +162,13 @@
 
     /* Re-init scroll animations and scramble after DOM is populated */
     if (window.initAnimations) window.initAnimations();
+
+    /* Scroll to hash target after dynamic content is rendered
+       (fixes cross-page nav from projects.html → index.html#section) */
+    if (location.hash) {
+      var target = document.querySelector(location.hash);
+      if (target) target.scrollIntoView();
+    }
   }
 
   /* ── ABOUT ──────────────────────────────────────────────── */
@@ -295,7 +225,7 @@
   function renderProjectsPreview(d) {
     const el = document.getElementById('projects-preview-content');
     const thumbsHtml = d.thumbs.map(t =>
-      `<a href="${esc(d.link.href)}" class="preview-thumb" data-project="${esc(t.id)}">
+      `<a href="projects.html?project=${esc(t.id)}" class="preview-thumb" data-project="${esc(t.id)}">
         <img src="${esc(t.img)}" alt="${esc(t.alt)}" width="${t.width}" height="${t.height}" loading="lazy" />
         <div class="thumb-label">${esc(t.label)}</div>
       </a>`

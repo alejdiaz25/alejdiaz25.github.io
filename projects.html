@@ -239,13 +239,14 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      color: var(--text-faint);
+      color: var(--accent-gold);
       font-size: 0.9rem;
-      border: 1px solid transparent;
-      transition: color 0.2s, border-color 0.2s;
+      border: 1px solid var(--accent-gold);
+      background: none;
+      transition: background 0.18s, color 0.18s, border-color 0.18s;
       font-family: var(--font-mono);
     }
-    .close-btn:hover { color: var(--text-primary); border-color: var(--border-machined); }
+    .close-btn:hover { background: var(--accent-gold); color: var(--surface-raised); }
 
     .center-content {
       flex: 1;
@@ -622,28 +623,6 @@
       flex-shrink: 0;
     }
     #right-pane.has-project .carousel-controls { display: flex; }
-    .carousel-nav {
-      display: flex;
-      align-items: center;
-      gap: 0;
-    }
-    .carousel-btn {
-      width: 44px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: var(--text-faint);
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      border: 1px solid transparent;
-      background: none;
-      transition: color 0.18s, border-color 0.18s;
-      user-select: none;
-    }
-    .carousel-btn:hover { color: var(--text-primary); border-color: var(--border-machined); }
-    .carousel-btn:disabled { opacity: 0.2; cursor: default; }
 
     .carousel-dots {
       display: flex;
@@ -678,8 +657,8 @@
       align-items: center;
       justify-content: center;
       background: rgba(9,10,12,0.7);
-      border: 1px solid var(--border-machined);
-      color: var(--text-faint);
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold);
       font-family: var(--font-mono);
       font-size: 0.85rem;
       cursor: pointer;
@@ -694,9 +673,8 @@
       pointer-events: auto;
     }
     .carousel-side-btn:hover {
-      color: var(--accent-gold);
-      border-color: var(--accent-gold);
-      background: rgba(9,10,12,0.85);
+      background: var(--accent-gold);
+      color: var(--surface-raised);
     }
     .carousel-side-btn.left  { left: 12px; }
     .carousel-side-btn.right { right: 12px; }
@@ -930,10 +908,6 @@
 
         <!-- Carousel controls -->
         <div class="carousel-controls">
-          <div class="carousel-nav">
-            <button class="carousel-btn" id="carousel-prev" disabled>&#8592;</button>
-            <button class="carousel-btn" id="carousel-next" disabled>&#8594;</button>
-          </div>
           <div class="carousel-dots" id="carousel-dots"></div>
           <span class="carousel-slide-label" id="carousel-slide-label">—</span>
         </div>
@@ -989,8 +963,6 @@
     const $threeStage  = document.getElementById('three-stage');
     const $modelSpinner = document.getElementById('model-spinner');
     const $carouselWrap = document.getElementById('carousel-wrap');
-    const $prevBtn     = document.getElementById('carousel-prev');
-    const $nextBtn     = document.getElementById('carousel-next');
     const $dots        = document.getElementById('carousel-dots');
     const $slideLabel  = document.getElementById('carousel-slide-label');
     const $stageName   = document.getElementById('stage-project-name');
@@ -1082,7 +1054,22 @@
           };
           requestAnimationFrame(orgTick);
         }
-      }, 350);
+      }, 200);
+
+      /* Cascade fade-in for supporting text — timed to finish with scrambles.
+         Scrambles start at +200ms and run 700ms; trigger at +820ms so the
+         fade overlaps the final ~80ms of the scramble and feels simultaneous. */
+      setTimeout(() => {
+        const items = $centerContent.querySelectorAll('.spec-fade-item');
+        anime({
+          targets: items,
+          opacity: [0, 1],
+          translateY: [5, 0],
+          duration: 280,
+          delay: anime.stagger(35),
+          easing: 'cubicBezier(0.19, 1, 0.22, 1)',
+        });
+      }, 820);
 
       /* Show stage assets */
       showProjectStage(project);
@@ -1115,23 +1102,23 @@
       $centerContent.innerHTML = `
         <div class="spec-project-title" style="opacity:0">${project.title}</div>
         <div class="spec-project-org" style="opacity:0">${project.org} — ${project.subtitle}</div>
-        <ul class="exp-bullets spec-project-desc">${bulletsHtml}</ul>
+        <ul class="exp-bullets spec-project-desc spec-fade-item" style="opacity:0">${bulletsHtml}</ul>
 
-        <div class="spec-section-label">Technical Data</div>
+        <div class="spec-section-label spec-fade-item" style="opacity:0">Technical Data</div>
         ${project.specs.map(s => `
-          <div class="spec-row">
+          <div class="spec-row spec-fade-item" style="opacity:0">
             <span class="spec-key">${s.key}</span>
             <span class="spec-val">${s.val}</span>
           </div>
         `).join('')}
 
-        <div class="spec-section-label" style="margin-top:1.5rem;">Software</div>
-        <div class="spec-row">
+        <div class="spec-section-label spec-fade-item" style="margin-top:1.5rem;opacity:0">Software</div>
+        <div class="spec-row spec-fade-item" style="opacity:0">
           <span class="spec-key">Tools</span>
           <span class="spec-val gold">${softwareStr}</span>
         </div>
 
-        <div class="spec-tags">${tagsHtml}</div>
+        <div class="spec-tags spec-fade-item" style="opacity:0">${tagsHtml}</div>
       `;
     }
 
@@ -1283,8 +1270,6 @@
     }
 
     function updateCarouselControls(index, total, labels) {
-      $prevBtn.disabled = index === 0;
-      $nextBtn.disabled = index === total - 1;
       $slideLabel.textContent = labels[index] || '—';
       $stageCounter.textContent = total > 1 ? `${String(index + 1).padStart(2,'0')} / ${String(total).padStart(2,'0')}` : '—';
 
@@ -1351,16 +1336,6 @@
 
     $load3dBtn.addEventListener('click', () => {
       loadModel().catch(e => console.error('loadModel failed:', e));
-    });
-
-    $prevBtn.addEventListener('click', () => {
-      const project = PROJECTS.find(p => p.id === state.activeId);
-      goToSlide(state.slideIndex - 1, project);
-    });
-
-    $nextBtn.addEventListener('click', () => {
-      const project = PROJECTS.find(p => p.id === state.activeId);
-      goToSlide(state.slideIndex + 1, project);
     });
 
     $sidePrev.addEventListener('click', () => {
@@ -1450,6 +1425,10 @@
     ───────────────────────────────────────────────────────── */
     function initApp() {
       renderList();
+
+      /* Auto-select project from URL param: projects.html?project=rcs-3dof */
+      const urlProject = new URLSearchParams(location.search).get('project');
+      if (urlProject) selectProject(urlProject);
 
       /* Bind hover scramble on left-pane org labels */
       document.querySelectorAll('.item-org').forEach(el => {

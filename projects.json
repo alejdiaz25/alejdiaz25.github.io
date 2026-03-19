@@ -55,7 +55,7 @@
       "software": ["SOLIDWORKS", "ANSYS FEA"],
       "tags": ["FSAE", "FEA", "CNC", "DFM", "Machining"],
       "preview": "images/lhr-2024 exploded.jpg",
-      "models": [],
+      "models": [{ "src": "assets/models/lhr2024 front upright assembly.glb", "label": "Interactive 3D" }],
       "gallery": ["images/lhr-2024 FEAsecond.png", "images/lhr-2024 machining.jpg", "images/lhr-2024 uprightreal.png"]
     },
     {
@@ -75,7 +75,7 @@
       "software": ["SOLIDWORKS", "ANSYS FEA"],
       "tags": ["FSAE", "FEA", "CNC", "DFM", "Sensor Design"],
       "preview": "images/lhr-2023 wheelasm.png",
-      "models": [],
+      "models": [{ "src": "assets/models/lhr2023 rear upright assembly.glb", "label": "Interactive 3D" }],
       "gallery": ["images/lhr-2023 FEAfirst.png", "images/lhr-2023 asm.jpg"]
     },
     {
@@ -178,7 +178,7 @@
       "software": ["OnShape"],
       "tags": ["FRC", "Robotics", "CNC", "DFM", "Rapid Prototyping"],
       "preview": "images/val-2021 high rate feed cad.png",
-      "models": [],
+      "models": [{ "src": "assets/models/val2021 high rate.glb", "label": "Interactive 3D" }],
       "gallery": ["images/val-2021 high rate cad.png"]
     },
     {
@@ -198,7 +198,7 @@
       "software": ["SOLIDWORKS"],
       "tags": ["Machining", "Laser Cutting", "3D Printing", "Kinematic Design", "DFM"],
       "preview": "images/rg3-0000 full cad.png",
-      "models": [],
+      "models": [{ "src": "assets/models/rg3 000a.glb", "label": "Interactive 3D" }],
       "gallery": []
     },
     {
@@ -218,7 +218,7 @@
       "software": ["SOLIDWORKS"],
       "tags": ["Sheet Metal", "DFM", "Prototyping", "Materials", "Machining"],
       "preview": "images/agw-0000 full cad.png",
-      "models": [],
+      "models": [{ "src": "assets/models/sfp0000a.glb", "label": "Interactive 3D" }],
       "gallery": ["images/agw-0000 spliceview.png"]
     },
     {
