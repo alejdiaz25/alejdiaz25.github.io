@@ -704,6 +704,9 @@
       50% { opacity: 0.35; }
     }
 
+    /* Hidden on desktop — mobile media query overrides below */
+    #mobile-detail { display: none; }
+
     /* ── MOBILE (<768px) ────────────────────────────────────── */
     @media (max-width: 767px) {
       body { overflow-y: auto; }
@@ -716,83 +719,127 @@
 
       #left-pane {
         border-right: none;
-        border-bottom: 1px solid var(--border-machined);
-        height: auto;
-        max-height: none;
-        overflow-y: visible;
+        height: calc(100vh - var(--nav-h) - 44px);
+        overflow-y: auto;
       }
 
       .project-list { overflow-y: visible; }
 
-      #right-pane {
-        height: 72vw;
-        min-height: 300px;
-        max-height: 420px;
-        border-bottom: 1px solid var(--border-dim);
+      /* Hide right + center panes entirely on mobile — content moves into mobile-detail */
+      #right-pane  { display: none; }
+      #center-pane { display: none; }
+
+      /* ── Mobile detail overlay ─────────────────────────────── */
+      #mobile-detail {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        inset: 0;
+        z-index: 850;
+        background: var(--bg-deep-space);
+        transform: translateY(100vh);
+        transition: transform 380ms var(--ease-expo);
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-top: var(--nav-h);
+      }
+      #mobile-detail.open {
+        transform: translateY(0);
       }
 
-      /* Center pane becomes fixed bottom sheet */
-      #center-pane {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 80vh;
-        max-height: 80vh;
-        transform: translateY(100%);
-        opacity: 1;
-        z-index: 500;
-        border-right: none;
-        border-top: 1px solid var(--border-machined);
-        transition: transform 400ms var(--ease-expo);
-        pointer-events: none;
+      .mobile-detail-bar {
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1rem;
+        border-bottom: 1px solid var(--border-dim);
+        position: sticky;
+        top: 0;
+        background: var(--bg-deep-space);
+        z-index: 2;
+        flex-shrink: 0;
       }
-      #center-pane.mobile-open {
-        transform: translateY(0);
-        pointer-events: auto;
+
+      .mobile-back-btn {
+        font-family: var(--font-mono);
+        font-size: 0.65rem;
+        letter-spacing: 0.12em;
+        color: var(--accent-gold);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem 0;
+        text-transform: uppercase;
+      }
+
+      .mobile-detail-title {
+        font-family: var(--font-mono);
+        font-size: 0.58rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        flex: 1;
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 0 0.5rem;
+      }
+
+      .mobile-detail-counter {
+        font-family: var(--font-mono);
+        font-size: 0.52rem;
+        color: var(--text-faint);
+        white-space: nowrap;
+      }
+
+      .mobile-carousel-zone {
+        width: 100%;
+        height: 58vw;
+        min-height: 260px;
+        max-height: 380px;
+        position: relative;
+        flex-shrink: 0;
+        background: var(--bg-deep-space);
+      }
+
+      /* Carousel-wrap inherits flex:1 from desktop — override for mobile zone */
+      .mobile-carousel-zone .carousel-wrap {
+        position: absolute;
+        inset: 0;
+        flex: none;
+      }
+
+      /* Show side arrows on mobile inside the overlay */
+      .mobile-carousel-zone .carousel-side-btn {
+        display: flex;
+      }
+
+      .mobile-specs-zone {
+        padding: 1.25rem 1rem 3rem;
+        flex: 1;
+      }
+
+      /* Specs content inside mobile zone — remove fade-in opacity:0 */
+      .mobile-specs-zone .spec-project-title,
+      .mobile-specs-zone .spec-project-org,
+      .mobile-specs-zone .spec-fade-item {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      /* Carousel controls bar visible inside mobile-detail */
+      #mobile-detail .carousel-controls {
+        display: flex;
+        flex-shrink: 0;
       }
 
       .load-3d-btn { font-size: 0.55rem; padding: 0.5rem 1rem; }
-      .carousel-side-btn { display: none; }
 
       #three-stage { touch-action: none; }
-
-      .stage-header { display: none; }
-
-      /* Mobile bottom sheet backdrop */
-      .sheet-backdrop {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(9,10,12,0.7);
-        z-index: 499;
-        cursor: pointer;
-      }
-      .sheet-backdrop.visible { display: block; }
-
-      /* Show specs button only after a project is selected */
-      #right-pane.has-project ~ .mobile-specs-btn {
-        display: flex;
-      }
     }
 
-    .mobile-specs-btn {
-      display: none;
-      align-items: center;
-      gap: 0.5rem;
-      margin: 0.75rem 1rem;
-      padding: 0.6rem 1rem;
-      background: var(--surface-raised);
-      border: 1px solid var(--border-machined);
-      color: var(--text-muted);
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: color 0.2s, border-color 0.2s;
-    }
-    .mobile-specs-btn:hover { color: var(--accent-gold); border-color: var(--accent-gold); }
   </style>
 </head>
 <body>
@@ -809,9 +856,6 @@
       <li><a href="index.html#contact">Contact</a></li>
     </ul>
   </nav>
-
-  <!-- ── BOTTOM SHEET BACKDROP (mobile) ───────────────────── -->
-  <div class="sheet-backdrop" id="sheet-backdrop"></div>
 
   <!-- ── PAGE SHELL ───────────────────────────────────────── -->
   <div class="page-shell">
@@ -915,13 +959,20 @@
 
       </div><!-- /right-pane -->
 
-      <button class="mobile-specs-btn" id="mobile-specs-btn">View Technical Specs ›</button>
-
     </div><!-- /project-viewer -->
 
-  </div><!-- /page-shell -->
+    <!-- ── MOBILE DETAIL OVERLAY ─────────────────────────── -->
+    <div id="mobile-detail" aria-hidden="true">
+      <div class="mobile-detail-bar">
+        <button class="mobile-back-btn" id="mobile-back-btn">← Back</button>
+        <span class="mobile-detail-title" id="mobile-detail-title"></span>
+        <span class="mobile-detail-counter" id="mobile-detail-counter">—</span>
+      </div>
+      <div class="mobile-carousel-zone" id="mobile-carousel-zone"></div>
+      <div class="mobile-specs-zone" id="mobile-specs-zone"></div>
+    </div>
 
-  <!-- Mobile "View Specs" button (injected into each project card on mobile) -->
+  </div><!-- /page-shell -->
 
   <script src="js/scramble.js"></script>
   <script src="js/viewer.js"></script>
@@ -948,6 +999,7 @@
       modelLoaded:   false,
       modelSrc:      null,
       isMobile:      window.innerWidth < 768,
+      mobileView:    'list', // 'list' | 'detail'
     };
 
     /* ─────────────────────────────────────────────────────────
@@ -971,9 +1023,18 @@
     const $stageName   = document.getElementById('stage-project-name');
     const $stageCounter = document.getElementById('stage-slide-counter');
     const $projectCount = document.getElementById('project-count');
-    const $backdrop    = document.getElementById('sheet-backdrop');
     const $sidePrev    = document.getElementById('carousel-side-prev');
     const $sideNext    = document.getElementById('carousel-side-next');
+
+    /* Mobile detail overlay refs */
+    const $mobileDetail    = document.getElementById('mobile-detail');
+    const $mobileBackBtn   = document.getElementById('mobile-back-btn');
+    const $mobileTitle     = document.getElementById('mobile-detail-title');
+    const $mobileCounter   = document.getElementById('mobile-detail-counter');
+    const $mobileCarousel  = document.getElementById('mobile-carousel-zone');
+    const $mobileSpecs     = document.getElementById('mobile-specs-zone');
+    const $rightPane       = document.getElementById('right-pane');
+    const $carouselControls = document.querySelector('.carousel-controls');
 
     /* ─────────────────────────────────────────────────────────
        RENDER LEFT PANE
@@ -1005,6 +1066,9 @@
       const project = PROJECTS.find(p => p.id === id);
       if (!project) return;
 
+      /* On mobile, delegate to overlay flow */
+      if (state.isMobile) { openMobileDetail(id); return; }
+
       const isReselect = state.activeId === id;
       state.activeId = id;
 
@@ -1021,24 +1085,18 @@
       /* Populate specs */
       renderSpecs(project);
 
-      /* Open specs panel first so the column transition starts
-         and elements get their real rendered widths */
+      /* Open specs panel so the column transition starts */
       $viewer.classList.add('specs-open');
-      if (!state.isMobile) {
-        $centerPane.classList.add('mobile-open');
-        $backdrop.classList.add('visible');
-      }
 
       setTimeout(() => {
-        const titleEl = document.querySelector('.spec-project-title');
+        const titleEl = document.querySelector('#center-content .spec-project-title');
         if (titleEl) {
           titleEl.dataset.scrambleOriginal = project.title;
           new ScrambleText(titleEl, { duration: 700, delay: 0 }).run();
         }
-        const orgEl = document.querySelector('.spec-project-org');
+        const orgEl = document.querySelector('#center-content .spec-project-org');
         if (orgEl) {
           const fullText = `${project.org} — ${project.subtitle}`;
-          /* Render full text invisibly to lock stable height before typing starts */
           orgEl.style.opacity = '0';
           orgEl.textContent = fullText;
           orgEl.style.minHeight = orgEl.offsetHeight + 'px';
@@ -1061,9 +1119,6 @@
         }
       }, 200);
 
-      /* Cascade fade-in for supporting text — timed to finish with scrambles.
-         Scrambles start at +200ms and run 700ms; trigger at +820ms so the
-         fade overlaps the final ~80ms of the scramble and feels simultaneous. */
       setTimeout(() => {
         const items = $centerContent.querySelectorAll('.spec-fade-item');
         anime({
@@ -1081,11 +1136,6 @@
 
       /* Go to slide 0 */
       goToSlide(0, project);
-
-      /* On mobile: scroll to right pane */
-      if (state.isMobile) {
-        document.getElementById('right-pane').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
     }
 
     /* ─────────────────────────────────────────────────────────
@@ -1125,6 +1175,9 @@
 
         <div class="spec-tags spec-fade-item" style="opacity:0">${tagsHtml}</div>
       `;
+
+      /* Clone specs into mobile zone (opacity:0 overridden by mobile CSS) */
+      $mobileSpecs.innerHTML = $centerContent.innerHTML;
     }
 
     /* ─────────────────────────────────────────────────────────
@@ -1276,7 +1329,9 @@
 
     function updateCarouselControls(index, total, labels) {
       $slideLabel.textContent = labels[index] || '—';
-      $stageCounter.textContent = total > 1 ? `${String(index + 1).padStart(2,'0')} / ${String(total).padStart(2,'0')}` : '—';
+      const counterText = total > 1 ? `${String(index + 1).padStart(2,'0')} / ${String(total).padStart(2,'0')}` : '—';
+      $stageCounter.textContent = counterText;
+      $mobileCounter.textContent = counterText;
 
       /* Side arrows — show only when there are multiple slides */
       if (total > 1) {
@@ -1353,37 +1408,158 @@
       goToSlide(state.slideIndex + 1, project);
     });
 
-    /* Close specs panel */
+    /* Close specs panel (desktop) */
     $closeSpecs.addEventListener('click', closeSpecs);
 
     function closeSpecs() {
       $viewer.classList.remove('specs-open');
-      $centerPane.classList.remove('mobile-open');
-      $backdrop.classList.remove('visible');
     }
 
-    /* Mobile "View Technical Specs" button */
-    var $mobileSpecsBtn = document.getElementById('mobile-specs-btn');
-    $mobileSpecsBtn.addEventListener('click', function () {
-      $centerPane.classList.add('mobile-open');
-      $backdrop.classList.add('visible');
-    });
+    /* ─────────────────────────────────────────────────────────
+       MOBILE DETAIL — open / close
+    ───────────────────────────────────────────────────────── */
+    function openMobileDetail(id) {
+      const project = PROJECTS.find(p => p.id === id);
+      if (!project) return;
 
-    /* Mobile backdrop tap */
-    $backdrop.addEventListener('click', closeSpecs);
+      state.mobileView = 'detail';
+      state.activeId = id;
+
+      /* Reset model when switching */
+      unloadModel();
+
+      /* Update list highlight */
+      document.querySelectorAll('.project-item').forEach(el => {
+        el.classList.toggle('active', el.dataset.id === id);
+      });
+
+      /* Populate specs + stage */
+      renderSpecs(project);
+      showProjectStage(project);
+
+      /* Move carousel DOM into mobile overlay */
+      $mobileCarousel.appendChild($carouselWrap);
+      if ($carouselControls) $mobileDetail.insertBefore($carouselControls, $mobileSpecs);
+
+      /* Update title bar */
+      $mobileTitle.textContent = project.title;
+
+      /* Go to slide 0 */
+      goToSlide(0, project);
+
+      /* Slide overlay in */
+      $mobileDetail.setAttribute('aria-hidden', 'false');
+      /* Force reflow so transform transition fires */
+      void $mobileDetail.offsetHeight;
+      $mobileDetail.classList.add('open');
+      $mobileDetail.scrollTop = 0;
+
+      /* Resize canvas after DOM move */
+      requestAnimationFrame(() => ModelViewer.resize());
+    }
+
+    function closeMobileDetail() {
+      state.mobileView = 'list';
+      $mobileDetail.classList.remove('open');
+      $mobileDetail.setAttribute('aria-hidden', 'true');
+
+      /* After transition: move carousel back, unload model */
+      setTimeout(() => {
+        /* Move carousel DOM back to right-pane (controls first, then carousel before it) */
+        if ($carouselControls) $rightPane.appendChild($carouselControls);
+        $rightPane.insertBefore($carouselWrap, $carouselControls);
+
+        unloadModel();
+
+        /* Clear active state */
+        document.querySelectorAll('.project-item').forEach(el => el.classList.remove('active'));
+        state.activeId = null;
+
+        /* Clear mobile zones */
+        $mobileSpecs.innerHTML = '';
+        $mobileTitle.textContent = '';
+        $mobileCounter.textContent = '—';
+      }, 380);
+    }
+
+    $mobileBackBtn.addEventListener('click', closeMobileDetail);
+
+    /* ─────────────────────────────────────────────────────────
+       SWIPE DOWN TO DISMISS (mobile detail)
+    ───────────────────────────────────────────────────────── */
+    (function () {
+      var startY = 0;
+      var startScrollTop = 0;
+      var startTime = 0;
+      var pulling = false;
+
+      $mobileDetail.addEventListener('touchstart', function (e) {
+        startY = e.touches[0].clientY;
+        startScrollTop = $mobileDetail.scrollTop;
+        startTime = Date.now();
+        pulling = false;
+      }, { passive: true });
+
+      $mobileDetail.addEventListener('touchmove', function (e) {
+        if (startScrollTop > 0) return;
+        var deltaY = e.touches[0].clientY - startY;
+        if (deltaY > 0) {
+          pulling = true;
+          $mobileDetail.style.transition = 'none';
+          $mobileDetail.style.transform = 'translateY(' + (deltaY * 0.4) + 'px)';
+          e.preventDefault();
+        }
+      }, { passive: false });
+
+      $mobileDetail.addEventListener('touchend', function (e) {
+        if (!pulling) return;
+        var deltaY = e.changedTouches[0].clientY - startY;
+        var elapsed = Date.now() - startTime;
+        var velocity = deltaY / elapsed; /* px/ms */
+
+        $mobileDetail.style.transition = '';
+        $mobileDetail.style.transform = '';
+
+        if (velocity > 0.5 || deltaY > 80) {
+          closeMobileDetail();
+        } else {
+          /* Spring back */
+          $mobileDetail.classList.add('open');
+        }
+        pulling = false;
+      }, { passive: true });
+    })();
 
     /* Keyboard nav */
     document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        if (state.isMobile && state.mobileView === 'detail') {
+          closeMobileDetail();
+        } else {
+          closeSpecs();
+        }
+        return;
+      }
       if (!state.activeId) return;
       const project = PROJECTS.find(p => p.id === state.activeId);
       if (e.key === 'ArrowRight') goToSlide(state.slideIndex + 1, project);
       if (e.key === 'ArrowLeft')  goToSlide(state.slideIndex - 1, project);
-      if (e.key === 'Escape') closeSpecs();
     });
 
-    /* Resize handler */
+    /* Resize handler — restore desktop layout when crossing 768px */
     window.addEventListener('resize', () => {
+      const wasMobile = state.isMobile;
       state.isMobile = window.innerWidth < 768;
+
+      if (wasMobile && !state.isMobile && state.mobileView === 'detail') {
+        /* Crossed to desktop: move carousel back and close overlay */
+        $mobileDetail.classList.remove('open');
+        $mobileDetail.setAttribute('aria-hidden', 'true');
+        if ($carouselControls) $rightPane.appendChild($carouselControls);
+        $rightPane.insertBefore($carouselWrap, $carouselControls);
+        state.mobileView = 'list';
+        ModelViewer.resize();
+      }
     });
 
     /* ─────────────────────────────────────────────────────────
