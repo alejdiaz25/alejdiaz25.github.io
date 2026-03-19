@@ -821,13 +821,6 @@
         flex: 1;
       }
 
-      /* Specs content inside mobile zone — remove fade-in opacity:0 */
-      .mobile-specs-zone .spec-project-title,
-      .mobile-specs-zone .spec-project-org,
-      .mobile-specs-zone .spec-fade-item {
-        opacity: 1 !important;
-        transform: none !important;
-      }
 
       /* Carousel controls bar visible inside mobile-detail */
       #mobile-detail .carousel-controls {
@@ -1456,6 +1449,50 @@
 
       /* Resize canvas after DOM move */
       requestAnimationFrame(() => ModelViewer.resize());
+
+      /* Animate specs text in mobile zone */
+      setTimeout(() => {
+        const titleEl = $mobileSpecs.querySelector('.spec-project-title');
+        if (titleEl) {
+          titleEl.dataset.scrambleOriginal = project.title;
+          new ScrambleText(titleEl, { duration: 700, delay: 0 }).run();
+        }
+        const orgEl = $mobileSpecs.querySelector('.spec-project-org');
+        if (orgEl) {
+          const fullText = `${project.org} — ${project.subtitle}`;
+          orgEl.style.opacity = '0';
+          orgEl.textContent = fullText;
+          orgEl.style.minHeight = orgEl.offsetHeight + 'px';
+          orgEl.textContent = '';
+          orgEl.style.opacity = '1';
+
+          const orgStart = performance.now();
+          const orgDuration = 700;
+          const orgTick = (now) => {
+            const progress = Math.min((now - orgStart) / orgDuration, 1);
+            orgEl.textContent = fullText.slice(0, Math.floor(progress * fullText.length));
+            if (progress < 1) {
+              requestAnimationFrame(orgTick);
+            } else {
+              orgEl.textContent = fullText;
+              orgEl.style.minHeight = '';
+            }
+          };
+          requestAnimationFrame(orgTick);
+        }
+      }, 200);
+
+      setTimeout(() => {
+        const items = $mobileSpecs.querySelectorAll('.spec-fade-item');
+        anime({
+          targets: items,
+          opacity: [0, 1],
+          translateY: [5, 0],
+          duration: 280,
+          delay: anime.stagger(35),
+          easing: 'cubicBezier(0.19, 1, 0.22, 1)',
+        });
+      }, 820);
     }
 
     function closeMobileDetail() {
