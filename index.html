@@ -161,24 +161,90 @@
       `<div class="stat-cell"><div class="stat-num">${esc(s.num)}</div><div class="stat-label">${esc(s.label)}</div></div>`
     ).join('');
     const parasHtml = d.paragraphs.map(p => `<p>${p}</p>`).join('');
-    const hs = d.headshot;
-    const headshotHtml = hs
-      ? `<div class="about-headshot enter-fade" style="transition-delay:80ms">
+
+    let mediaHtml = '';
+    if (d.photos && d.photos.length > 0) {
+      const total = d.photos.length;
+      const slidesHtml = d.photos.map((ph, i) =>
+        `<div class="ac-slide${i === 0 ? ' active' : ''}"><img src="${esc(ph.src)}" alt="${esc(ph.alt)}" loading="lazy" /></div>`
+      ).join('');
+      const dotsHtml = d.photos.map((_, i) =>
+        `<span class="ac-dot${i === 0 ? ' active' : ''}"></span>`
+      ).join('');
+      mediaHtml = `
+        <div class="about-carousel enter-fade" style="transition-delay:80ms">
+          <div class="ac-wrap">
+            <div class="ac-bracket tl"></div>
+            <div class="ac-bracket tr"></div>
+            <div class="ac-bracket bl"></div>
+            <div class="ac-bracket br"></div>
+            ${slidesHtml}
+            <button class="ac-side-btn ac-prev" aria-label="Previous">&#8592;</button>
+            <button class="ac-side-btn ac-next" aria-label="Next">&#8594;</button>
+          </div>
+          <div class="ac-controls">
+            <div class="ac-dots">${dotsHtml}</div>
+            <span class="ac-counter">01 / ${String(total).padStart(2, '0')}</span>
+          </div>
+        </div>`;
+    } else if (d.headshot) {
+      const hs = d.headshot;
+      mediaHtml = `<div class="about-headshot enter-fade" style="transition-delay:80ms">
            <img src="${esc(hs.src)}" alt="${esc(hs.alt)}" width="${hs.width}" height="${hs.height}" loading="lazy" />
-         </div>`
-      : '';
+         </div>`;
+    }
+
     el.innerHTML = `
       <div class="about-left">
         <p class="section-eyebrow enter-fade" style="transition-delay:0ms">${esc(d.eyebrow)}</p>
         <div class="rule"></div>
         <h2 class="section-title enter-fade" style="transition-delay:160ms">${d.title}</h2>
         <div class="stat-grid enter-stagger">${statsHtml}</div>
-        ${headshotHtml}
+        ${mediaHtml}
       </div>
       <div class="about-body enter-fade">
         ${parasHtml}
         <div class="clearance-tag"><div class="dot"></div><span>${esc(d.clearance)}</span></div>
       </div>`;
+
+    if (d.photos && d.photos.length > 0) {
+      initAboutCarousel(d.photos.length);
+    }
+  }
+
+  function initAboutCarousel(total) {
+    const wrap = document.querySelector('.about-carousel');
+    if (!wrap) return;
+    const slides = wrap.querySelectorAll('.ac-slide');
+    const dots   = wrap.querySelectorAll('.ac-dot');
+    const counter = wrap.querySelector('.ac-counter');
+    const prevBtn = wrap.querySelector('.ac-prev');
+    const nextBtn = wrap.querySelector('.ac-next');
+    let current = 0;
+    let autoTimer = null;
+
+    function goTo(index) {
+      index = ((index % total) + total) % total;
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = index;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+      counter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+    }
+
+    function startAuto() {
+      clearInterval(autoTimer);
+      autoTimer = setInterval(() => goTo(current + 1), 4000);
+    }
+
+    prevBtn.addEventListener('click', () => { goTo(current - 1); startAuto(); });
+    nextBtn.addEventListener('click', () => { goTo(current + 1); startAuto(); });
+    dots.forEach((dot, i) => dot.addEventListener('click', () => { goTo(i); startAuto(); }));
+    wrap.addEventListener('mouseenter', () => clearInterval(autoTimer));
+    wrap.addEventListener('mouseleave', startAuto);
+
+    startAuto();
   }
 
   /* ── EXPERIENCE ─────────────────────────────────────────── */

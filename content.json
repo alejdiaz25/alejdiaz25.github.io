@@ -11,7 +11,12 @@
       "I'm passionate about building real products that solve complex problems and have an impact on the world. I'm interested in aerospace, robotics, process optimization, and I'm always looking for opportunities to connect with like-minded people."
     ],
     "clearance": "Active U.S. Secret Security Clearance (DoD)",
-    "headshot": { "src": "images/headshot.jpg", "alt": "Alejandro Diaz", "width": 428, "height": 600 }
+    "photos": [
+      { "src": "images/headshot.jpg", "alt": "Alejandro Diaz" },
+      { "src": "images/aboutme-1.JPG", "alt": "Alejandro Diaz" },
+      { "src": "images/aboutme-2.JPG", "alt": "Alejandro Diaz" },
+      { "src": "images/aboutme-3.JPG", "alt": "Alejandro Diaz" }
+    ]
   },
   "experience": {
     "eyebrow": "002 — Experience",
