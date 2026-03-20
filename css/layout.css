@@ -331,6 +331,7 @@ section { padding: 7rem 0; }
 .ac-stage {
   display: flex;
   align-items: center;
+  gap: 6px;
 }
 
 .ac-media {
