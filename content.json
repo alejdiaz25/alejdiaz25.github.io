@@ -47,6 +47,30 @@
           "Developed fully parametric SOLIDWORKS CAD models with bending and die design for flexible iteration, optimizing structures for manufacturability and waste reduction, considering 316L stainless steel stock sizes."
         ]
       }
+    ],
+    "relevantTitle": "Relevant Experience",
+    "relevantItems": [
+      {
+        "company": "Texas Rocket Engineering Lab (TREL)",
+        "period": "Jan 2025 – Present",
+        "role": "Propulsion Structures — Design Engineer",
+        "bullets": [
+          "Sole design engineer for a new-generation 3DOF reaction control system test rig using cold gas nitrogen thrusters; developed mechanical constraint equations to determine required thrust, operating pressure, and mass flow.",
+          "Modified TVC gimbal for pitch and yaw with 60° operating cone. Determined a 2-passage rotary union within budget and physical constraints, converting it into a controller for 8 separate fluid lines.",
+          "Designed an innovative slotted rack electronics board prioritizing serviceability and ease of wiring. System validated as an inverted pendulum for attitude and roll stabilization."
+        ]
+      },
+      {
+        "company": "Longhorn Racing Electric",
+        "period": "Aug 2023 – May 2025",
+        "role": "Unsprung Subsystem — Designer &amp; Fabricator",
+        "bullets": [
+          "Designed, fabricated, and assembled front and rear unsprung assemblies for two consecutive UT FSAE Electric cars using milled 7075 aluminum for optimal stiffness-to-weight ratio.",
+          "Developed an original magnetic flux analytical framework to redesign wheel speed sensor architecture with 3-phase hall effect sensor array, achieving 2.5–5x signal amplitude improvement over prior design; selected cost-effective catalog magnets and validated on vehicle.",
+          "Developed adjustable camber, toe, and Ackermann steering systems for precision suspension tuning. Specialized tripod interface with steel inserts to transmit motor torque through half shafts.",
+          "Conducted comprehensive FEA including advanced modeling of bearing interactions and load transfers, achieving a minimum factor of safety of 2 under fatigue loading conditions."
+        ]
+      }
     ]
   },
   "coursework": {

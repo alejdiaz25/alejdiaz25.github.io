@@ -168,12 +168,12 @@
          </div>`
       : '';
     el.innerHTML = `
-      ${headshotHtml}
-      <div>
+      <div class="about-left">
         <p class="section-eyebrow enter-fade" style="transition-delay:0ms">${esc(d.eyebrow)}</p>
         <div class="rule"></div>
         <h2 class="section-title enter-fade" style="transition-delay:160ms">${d.title}</h2>
         <div class="stat-grid enter-stagger">${statsHtml}</div>
+        ${headshotHtml}
       </div>
       <div class="about-body enter-fade">
         ${parasHtml}
@@ -184,24 +184,30 @@
   /* ── EXPERIENCE ─────────────────────────────────────────── */
   function renderExperience(d) {
     const el = document.getElementById('experience-content');
-    const itemsHtml = d.items.map(item => {
-      const bullets = item.bullets.map(b => `<li>${b}</li>`).join('');
-      return `<div class="exp-item enter-line">
-        <div class="exp-left">
-          <div class="exp-company">${esc(item.company)}</div>
-          <div class="exp-period">${esc(item.period)}</div>
-        </div>
-        <div>
-          <div class="exp-role">${esc(item.role)}</div>
-          <ul class="exp-bullets">${bullets}</ul>
-        </div>
-      </div>`;
-    }).join('');
+    function buildItems(items) {
+      return items.map(item => {
+        const bullets = item.bullets.map(b => `<li>${b}</li>`).join('');
+        return `<div class="exp-item enter-line">
+          <div class="exp-left">
+            <div class="exp-company">${esc(item.company)}</div>
+            <div class="exp-period">${esc(item.period)}</div>
+          </div>
+          <div>
+            <div class="exp-role">${item.role}</div>
+            <ul class="exp-bullets">${bullets}</ul>
+          </div>
+        </div>`;
+      }).join('');
+    }
+    const relevantHtml = d.relevantItems ? `
+      <h2 class="section-title enter-fade" style="margin-top:4rem;transition-delay:160ms">${esc(d.relevantTitle)}</h2>
+      <div class="exp-list">${buildItems(d.relevantItems)}</div>` : '';
     el.innerHTML = `
       <p class="section-eyebrow enter-fade" style="transition-delay:0ms">${esc(d.eyebrow)}</p>
       <div class="rule"></div>
       <h2 class="section-title enter-fade" style="transition-delay:160ms">${esc(d.title)}</h2>
-      <div class="exp-list">${itemsHtml}</div>`;
+      <div class="exp-list">${buildItems(d.items)}</div>
+      ${relevantHtml}`;
   }
 
   /* ── PROJECTS PREVIEW ───────────────────────────────────── */

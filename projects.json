@@ -33,11 +33,11 @@
       },
       {
         "id": "frc-2023-robot",
-        "img": "images/val-2023 full cad.png",
+        "img": "images/wireframe-frc-2023-robot.webp",
         "alt": "2023 Competition Robot",
         "label": "2023 FRC Robot — Worlds",
-        "width": 1199,
-        "height": 1600
+        "width": 1200,
+        "height": 800
       },
       {
         "id": "frc-2023-arm",
@@ -57,11 +57,11 @@
       },
       {
         "id": "frc-2021-indexer",
-        "img": "images/val-2021 indexer.png",
+        "img": "images/wireframe-frc-2021-indexer.webp",
         "alt": "2021 Indexer Mechanism",
         "label": "2021 Indexer",
-        "width": 1924,
-        "height": 1202
+        "width": 1200,
+        "height": 800
       },
       {
         "id": "frc-2021-feeder",
@@ -103,7 +103,7 @@
       "org": "TREL — Texas Rocket Engineering Lab",
       "title": "3DOF Reaction Control System",
       "subtitle": "Cold Gas Nitrogen Thruster Rig",
-      "description": "Sole design engineer for a new-generation 3DOF RCS test rig using cold gas nitrogen thrusters. Developed mechanical constraint equations to determine required thrust, operating pressure, and mass flow. Modified TVC gimbal for pitch and yaw with 60° operating cone. Determined a 2-passage rotary union within budget and physical constraints, converting it into a controller for 8 separate fluid lines. Designed an innovative slotted rack electronics board prioritizing serviceability and ease of wiring. System validated as an inverted pendulum for attitude and roll stabilization.",
+      "description": "Sole design engineer for a new-generation 3DOF RCS test rig using cold gas nitrogen thrusters. Developed mechanical constraint equations to determine required thrust, operating pressure, and mass flow with hand calculations and MATLAB simulation. Modified TVC gimbal for pitch and yaw with 60° operating cone. Determined a 2-passage rotary union within budget and physical constraints, converting it into a controller for 8 separate fluid lines. Designed an innovative slotted rack electronics board prioritizing serviceability and ease of wiring. System validated as an inverted pendulum for attitude and roll stabilization. Conducted valve testing and thruster impulse characterization for thrust commands at 600 psi.",
       "specs": [
         {
           "key": "Role",
@@ -115,7 +115,7 @@
         },
         {
           "key": "Propellant",
-          "val": "Cold gas nitrogen"
+          "val": "Cold gas nitrogen — 600 psi"
         },
         {
           "key": "Gimbal Cone",
@@ -141,7 +141,9 @@
         "Fluid Dynamics",
         "FEA",
         "Machining",
-        "Robotics"
+        "Robotics",
+        "Electronics Design",
+        "Piping & Instrumentation Design"
       ],
       "preview": "images/rcs-1000a onshape.png",
       "models": [
@@ -162,11 +164,11 @@
       "org": "Longhorn Racing Electric",
       "title": "Front Unsprung Assembly",
       "subtitle": "2024–25 FSAE Electric Car",
-      "description": "Designed, fabricated, and assembled the front unsprung assemblies for the 2024–25 UT FSAE Electric car. Milled 7075 aluminum construction for lightweight unsprung mass. Designed for modularity and adjustability for camber adjustment and Ackermann steering geometry. Hub assembly with precision-selected bearings and custom hub nut for optimal stiffness and performance. Developed custom bearing seals and unsprung enclosures to protect critical components and house sensors. Implemented fatigue analysis with a minimum factor of safety of 2 under various load conditions.",
+      "description": "Designed, fabricated, and assembled the front unsprung assemblies for the 2024–25 UT FSAE Electric car. Milled 7075 aluminum construction for lightweight unsprung mass. Designed for modularity and adjustability for camber adjustment and Ackermann steering geometry. Hub assembly with precision-selected bearings with SKF bearing simulations, and custom hub nut for optimal stiffness and performance. Developed custom bearing seals and unsprung enclosures to protect critical components and house sensors. Implemented fatigue analysis with a minimum factor of safety of 2 under various load conditions. Redesigned hub architecture and upright mounts, achieving 33% weight reduction while maintaining engineering stiffness requirements. Developed an original magnetic flux analytical framework to redesign wheel speed sensor architecture with 3-phase hall effect sensor array, achieving 2.5–5x signal amplitude improvement over prior design.",
       "specs": [
         {
           "key": "Role",
-          "val": "Designer & Fabricator"
+          "val": "Design Engineer & Fabricator"
         },
         {
           "key": "Material",
@@ -174,15 +176,15 @@
         },
         {
           "key": "FoS",
-          "val": "≥2.0 fatigue analysis"
+          "val": "≥2.0 Fatigue Analysis"
         },
         {
           "key": "Geometry",
-          "val": "Ackermann — adjustable camber"
+          "val": "Ackermann — Adjustable Camber"
         },
         {
           "key": "Bearings",
-          "val": "Precision-selected, custom seals"
+          "val": "Precision-selected Angular Contact BB, custom seals"
         },
         {
           "key": "Event",
@@ -191,14 +193,19 @@
       ],
       "software": [
         "SOLIDWORKS",
-        "ANSYS FEA"
+        "ANSYS FEA",
+        "SKF Bearing Simulation"
       ],
       "tags": [
         "FSAE",
         "FEA",
+        "CAM",
         "CNC",
         "DFM",
-        "Machining"
+        "Machining",
+        "Electronics Design",
+        "Sensor Design",
+        "Electromagnetic Analysis"
       ],
       "preview": "images/lhr-2024 exploded.jpg",
       "models": [
@@ -220,11 +227,11 @@
       "org": "Longhorn Racing Electric",
       "title": "Rear Upright Assembly",
       "subtitle": "2023–24 FSAE Electric Car",
-      "description": "Designed, fabricated, and assembled the rear unsprung assemblies for the 2023–24 UT FSAE Electric car. Milled 7075 aluminum for lightweight construction with great stiffness-to-weight ratio. Specialized tripod interface with steel inserts to efficiently transmit motor torque through half shafts. Developed adjustable camber and toe systems for precise suspension tuning. Comprehensive FEA including advanced modeling of bearing interactions and load transfers of suspension linkages. Developed solutions for integrating wheel speed measurement sensors within the rear unsprung assembly.",
+      "description": "Designed, fabricated, and assembled the rear unsprung assemblies for the 2023–24 UT FSAE Electric car. Milled 7075 aluminum for lightweight construction with great stiffness-to-weight ratio. Specialized tripod interface with steel inserts to efficiently transmit motor torque through half shafts. Developed adjustable camber and toe systems for precise suspension tuning. Comprehensive FEA including advanced modeling of bearing interactions and load transfers of suspension linkages. Developed solutions for integrating wheel speed measurement sensors within the rear unsprung assembly. Redesigned upright architecture and brake mounting, achieving a 44% decrease in rear unsprung subsystem mass.",
       "specs": [
         {
           "key": "Role",
-          "val": "Designer & Fabricator"
+          "val": "Design Engineer & Fabricator"
         },
         {
           "key": "Material",
@@ -232,11 +239,11 @@
         },
         {
           "key": "Interface",
-          "val": "Tripod — steel inserts"
+          "val": "Tripod — Steel Inserts"
         },
         {
           "key": "Tuning",
-          "val": "Adjustable camber & toe"
+          "val": "Adjustable Camber & Toe"
         },
         {
           "key": "Sensors",
@@ -254,9 +261,13 @@
       "tags": [
         "FSAE",
         "FEA",
+        "CAM",
         "CNC",
         "DFM",
-        "Sensor Design"
+        "Machining",
+        "Sensor Design",
+        "GD&T",
+        "Bearing Design"
       ],
       "preview": "images/lhr-2023 wheelasm.png",
       "models": [
@@ -275,7 +286,7 @@
       "org": "FRC Team 6800 Valor",
       "title": "2023 Competition Robot",
       "subtitle": "FRC World Championship — Galileo Division",
-      "description": "2023 Excellence in Engineering Award, FRC World Championship, Galileo Division. Full in-house manufacturing using box and plate aluminum 6061 and carbon-nylon composite 3D prints. Integrated magnet encoder sensors throughout for precision control and system feedback. Double-jointed arm with vertical carriage allowing full pass-through capabilities and scoring at any location. Compact 23\" × 23\" drivetrain with steel ballasts for high maneuverability. 8-motor swerve drive system capable of high-speed omnidirectional movement.",
+      "description": "2023 Excellence in Engineering Award, FRC World Championship, Galileo Division; Award presented to 8 teams globally, recognizing technical prowess of the robot and the team's ability to document and articulate their engineering decisions. Full in-house manufacturing using box and plate aluminum 6061 and carbon-nylon composite 3D prints. Integrated magnet encoder sensors throughout for precision control and system feedback. Double-jointed arm with vertical carriage allowing full pass-through capabilities and scoring at any location. Compact 23\" × 23\" drivetrain with steel ballasts for high maneuverability. 8-motor swerve drive system capable of high-speed omnidirectional movement.",
       "specs": [
         {
           "key": "Award",
@@ -312,21 +323,30 @@
         "CNC",
         "FEA",
         "3D Printing",
-        "DFM"
+        "DFM",
+        "Swerve Drive",
+        "Sensor Integration",
+        "Composites"
       ],
       "preview": "images/val-2023 full cad.png",
-      "models": [],
+      "models": [
+        {
+          "src": "assets/models/val2023.glb",
+          "label": "Full Robot — 3D"
+        }
+      ],
       "gallery": [
         "images/val-2023 moving.jpg",
         "images/val-2023 conehold.jpg"
-      ]
+      ],
+      "wireframeThumbnail": "images/wireframe-frc-2023-robot.webp"
     },
     {
       "id": "frc-2023-arm",
       "org": "FRC Team 6800 Valor",
       "title": "2023 Arm + Elevator",
       "subtitle": "Single-Stage Carriage Elevator & Double-Jointed Arm",
-      "description": "Designed and fabricated a robust single-stage carriage elevator with double-jointed arm subsystem. 47\" 3\"×3\" truss box tube with SOLIDWORKS FEA stiffness analysis across multiple load cases. Constant force spring for net-zero carriage weight with 0.32s carriage travel time. 6061 aluminum tie rod truss structure for rigidity during high-acceleration swing movements. Compact 75:1 carriage gearbox with cam & chain tensioner for shoulder rotation (±180°). Custom carbon-nylon herringbone gear profile for wrist control (±270°). 37\" dual carbon fiber rod arm with bond-area calculated aluminum and carbon-nylon end supports.",
+      "description": "Designed and fabricated a robust single-stage carriage elevator with double-jointed arm subsystem. 47\" 3\"×3\" truss box tube with SOLIDWORKS FEA stiffness analysis across multiple load cases. 17 lb Constant force spring for net-zero carriage weight with 0.32s carriage travel time. 6061 aluminum tie rod truss structure for rigidity during high-acceleration swing movements. Compact 75:1 carriage gearbox with cam & chain tensioner for shoulder rotation (±180°). Custom carbon-nylon herringbone gear profile for wrist control (±270°). 37\" dual carbon fiber rod arm with bond-area calculated aluminum and carbon-nylon end supports.",
       "specs": [
         {
           "key": "Elevator",
@@ -363,6 +383,7 @@
         "FEA",
         "CNC",
         "3D Printing",
+        "Composite Materials",
         "DFM"
       ],
       "preview": "images/val-2023 armelevcad.png",
@@ -384,8 +405,16 @@
       "org": "FRC Team 6800 Valor",
       "title": "2022 Robot + Precision Shooter",
       "subtitle": "Turret System with Integrated Vision",
-      "description": "Designed a versatile, fast-moving competition robot with precision shooting system. 6061 aluminum box and plate with polycarbonate construction. Highly modular design with independent subsystems for fast serviceability. Dual flywheel system for high-powered shots with reduced backspin. Precision turret with 180° motion achieving 95% shot accuracy at any position via rapid target acquisition. High-reduction gearbox with carbon-nylon printed sector gear, 24° hood travel. Integrated vision system controlling flywheel RPM, turret angle, and hood angle.",
+      "description": "2022 UIL State Champion (1 of 1 in Texas) · Worlds Roebling Division Semifinalist · 2× Excellence in Engineering Award · 3× 1st Seed · Autonomous Award. Undefeated through Dripping Springs District qualifications and playoffs; 1st seed and event winner at Austin District; undefeated in UIL State qualifications. Designed a versatile, fast-moving competition robot with precision shooting system. 6061 aluminum box and plate with polycarbonate construction. Highly modular design with independent subsystems for fast serviceability. Dual flywheel system with reduced backspin and precision turret achieving 180° motion and 95% shot accuracy via integrated vision controlling flywheel RPM, turret angle, and 24° hood travel through a high-reduction carbon-nylon sector gear gearbox.",
       "specs": [
+        {
+          "key": "Awards",
+          "val": "UIL State Champion · 2× Excellence in Engineering · Autonomous Award"
+        },
+        {
+          "key": "Result",
+          "val": "Worlds Semifinalist · 3× 1st Seed · 2× District Winner"
+        },
         {
           "key": "Turret",
           "val": "180° precision — 95% accuracy"
@@ -395,16 +424,8 @@
           "val": "Dual flywheel — backspin control"
         },
         {
-          "key": "Hood",
-          "val": "High-reduction gearbox — 24° travel"
-        },
-        {
-          "key": "Gear",
-          "val": "Carbon-nylon sector gear"
-        },
-        {
           "key": "Vision",
-          "val": "Integrated — RPM + angle control"
+          "val": "Integrated — RPM + angle + hood control"
         },
         {
           "key": "Material",
@@ -420,7 +441,11 @@
         "Robotics",
         "Motion Control",
         "Vision Systems",
-        "CNC"
+        "CNC",
+        "3D Printing",
+        "DFM",
+        "Swerve Drive",
+        "PID Control"
       ],
       "preview": "images/val-2022-full cad.png",
       "models": [
@@ -479,15 +504,23 @@
         "Robotics",
         "CNC",
         "3D Printing",
-        "DFM"
+        "DFM",
+        "Bearing Design",
+        "Gearbox Design"
       ],
       "preview": "images/val-2021 indexer.png",
-      "models": [],
+      "models": [
+        {
+          "src": "assets/models/val2021 indexer.glb",
+          "label": "Interactive 3D"
+        }
+      ],
       "gallery": [
         "images/val-2021 indexerdrum.png",
         "images/val-2021 indexergb.png",
         "images/valor-2021 indexerbottom.png"
-      ]
+      ],
+      "wireframeThumbnail": "images/wireframe-frc-2021-indexer.webp"
     },
     {
       "id": "frc-2021-feeder",
@@ -529,7 +562,10 @@
         "Robotics",
         "CNC",
         "DFM",
-        "Rapid Prototyping"
+        "Rapid Prototyping",
+        "Bearing Design",
+        "Gearbox Design",
+        "3D Printing"
       ],
       "preview": "images/val-2021 high rate feed cad.png",
       "models": [
@@ -593,7 +629,11 @@
           "label": "Interactive 3D"
         }
       ],
-      "gallery": ["images/rg3 full build.png", "images/rg3 steering.png", "images/rg3 race day.JPG"],
+      "gallery": [
+        "images/rg3 full build.png",
+        "images/rg3 steering.png",
+        "images/rg3 race day.JPG"
+      ],
       "wireframeThumbnail": "images/wireframe-rc-car.webp"
     },
     {
