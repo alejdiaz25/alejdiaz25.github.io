@@ -4,10 +4,11 @@
     "title": "Engineer.<br>Builder.<br>Founder.",
     "stats": [],
     "paragraphs": [
-      "I'm a <strong>Mechanical Engineering student at UT Austin</strong> (graduating December 2026) with a Minor in Entrepreneurship, building hardware systems where tight tolerances and high stakes are the standard.",
-      "My work spans <strong>defense manufacturing at Northrop Grumman</strong> — developing Python ML pipelines for F-35 metrology data and contributing to next-generation LLM architectures for restricted programs — to leading structural design on <strong>liquid bi-propellant rockets at TREL</strong> and redesigning unsprung assemblies for <strong>Longhorn Racing Electric</strong>.",
-      "Outside of engineering, I serve as <strong>COO of Cascade</strong>, an agentic AI research platform for university life sciences labs, and mentor the next generation of robotics engineers through <strong>FRC Team 6800 Valor</strong>.",
-      "I'm drawn to problems where the physics is hard, the tolerances are tight, and the stakes are real."
+      "I'm a <strong>Mechanical Engineering student at UT Austin</strong> with a Minor in Entrepreneurship, building hardware systems where tight tolerances and high stakes are the standard.",
+      "My internship work spans defense manufacturing engineering at <strong>Northrop Grumman</strong>, developing Python ML and Power Automate pipelines for F-35 metrology data and designing production aids to optimize manufacturing processes. In my extracirriculars, I have led structural design changes on liquid bi-propellant rockets at <strong>TREL</strong> and redesigning dynamics assemblies for <strong>Longhorn Racing Electric</strong>.",
+      "Outside of engineering, I served as a founding member and Vice President of <strong>Texas PALS</strong>, a student organization providing free, high-quality tutoring to underserved Austin high school students. Furthermore, I held the title of Vice President of External Programming for <strong>Beta Theta Pi</strong>, where I organized large-scale philanthropic events, community outreach programs, and educational initiatives.",
+      "Currently, I'm independently building a new <strong>coaxial contra-rotating VTOL</strong> drone with thrust-vector control and cruise missile-style <strong>deployable wings</strong>. In parallel with this work, I'm also contributing to <strong>Cascade</strong>, an agentic AI research platform for university life sciences labs, where I lead operations and go-to-market strategy development.",
+      "I'm passionate about building real products that solve complex problems and have an impact on the world. I'm interested in aerospace, robotics, process optimization, and I'm always looking for opportunities to connect with like-minded people."
     ],
     "clearance": "Active U.S. Secret Security Clearance (DoD)",
     "headshot": { "src": "images/headshot.jpg", "alt": "Alejandro Diaz", "width": 428, "height": 600 }
@@ -19,12 +20,12 @@
       {
         "company": "Northrop Grumman",
         "period": "May – Jul 2025",
-        "role": "CORE Engineering Intern",
+        "role": "Continuous Optimization & Refinement Engineering (CORE) Intern",
         "bullets": [
-          "Developed a Python multivariate regression model on SMR laser tracker &amp; laser gauge metrology data to estimate F-35 fixture loading vectors — targeting elimination of an NC condition affecting ~33% of units (2–10 hrs unplanned rework each).",
-          "Automated QA workflows using Power Automate, reducing response times by 21.1% within three weeks.",
-          "Contributed to architecture of a private LLM for F-35, B-2, E-2D, and restricted programs; defined prompt hierarchy and test protocols.",
-          "Built a Power BI manager-suite dashboard with ML to fully automate a manual reporting process, saving ~312 hours annually."
+          "Developed a Python multivariate regression model for SMR laser tracker &amp; laser gauge metrology data to estimate F-35 fixture loading vectors, targeting elimination of an NC condition affecting ~33% of units (2–10 hrs unplanned rework each).",
+          "Automated QA workflows using Power Automate for Callboard Alerts, reducing response times by 21.1% within three weeks.",
+          "Contributed to architecture of a private LLM for F-35, B-2, E-2D, and restricted programs; defined prompt hierarchy, RAG strategies, and test protocols.",
+          "Built a Power BI manager-suite dashboard with write-back and advanced item search capabilities to fully automate a manual reporting process, saving ~312 hours annually."
         ]
       },
       {
@@ -32,9 +33,9 @@
         "period": "May – Jul 2024",
         "role": "Manufacturing Engineering Intern",
         "bullets": [
-          "Designed 3D-printed production aids with precision depth gauges, reducing F-35B tool validation time by 25%.",
-          "Root cause analysis on sealant disbond conditions revealed $800K+ annual rework cost; new procedures cut unit rework by 10–20 hours.",
-          "Developed Tableau dashboards for CMM Romer Arm metrology trends and implemented new planning changes."
+          "Designed, assembled, and validated 3D-printed production aids with precision depth gauges to reduce tool validation time by 25%, providing digital readouts for F-35 STOVL tool alignment. Implemented new production processes and directed work-cycle time studies.",
+          "Conducted root cause analyses on BusinessObjects manufacturing data to identify sealant disbond conditions, revealing an annual rework cost of over $800K and 2,800 hours, leading to standardized preloading and sealant curing processes.",
+          "Analyzed CMM Romer Arm metrology data through the development of investigative Tableau dashboards to identify alignment trends across all F-35 variants, then implemented new procedures and planning changes that reduced unit rework by 10-20 hours."
         ]
       },
       {
@@ -43,7 +44,7 @@
         "role": "Lead Product Development Engineer",
         "bullets": [
           "Directed design of a 36\" smokeless fire pit — solving airflow and heat distribution challenges with welded stainless steel construction for high-rate production.",
-          "Developed fully parametric SOLIDWORKS CAD models with bending and die design for flexible iteration."
+          "Developed fully parametric SOLIDWORKS CAD models with bending and die design for flexible iteration, optimizing structures for manufacturability and waste reduction, considering 316L stainless steel stock sizes."
         ]
       }
     ]
@@ -71,32 +72,33 @@
     ],
     "academicProjects": [
       {
-        "label": "Entrepreneurship — Active Venture",
+        "label": "New Venture Mechanics — In Progress",
         "name": "Cascade",
-        "desc": "COO of a four-person startup building an agentic AI-powered research workflow platform for university medical and life sciences researchers. Architecting go-to-market strategy and operational infrastructure from zero to first customer.",
-        "tags": ["AI / LLM", "Operations", "GTM", "Research Tech"]
+        "desc": "Founding member of a class startup building an agentic AI-powered research workflow platform for university medical and life sciences researchers. Developing go-to-market strategy, key feature work, and operational infrastructure.",
+        "tags": ["AI / LLM", "Operations", "Entrepreneurship", "GTM", "Research Tech"]
       },
       {
         "label": "ME 366J — Senior Design",
         "name": "Rotary Friction Test Bed",
-        "desc": "Designing a tribometer-style apparatus with faculty advisors Dr. Madhavan and Dr. Khare. Full mechanical design, pneumatic actuator integration, and tribology data acquisition for friction characterization at variable loading conditions.",
+        "desc": "Designing a tribometer-style apparatus to measure frictional torques on annular surfaces. High detail customer needs and engineering specifications that require full mechanical design, pneumatic actuator integration, and tribology data acquisition for friction characterization controlling factors such as load, speed, materials, surface geometry, and temperature.",
         "tags": ["SOLIDWORKS", "Tribology", "Pneumatics", "Test & Measurement"]
       },
       {
-        "label": "ME 144L — In Progress",
-        "name": "DSC Final Project",
-        "desc": "Dynamic Systems & Controls capstone project — details to be added upon completion.",
-        "wip": true
+        "label": "ME 338 — Machine Elements",
+        "name": "RC Race Car",
+        "desc": "Machine Elements engineering project to design and manufacture a high-performance RC car capable of completing a loop course in the shortest time possible. As the sole product designer, created a custom drivetrain, wooden cantilever suspension system, and chassis using SOLIDWORKS, followed by manufacturing the components with Laser Cutting and 3D printing.",
+        "tags": ["SOLIDWORKS", "Manufacturing", "Design", "FDM 3D Printing", "Laser Cutting", "Kinematics", "Vehicle Dynamics"]
       }
     ]
   },
   "skills": {
     "eyebrow": "005 — Capabilities",
     "title": "Skills & Tools",
+    "subtitle": "Spanish (Conversational)",
     "groups": [
       {
         "label": "Design & Analysis",
-        "tags": ["CATIA V5", "SOLIDWORKS", "Autodesk Inventor", "Fusion 360", "OnShape", "ANSYS FEA", "PolyWorks", "GD&T"]
+        "tags": ["CATIA V5", "SOLIDWORKS", "Autodesk Inventor", "Fusion 360", "OnShape", "ANSYS FEA", "PolyWorks", "VAS", "Blender", "GD&T"]
       },
       {
         "label": "Software & Data",
@@ -110,8 +112,8 @@
   },
   "contact": {
     "eyebrow": "006 — Contact",
-    "heading": "Let's build<br><span class=\"gold\">something real.</span>",
-    "sub": "Interested in robotics, aerospace, and advanced manufacturing. Always happy to connect with engineers doing interesting work.",
+    "heading": "Let's <br><span class=\"gold\">Connect.</span>",
+    "sub": "Interested in robotics, aerospace, optimization, and advanced manufacturing engineering. Always happy to connect with people doing interesting work.",
     "resumeHref": "resume.pdf",
     "links": [
       { "label": "Email", "value": "alexjdiaz2503@gmail.com", "href": "mailto:alexjdiaz2503@gmail.com" },
@@ -121,7 +123,7 @@
     ]
   },
   "footer": {
-    "copyright": "© 2025 Alejandro Diaz — Mechanical Engineer",
+    "copyright": "Alejandro Diaz — Mechanical Engineer",
     "status": "Open to Opportunities",
     "school": "UT Austin · Dec 2026"
   }

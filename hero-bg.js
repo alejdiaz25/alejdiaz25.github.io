@@ -581,6 +581,16 @@
     }
   }
 
+  function onClick(e) {
+    resetIdle();
+    var rect = canvas.getBoundingClientRect();
+    var cx = e.clientX - rect.left;
+    var cy = e.clientY - rect.top;
+    /* Force-spawn ripple ignoring throttle */
+    if (ripples.length >= RIPPLE_MAX) ripples.shift();
+    ripples.push({ x: cx, y: cy, birth: performance.now() });
+  }
+
   function onVisibility() {
     isVisible = !document.hidden;
     if (isVisible && !animId) animate(performance.now());
@@ -603,6 +613,7 @@
 
     window.addEventListener('resize', resize);
     window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('click', onClick);
     window.addEventListener('touchmove', onTouchMove, { passive: true });
     document.addEventListener('visibilitychange', onVisibility);
 

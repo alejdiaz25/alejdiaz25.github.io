@@ -273,10 +273,12 @@
         <div class="skill-tags enter-stagger">${tags}</div>
       </div>`;
     }).join('');
+    const subHtml = d.subtitle ? `<p class="skills-subtitle enter-fade" style="transition-delay:240ms">${esc(d.subtitle)}</p>` : '';
     el.innerHTML = `
       <p class="section-eyebrow enter-fade" style="transition-delay:0ms">${esc(d.eyebrow)}</p>
       <div class="rule"></div>
       <h2 class="section-title enter-fade" style="transition-delay:160ms">${esc(d.title)}</h2>
+      ${subHtml}
       <div class="skills-grid">${groupsHtml}</div>`;
   }
 

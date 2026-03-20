@@ -828,6 +828,12 @@ section { padding: 7rem 0; }
 
 /* ── SKILLS ─────────────────────────────────────────────── */
 #skills { background: var(--surface-titanium); }
+.skills-subtitle {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
 .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
 .skill-group-label {
   font-family: var(--font-mono);
