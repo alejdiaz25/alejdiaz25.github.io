@@ -173,17 +173,21 @@
       ).join('');
       mediaHtml = `
         <div class="about-carousel enter-fade" style="transition-delay:80ms">
-          <div class="ac-wrap">
-            <div class="ac-bracket tl"></div>
-            <div class="ac-bracket tr"></div>
-            <div class="ac-bracket bl"></div>
-            <div class="ac-bracket br"></div>
-            ${slidesHtml}
-          </div>
-          <div class="ac-controls">
+          <div class="ac-stage">
             <button class="ac-side-btn ac-prev" aria-label="Previous">&#8592;</button>
-            <div class="ac-dots">${dotsHtml}</div>
-            <span class="ac-counter">01 / ${String(total).padStart(2, '0')}</span>
+            <div class="ac-media">
+              <div class="ac-wrap">
+                <div class="ac-bracket tl"></div>
+                <div class="ac-bracket tr"></div>
+                <div class="ac-bracket bl"></div>
+                <div class="ac-bracket br"></div>
+                ${slidesHtml}
+              </div>
+              <div class="ac-controls">
+                <div class="ac-dots">${dotsHtml}</div>
+                <span class="ac-counter">01 / ${String(total).padStart(2, '0')}</span>
+              </div>
+            </div>
             <button class="ac-side-btn ac-next" aria-label="Next">&#8594;</button>
           </div>
         </div>`;
