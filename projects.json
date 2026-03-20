@@ -284,7 +284,7 @@
     {
       "id": "frc-2023-robot",
       "org": "FRC Team 6800 Valor",
-      "title": "2023 Competition Robot",
+      "title": "2023 Robot",
       "subtitle": "FRC World Championship — Galileo Division",
       "description": "2023 Excellence in Engineering Award, FRC World Championship, Galileo Division; Award presented to 8 teams globally, recognizing technical prowess of the robot and the team's ability to document and articulate their engineering decisions. Full in-house manufacturing using box and plate aluminum 6061 and carbon-nylon composite 3D prints. Integrated magnet encoder sensors throughout for precision control and system feedback. Double-jointed arm with vertical carriage allowing full pass-through capabilities and scoring at any location. Compact 23\" × 23\" drivetrain with steel ballasts for high maneuverability. 8-motor swerve drive system capable of high-speed omnidirectional movement.",
       "specs": [
@@ -403,7 +403,7 @@
     {
       "id": "frc-2022-robot",
       "org": "FRC Team 6800 Valor",
-      "title": "2022 Robot + Precision Shooter",
+      "title": "2022 Robot + Shooter",
       "subtitle": "Turret System with Integrated Vision",
       "description": "2022 UIL State Champion (1 of 1 in Texas) · Worlds Roebling Division Semifinalist · 2× Excellence in Engineering Award · 3× 1st Seed · Autonomous Award. Undefeated through Dripping Springs District qualifications and playoffs; 1st seed and event winner at Austin District; undefeated in UIL State qualifications. Designed a versatile, fast-moving competition robot with precision shooting system. 6061 aluminum box and plate with polycarbonate construction. Highly modular design with independent subsystems for fast serviceability. Dual flywheel system with reduced backspin and precision turret achieving 180° motion and 95% shot accuracy via integrated vision controlling flywheel RPM, turret angle, and 24° hood travel through a high-reduction carbon-nylon sector gear gearbox.",
       "specs": [
@@ -525,7 +525,7 @@
     {
       "id": "frc-2021-feeder",
       "org": "FRC Team 6800 Valor",
-      "title": "2021 High Rate Indexer & Feeder",
+      "title": "2021 High Rate Indexer",
       "subtitle": "Dual-Motor Feeder Subsystem",
       "description": "Designed a high-rate indexing subsystem for increased control and speed in a lightweight, robust package. Dual motor feeder mechanism allows individual control and fast intake of stored game elements. Lightweight partial-pocketed drum with .040\" polycarbonate wall supported by 7075 aluminum standoffs. Fully encased design with dead axle structural center rod supporting drum rotation and feeder mechanism with carbon-nylon end supports. Single stage, high torque drum gearbox with bearing stackup for large radial and axial loads.",
       "specs": [
