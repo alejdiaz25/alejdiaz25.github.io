@@ -65,7 +65,7 @@
 
     <div class="hero-cta">
       <a href="projects.html" class="btn-primary">View Projects ↗</a>
-      <a href="resume.pdf" class="btn-ghost" target="_blank">Resume ↗</a>
+      <a href="resume.pdf" class="btn-ghost" target="_blank" rel="noopener noreferrer">Resume ↗</a>
     </div>
   </div>
 
@@ -380,7 +380,7 @@
           <span class="contact-arrow" style="font-size:0.6rem;letter-spacing:0.1em;">${esc(l.arrow)}</span>
         </div>`;
       }
-      const target = l.external ? ' target="_blank"' : '';
+      const target = l.external ? ' target="_blank" rel="noopener noreferrer"' : '';
       return `<a href="${esc(l.href)}"${target} class="contact-link">
         <div class="contact-link-inner">
           <div class="contact-link-label">${esc(l.label)}</div>
@@ -395,7 +395,7 @@
         <div class="rule"></div>
         <h2 class="contact-heading">${d.heading}</h2>
         <p class="contact-sub">${esc(d.sub)}</p>
-        <a href="${esc(d.resumeHref)}" class="btn-primary" target="_blank">View Resume ↗</a>
+        <a href="${esc(d.resumeHref)}" class="btn-primary" target="_blank" rel="noopener noreferrer">View Resume ↗</a>
       </div>
       <div class="contact-links enter-stagger">${linksHtml}</div>`;
   }
