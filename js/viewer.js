@@ -20,6 +20,9 @@
   var _defaultCamPos = null;
   var _defaultTarget = null;
   var _fitDistance = 1.2; /* updated per model on load */
+  var _loadSeq = 0; /* generation counter — guards against overlapping load() calls */
+  var _lastFrameTime = null;
+  var SPIN_RATE = 0.09; /* radians/sec — frame-rate independent auto-spin speed */
 
   async function importDeps() {
     if (THREE) return;
@@ -143,9 +146,14 @@
     camera.updateProjectionMatrix();
   }
 
-  function animate() {
+  function animate(now) {
     rafId = requestAnimationFrame(animate);
-    if (modelGroup && _autoSpin) modelGroup.rotation.y += 0.003;
+    if (typeof now !== 'number') now = performance.now();
+    if (_lastFrameTime === null) _lastFrameTime = now;
+    /* Clamp dt so a backgrounded/throttled tab doesn't jump the model on return */
+    var dt = Math.min((now - _lastFrameTime) / 1000, 0.1);
+    _lastFrameTime = now;
+    if (modelGroup && _autoSpin) modelGroup.rotation.y += SPIN_RATE * dt;
     if (controls) controls.update();
     if (renderer && scene && camera) renderer.render(scene, camera);
   }
@@ -173,6 +181,11 @@
     return new Promise(function (resolve, reject) {
       if (!renderer) { reject(new Error('Call init() first')); return; }
 
+      /* Bump the generation counter *before* disposing so any load already
+         in flight (its callback hasn't fired yet) is recognized as stale
+         when it eventually resolves — prevents two models both landing
+         in the scene when loads overlap (e.g. rapid project switching). */
+      var mySeq = ++_loadSeq;
       disposeModel();
 
       var dracoLoader = new DRACOLoader();
@@ -181,9 +194,27 @@
       var loader = new GLTFLoader();
       loader.setDRACOLoader(dracoLoader);
 
+      function disposeGltf(gltf) {
+        gltf.scene.traverse(function (c) {
+          if (c.geometry) c.geometry.dispose();
+          if (c.material) {
+            if (Array.isArray(c.material)) c.material.forEach(function (m) { m.dispose(); });
+            else c.material.dispose();
+          }
+        });
+      }
+
       loader.load(
         url,
         function (gltf) {
+          /* A newer load() call has started since this one began — discard
+             this result instead of adding a second model to the scene. */
+          if (mySeq !== _loadSeq) {
+            disposeGltf(gltf);
+            resolve();
+            return;
+          }
+
           var group = new THREE.Group();
           var root = gltf.scene;
 
@@ -316,6 +347,7 @@
         },
         undefined,
         function (err) {
+          if (mySeq !== _loadSeq) { resolve(); return; }
           reject(err);
         }
       );
@@ -323,6 +355,7 @@
   }
 
   function unload() {
+    _loadSeq++; /* invalidate any in-flight load so it can't land after unload */
     disposeModel();
   }
 

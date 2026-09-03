@@ -24,8 +24,9 @@ const sharp = require('sharp');
 const ROOT = path.resolve(__dirname, '..');
 const PROJECTS_JSON = path.join(ROOT, 'projects.json');
 const IMAGES_DIR = path.join(ROOT, 'images');
-const WIDTH = 1200;
-const HEIGHT = 800;
+const WIDTH = 2560;
+const HEIGHT = 1440;
+const DPR = 2; /* device scale factor — output pixels are WIDTH*DPR × HEIGHT*DPR */
 const SERVER_PORT = 9473;
 const CDN = 'https://cdn.jsdelivr.net/npm/three@0.163.0';
 const DRACO_PATH = CDN + '/examples/jsm/libs/draco/';
@@ -299,10 +300,8 @@ async function main() {
       '--enable-webgl',
       '--enable-gpu',
       '--use-gl=angle',
-      '--use-angle=metal',
+      '--use-angle=swiftshader',
       '--ignore-gpu-blocklist',
-      '--enable-features=Vulkan,UseSkiaRenderer',
-      '--disable-vulkan-fallback-to-gl-for-testing',
     ],
   });
 
@@ -329,7 +328,7 @@ async function main() {
       }
 
       const page = await browser.newPage();
-      await page.setViewport({ width: WIDTH, height: HEIGHT, deviceScaleFactor: 1 });
+      await page.setViewport({ width: WIDTH, height: HEIGHT, deviceScaleFactor: DPR });
 
       /* Log browser console errors for debugging */
       page.on('console', msg => {
@@ -365,7 +364,7 @@ async function main() {
 
       /* Convert to WebP */
       await sharp(pngPath)
-        .webp({ quality: 85 })
+        .webp({ quality: 92 })
         .toFile(webpPath);
 
       /* Delete intermediate PNG */
@@ -385,8 +384,8 @@ async function main() {
       const thumbIdx = projectsData.preview.thumbs.findIndex(t => t.id === project.id);
       if (thumbIdx !== -1) {
         projectsData.preview.thumbs[thumbIdx].img = webpRelative;
-        projectsData.preview.thumbs[thumbIdx].width = WIDTH;
-        projectsData.preview.thumbs[thumbIdx].height = HEIGHT;
+        projectsData.preview.thumbs[thumbIdx].width = WIDTH * DPR;
+        projectsData.preview.thumbs[thumbIdx].height = HEIGHT * DPR;
       }
 
       process.stdout.write(`OK (${fileSizeKB} KB)\n`);

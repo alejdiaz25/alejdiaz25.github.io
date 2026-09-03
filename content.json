@@ -1,16 +1,14 @@
 {
   "about": {
-    "eyebrow": "001 — About",
+    "eyebrow": "About",
     "title": "Engineer.<br>Builder.<br>Founder.",
     "stats": [],
     "paragraphs": [
       "I'm a <strong>Mechanical Engineering student at UT Austin</strong> with a Minor in Entrepreneurship, building hardware systems where tight tolerances and high stakes are the standard.",
       "My internship work spans defense manufacturing engineering at <strong>Northrop Grumman</strong>, developing Python ML and Power Automate pipelines for F-35 metrology data and designing production aids to optimize manufacturing processes. In my extracirriculars, I have led structural design changes on liquid bi-propellant rockets at <strong>TREL</strong> and redesigning dynamics assemblies for <strong>Longhorn Racing Electric</strong>.",
       "Outside of engineering, I served as a founding member and Vice President of <strong>Texas PALS</strong>, a student organization providing free, high-quality tutoring to underserved Austin high school students. Furthermore, I held the title of Vice President of External Programming for <strong>Beta Theta Pi</strong>, where I organized large-scale philanthropic events, community outreach programs, and educational initiatives.",
-      "Currently, I'm independently building a new <strong>coaxial contra-rotating VTOL</strong> drone with thrust-vector control and cruise missile-style <strong>deployable wings</strong>. In parallel with this work, I'm also contributing to <strong>Cascade</strong>, an agentic AI research platform for university life sciences labs, where I lead operations and go-to-market strategy development.",
       "I'm passionate about building real products that solve complex problems and have an impact on the world. I'm interested in aerospace, robotics, process optimization, and I'm always looking for opportunities to connect with like-minded people."
     ],
-    "clearance": "Active U.S. Secret Security Clearance (DoD)",
     "photos": [
       { "src": "images/headshot.jpg", "alt": "Alejandro Diaz" },
       { "src": "images/aboutme-1.JPG", "alt": "Alejandro Diaz" },
@@ -19,32 +17,47 @@
     ]
   },
   "experience": {
-    "eyebrow": "002 — Experience",
+    "eyebrow": "Experience",
     "title": "Work Experience",
     "items": [
       {
-        "company": "Northrop Grumman",
-        "period": "May – Jul 2025",
-        "role": "Continuous Optimization & Refinement Engineering (CORE) Intern",
+        "company": "Saronic Technologies",
+        "logo": "images/logos/saronic.svg",
+        "period": "Jun – Aug 2026",
+        "role": "Manufacturing Engineering Intern",
         "bullets": [
-          "Developed a Python multivariate regression model for SMR laser tracker &amp; laser gauge metrology data to estimate F-35 fixture loading vectors, targeting elimination of an NC condition affecting ~33% of units (2–10 hrs unplanned rework each).",
-          "Automated QA workflows using Power Automate for Callboard Alerts, reducing response times by 21.1% within three weeks.",
-          "Contributed to architecture of a private LLM for F-35, B-2, E-2D, and restricted programs; defined prompt hierarchy, RAG strategies, and test protocols.",
-          "Built a Power BI manager-suite dashboard with write-back and advanced item search capabilities to fully automate a manual reporting process, saving ~312 hours annually."
+          "Owned the full engineering lifecycle of an RF-antenna torque tool: first-principles design, in-house sourcing, eBOM, drawings, and an ECO proposal; eliminated antenna marring (0 cases since rollout) and reclaimed <strong>49+ hr/yr</strong> fleet-wide.",
+          "Led a DMAIC-framed cost study of a $1.28M/yr structural-adhesive program; identified <strong>$923K/yr</strong> in achievable savings by converting to instrumented bulk-dispense tooling chosen for future SCADA integration, at a 47-day payback and <strong>677% ROI</strong>.",
+          "Architected and shipped 7+ Palantir Foundry and full-stack tools (React/TypeScript, Node/Express, Python), including custom ontology objects, pipelines, and Workshop dashboards adopted by active users across Engineering, PMO, and Manufacturing Engineering; replaced manual ERP lookups with sub-second (0.2s) part search across <strong>79,000+ PO records</strong> and 15 product lines.",
+          "Built a first-principles bearing-stress model gating a fleet-wide fastener DFMA; screened 7 joint types and baselined 218 part numbers, identifying <strong>~$13.3K/yr savings</strong> and 167 washers/vessel eliminated via nut/washer-to-flange conversion."
         ]
       },
       {
         "company": "Northrop Grumman",
+        "logo": "images/logos/northrop-grumman.webp",
+        "period": "May – Jul 2025",
+        "role": "Continuous Optimization & Refinement Engineering (CORE) Intern",
+        "bullets": [
+          "Developed a Python multivariate regression model for SMR laser tracker &amp; laser gauge metrology data to estimate F-35 fixture loading vectors, targeting elimination of an NC condition affecting <strong>~33% of units</strong> (2–10 hrs unplanned rework each).",
+          "Automated QA workflows using Power Automate for Callboard Alerts, reducing response times by <strong>21.1%</strong> within three weeks.",
+          "Contributed to architecture of a private LLM for F-35, B-2, E-2D, and restricted programs; defined prompt hierarchy, RAG strategies, and test protocols.",
+          "Built a Power BI manager-suite dashboard with write-back and advanced item search capabilities to fully automate a manual reporting process, saving <strong>~312 hours annually</strong>."
+        ]
+      },
+      {
+        "company": "Northrop Grumman",
+        "logo": "images/logos/northrop-grumman.webp",
         "period": "May – Jul 2024",
         "role": "Manufacturing Engineering Intern",
         "bullets": [
-          "Designed, assembled, and validated 3D-printed production aids with precision depth gauges to reduce tool validation time by 25%, providing digital readouts for F-35 STOVL tool alignment. Implemented new production processes and directed work-cycle time studies.",
-          "Conducted root cause analyses on BusinessObjects manufacturing data to identify sealant disbond conditions, revealing an annual rework cost of over $800K and 2,800 hours, leading to standardized preloading and sealant curing processes.",
-          "Analyzed CMM Romer Arm metrology data through the development of investigative Tableau dashboards to identify alignment trends across all F-35 variants, then implemented new procedures and planning changes that reduced unit rework by 10-20 hours."
+          "Designed, assembled, and validated 3D-printed production aids with precision depth gauges to reduce tool validation time by <strong>25%</strong>, providing digital readouts for F-35 STOVL tool alignment. Implemented new production processes and directed work-cycle time studies.",
+          "Conducted root cause analyses on BusinessObjects manufacturing data to identify sealant disbond conditions, revealing an annual rework cost of <strong>over $800K and 2,800 hours</strong>, leading to standardized preloading and sealant curing processes.",
+          "Analyzed CMM Romer Arm metrology data through the development of investigative Tableau dashboards to identify alignment trends across all F-35 variants, then implemented new procedures and planning changes that reduced unit rework by <strong>10-20 hours</strong>."
         ]
       },
       {
         "company": "Agave Worldwide",
+        "logo": "images/logos/agave.webp",
         "period": "Jul 2024",
         "role": "Lead Product Development Engineer",
         "bullets": [
@@ -57,29 +70,31 @@
     "relevantItems": [
       {
         "company": "Texas Rocket Engineering Lab (TREL)",
+        "logo": "images/logos/trel.webp",
         "period": "Jan 2025 – Present",
         "role": "Propulsion Structures — Design Engineer",
         "bullets": [
           "Sole design engineer for a new-generation 3DOF reaction control system test rig using cold gas nitrogen thrusters; developed mechanical constraint equations to determine required thrust, operating pressure, and mass flow.",
-          "Modified TVC gimbal for pitch and yaw with 60° operating cone. Determined a 2-passage rotary union within budget and physical constraints, converting it into a controller for 8 separate fluid lines.",
+          "Modified TVC gimbal for pitch and yaw with 60° operating cone. Determined a 2-passage rotary union within budget and physical constraints, converting it into a controller for <strong>8 separate fluid lines</strong>.",
           "Designed an innovative slotted rack electronics board prioritizing serviceability and ease of wiring. System validated as an inverted pendulum for attitude and roll stabilization."
         ]
       },
       {
         "company": "Longhorn Racing Electric",
+        "logo": "images/logos/lhr.webp",
         "period": "Aug 2023 – May 2025",
         "role": "Unsprung Subsystem — Designer &amp; Fabricator",
         "bullets": [
           "Designed, fabricated, and assembled front and rear unsprung assemblies for two consecutive UT FSAE Electric cars using milled 7075 aluminum for optimal stiffness-to-weight ratio.",
-          "Developed an original magnetic flux analytical framework to redesign wheel speed sensor architecture with 3-phase hall effect sensor array, achieving 2.5–5x signal amplitude improvement over prior design; selected cost-effective catalog magnets and validated on vehicle.",
+          "Developed an original magnetic flux analytical framework to redesign wheel speed sensor architecture with 3-phase hall effect sensor array, achieving <strong>2.5–5x signal amplitude improvement</strong> over prior design; selected cost-effective catalog magnets and validated on vehicle.",
           "Developed adjustable camber, toe, and Ackermann steering systems for precision suspension tuning. Specialized tripod interface with steel inserts to transmit motor torque through half shafts.",
-          "Conducted comprehensive FEA including advanced modeling of bearing interactions and load transfers, achieving a minimum factor of safety of 2 under fatigue loading conditions."
+          "Conducted comprehensive FEA including advanced modeling of bearing interactions and load transfers, achieving a <strong>minimum factor of safety of 2</strong> under fatigue loading conditions."
         ]
       }
     ]
   },
   "coursework": {
-    "eyebrow": "004 — Academics",
+    "eyebrow": "Academics",
     "title": "Coursework",
     "courses": [
       { "code": "ME 344", "name": "Dynamic Systems & Controls" },
@@ -96,8 +111,12 @@
       { "code": "EM 319", "name": "Mechanics of Solids" },
       { "code": "ME 353", "name": "Engineering Finance" },
       { "code": "ME 366J", "name": "ME Design Methodology" },
+      { "code": "ME 366L", "name": "Operations Research Models" },
+      { "code": "ME 364L", "name": "Automatic Controls System Design" },
+      { "code": "ME 466E", "name": "ME Capstone" },
       { "code": "MAN 327", "name": "Innovation & Entrepreneurship" },
-      { "code": "MAN 327E", "name": "New Venture Mechanics" }
+      { "code": "MAN 327E", "name": "New Venture Mechanics" },
+      { "code": "MAN 347P", "name": "Entrepreneurship Practicum" }
     ],
     "academicProjects": [
       {
@@ -121,26 +140,26 @@
     ]
   },
   "skills": {
-    "eyebrow": "005 — Capabilities",
+    "eyebrow": "Capabilities",
     "title": "Skills & Tools",
     "subtitle": "Spanish (Conversational)",
     "groups": [
       {
         "label": "Design & Analysis",
-        "tags": ["CATIA V5", "SOLIDWORKS", "Autodesk Inventor", "Fusion 360", "OnShape", "ANSYS FEA", "PolyWorks", "VAS", "Blender", "GD&T"]
+        "tags": ["CATIA V5", "SOLIDWORKS", "AutoCAD", "Autodesk Inventor", "Fusion 360", "OnShape", "ANSYS FEA", "PolyWorks", "VAS", "Blender", "GD&T"]
       },
       {
         "label": "Software & Data",
-        "tags": ["Python", "MATLAB", "Power BI", "Tableau", "BusinessObjects", "Java", "Excel", "GitHub", "Jira", "Power Automate"]
+        "tags": ["Python", "MATLAB", "Java", "Palantir Foundry", "Ontology SDK", "Power BI", "Tableau", "BusinessObjects", "Teamcenter", "Arena PLM", "Excel", "GitHub", "Jira", "Power Automate"]
       },
       {
         "label": "Manufacturing",
-        "tags": ["Manual Lathe", "CNC Mill", "CNC Router", "Laser Cutting", "FDM 3D Printing", "Romer Arm", "SMR Laser Tracker", "Sheet Metal"]
+        "tags": ["Manual Lathe", "CNC Mill", "CNC Router", "Waterjet Cutting", "Laser Cutting", "FDM 3D Printing", "Romer Arm", "SMR Laser Tracker", "Sheet Metal"]
       }
     ]
   },
   "contact": {
-    "eyebrow": "006 — Contact",
+    "eyebrow": "Contact",
     "heading": "Let's <br><span class=\"gold\">Connect.</span>",
     "sub": "Interested in robotics, aerospace, optimization, and advanced manufacturing engineering. Always happy to connect with people doing interesting work.",
     "resumeHref": "resume.pdf",
@@ -152,8 +171,6 @@
     ]
   },
   "footer": {
-    "copyright": "Alejandro Diaz — Mechanical Engineer",
-    "status": "Open to Opportunities",
-    "school": "UT Austin · Dec 2026"
+    "copyright": "Alejandro Diaz — Mechanical Engineer"
   }
 }
