@@ -1,9 +1,9 @@
 {
   "preview": {
-    "eyebrow": "003 — Projects",
+    "eyebrow": "Selected work",
     "title": "Engineering Projects",
     "link": {
-      "text": "11 projects — interactive viewer →",
+      "text": "11 projects — interactive viewer",
       "href": "projects.html"
     },
     "thumbs": [
@@ -12,88 +12,88 @@
         "img": "images/wireframe-rcs-3dof.webp",
         "alt": "3DOF Reaction Control System",
         "label": "3DOF RCS — TREL",
-        "width": 1200,
-        "height": 800
+        "width": 5120,
+        "height": 2880
       },
       {
         "id": "front-unsprung",
         "img": "images/wireframe-front-unsprung.webp",
         "alt": "Front Unsprung Assembly",
         "label": "Front Unsprung — LHR-E",
-        "width": 1200,
-        "height": 800
+        "width": 5120,
+        "height": 2880
       },
       {
         "id": "rear-upright",
         "img": "images/wireframe-rear-upright.webp",
         "alt": "Rear Upright Assembly",
         "label": "Rear Upright — LHR-E",
-        "width": 1200,
-        "height": 800
+        "width": 5120,
+        "height": 2880
       },
       {
         "id": "frc-2023-robot",
         "img": "images/wireframe-frc-2023-robot.webp",
         "alt": "2023 Competition Robot",
         "label": "2023 FRC Robot — Worlds",
-        "width": 1200,
-        "height": 800
+        "width": 5120,
+        "height": 2880
       },
       {
         "id": "frc-2023-arm",
         "img": "images/wireframe-frc-2023-arm.webp",
         "alt": "2023 Arm + Elevator",
         "label": "2023 Arm + Elevator",
-        "width": 1200,
-        "height": 800
+        "width": 5120,
+        "height": 2880
       },
       {
         "id": "frc-2022-robot",
         "img": "images/wireframe-frc-2022-robot.webp",
         "alt": "2022 Robot + Precision Shooter",
         "label": "2022 FRC Robot",
-        "width": 1200,
-        "height": 800
+        "width": 5120,
+        "height": 2880
       },
       {
         "id": "frc-2021-indexer",
         "img": "images/wireframe-frc-2021-indexer.webp",
         "alt": "2021 Indexer Mechanism",
         "label": "2021 Indexer",
-        "width": 1200,
-        "height": 800
+        "width": 5120,
+        "height": 2880
       },
       {
         "id": "frc-2021-feeder",
         "img": "images/wireframe-frc-2021-feeder.webp",
         "alt": "2021 High Rate Feeder",
         "label": "2021 Feeder",
-        "width": 1200,
-        "height": 800
+        "width": 5120,
+        "height": 2880
       },
       {
         "id": "rc-car",
         "img": "images/wireframe-rc-car.webp",
         "alt": "RC Race Car",
         "label": "RC Race Car — ME 338",
-        "width": 1200,
-        "height": 800
+        "width": 5120,
+        "height": 2880
       },
       {
         "id": "smokeless-firepit",
         "img": "images/wireframe-smokeless-firepit.webp",
         "alt": "Smokeless Fire Pit",
         "label": "Smokeless Fire Pit — Agave",
-        "width": 1200,
-        "height": 800
+        "width": 5120,
+        "height": 2880
       },
       {
         "id": "face-shield",
         "img": "images/wireframe-face-shield.webp",
         "alt": "Face Shield Production",
         "label": "Face Shield — COVID Rangers",
-        "width": 1200,
-        "height": 800
+        "width": 5120,
+        "height": 2880
       }
     ]
   },
