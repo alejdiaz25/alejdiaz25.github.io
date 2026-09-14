@@ -10,3 +10,13 @@ Validated on the `codex/brand-overhaul` branch.
 - Original image/model assets remain intact. The responsive manifest covers 50 source images with 131 WebP derivatives. The two official variable fonts total approximately 82 KiB, with original SIL OFL licenses.
 
 The static site remains compatible with GitHub Pages and has no build step. Preview screenshots are in the ignored `.tmp/` directory.
+
+## Carousel follow-up
+
+Replaced the three full-length homepage features with a native horizontal carousel
+of all 11 generated model thumbnails. Each card links to its project and shows its
+title and opening description sentence. Desktop shows two large cards and part of
+the next; phones show one prominent card with the next visible at the edge.
+The project index is now a native details disclosure, collapsed initially.
+Added checks for thumbnail/caption provenance, index default state and keyboard
+toggling, carousel next/Home navigation, and retained the six-width homepage checks.

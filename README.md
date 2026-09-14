@@ -42,8 +42,10 @@ Then open `http://localhost:8000`.
 
 The homepage uses `content.json` and `projects.json`. The project experience preserves
 `projects.html?project=<id>` links and loads interactive 3D only when requested.
-`projects.json`'s additive `preview.featured` configuration selects the large homepage
-features; original project records remain the source of all engineering facts.
+`projects.json`'s `preview.thumbs` determines homepage carousel order. Each card uses
+the project's generated wireframe thumbnail, title and opening description sentence.
+The complete project index starts collapsed; original project records remain the
+source of all engineering facts.
 
 Run the browser checks with `node scripts/verify-portfolio.js` and
 `node scripts/verify-projects.cjs --models`. The latter needs network access for the

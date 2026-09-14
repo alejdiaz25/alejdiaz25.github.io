@@ -56,7 +56,7 @@ async function assertHomeContent(page) {
     '#skills .skill-group li': content.skills.groups.reduce((count, group) => count + group.tags.length, 0),
     '#about .ac-slide': content.about.photos.length,
     '#projects-preview .project-index-link': projectData.projects.length,
-    '#projects-preview .work-feature': projectData.preview.featured.length,
+    '#projects-preview .work-card': projectData.preview.thumbs.length,
   };
   for (const [selector, count] of Object.entries(expectedCounts)) {
     assert.equal(await page.$$eval(selector, nodes => nodes.length), count, `Preserved content count: ${selector}`);
@@ -85,6 +85,23 @@ async function assertHomeContent(page) {
   const links = await page.$$eval('#projects-preview a[href]', nodes => nodes.map(node => node.getAttribute('href')));
   assert.ok(links.some(href => href.startsWith('projects.html')), 'Selected work links to project case studies');
   for (const project of projectData.projects) assert.ok(links.some(href => new URL(href, page.url()).searchParams.get('project') === project.id), `Homepage project deep link preserved: ${project.id}`);
+  assert.equal(await page.$eval('.work-index', node => node.open), false, 'Project index starts collapsed');
+  await page.click('.work-index summary');
+  assert.equal(await page.$eval('.work-index', node => node.open), true, 'Project index expands');
+  await page.focus('.work-index summary');
+  await page.keyboard.press('Enter');
+  assert.equal(await page.$eval('.work-index', node => node.open), false, 'Project index collapses with keyboard');
+  const cards = await page.$$eval('.work-card', nodes => nodes.map(node => ({ title: node.querySelector('h3').textContent, caption: node.querySelector('.work-card-caption').textContent, image: node.querySelector('img').src })));
+  for (const card of cards) {
+    const project = projectData.projects.find(project => project.title === card.title);
+    assert.ok(project && project.description.startsWith(card.caption), 'Carousel caption is grounded in project data');
+    assert.ok(card.image.includes('wireframe-'), 'Carousel uses generated model thumbnails');
+  }
+  await page.click('#work-next');
+  await page.waitForFunction(() => document.getElementById('work-track').scrollLeft > 100);
+  await page.focus('#work-track');
+  await page.keyboard.press('Home');
+  await page.waitForFunction(() => document.getElementById('work-track').scrollLeft < 2);
   await page.click('.ac-next');
   assert.equal(await page.$eval('.ac-count', node => node.textContent.trim()), `02 / ${String(content.about.photos.length).padStart(2, '0')}`, 'About carousel advances');
   await page.focus('.about-carousel');

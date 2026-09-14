@@ -2,8 +2,6 @@
 @media (prefers-reduced-motion: no-preference) {
   .reveal-ready { opacity: 0; transform: translateY(18px); transition: opacity .65s var(--ease-expo), transform .65s var(--ease-expo); }
   .reveal-ready.visible { opacity: 1; transform: none; }
-  .feature-link:hover img { transform: scale(1.025); }
-  .feature-link img { transition: transform .7s var(--ease-expo); }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }

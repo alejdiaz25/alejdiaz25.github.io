@@ -28,22 +28,54 @@
     </a>`;
   }
   function renderWork(data) {
-    const features = (data.preview.featured || []).map((feature, index) => {
-      const project = data.projects.find(project => project.id === feature.id);
+    const cards = data.preview.thumbs.map(thumb => {
+      const project = data.projects.find(project => project.id === thumb.id);
       if (!project) return '';
       const projectNumber = number(data.projects.indexOf(project) + 1);
       const intro = project.description.match(/^.*?[.!?](?:\s|$)/)?.[0] || project.description;
-      const role = project.specs.find(spec => spec.key === 'Role');
-      return `<article class="work-feature feature-${index + 1}" data-reveal>
-        <a class="feature-link" href="${projectURL(project.id)}">
-          <div class="feature-heading"><p class="meta feature-number">Project ${projectNumber} / ${number(data.projects.length)}</p><h3>${esc(project.title)}</h3><span class="feature-arrow" aria-hidden="true">↗</span></div>
-          <figure class="feature-media">${photo(feature.image || project.preview, feature.alt || project.title, index === 0 ? '100vw' : '(max-width: 767px) 100vw, 65vw')}</figure>
-          <div class="feature-details"><div class="feature-meta meta"><p>${esc(project.org)}</p><p>${esc(project.subtitle)}</p>${role ? `<p>${esc(role.val)}</p>` : ''}</div><div class="feature-copy"><p>${esc(intro)}</p><span class="text-link">Explore project ${arrow}</span></div></div>
-        </a>
-      </article>`;
+      return `<li class="work-card"><a href="${projectURL(project.id)}">
+        <figure class="work-card-media">${photo(project.wireframeThumbnail || thumb.img, thumb.alt, '(max-width: 767px) 85vw, 44vw')}</figure>
+        <div class="work-card-body"><p class="meta work-card-meta">${projectNumber} / ${esc(project.org)}</p>
+          <div class="work-card-heading"><h3>${esc(project.title)}</h3>${arrow}</div>
+          <p class="work-card-caption">${esc(intro.trim())}</p>
+        </div></a></li>`;
     }).join('');
     const index = data.projects.map((project, i) => `<li><a class="project-index-link" href="${projectURL(project.id)}"><span class="meta">${number(i + 1)}</span><span class="index-title">${esc(project.title)}</span><span class="index-org meta">${esc(project.org)}</span>${arrow}</a></li>`).join('');
-    document.getElementById('projects-preview-content').innerHTML = `${sectionHead('work-heading', data.preview.eyebrow, 'Engineering<br>in practice.')}<div class="work-features">${features}</div><div class="work-index" data-reveal><div class="index-heading"><h3>Project index</h3><a class="text-link" href="${esc(data.preview.link.href)}">All ${data.projects.length} projects ${arrow}</a></div><ol>${index}</ol></div>`;
+    document.getElementById('projects-preview-content').innerHTML = `${sectionHead('work-heading', data.preview.eyebrow, 'Engineering<br>in practice.')}
+      <div class="work-carousel" role="region" aria-label="Engineering projects carousel">
+        <ul class="work-track" id="work-track" tabindex="0" aria-label="Browse projects. Use left and right arrow keys.">${cards}</ul>
+        <div class="work-carousel-controls"><a class="text-link" href="${esc(data.preview.link.href)}">Explore all ${data.projects.length} projects ${arrow}</a><div class="work-arrows"><span class="meta" id="work-position" aria-live="polite"></span><button class="control-button" id="work-prev" type="button" aria-label="Previous projects">←</button><button class="control-button" id="work-next" type="button" aria-label="Next projects">→</button></div></div>
+      </div>
+      <details class="work-index"><summary class="index-heading"><h3>Project index</h3><span class="meta">${number(data.projects.length)} projects <span class="index-toggle" aria-hidden="true">+</span></span></summary><ol>${index}</ol></details>`;
+    initWorkCarousel();
+  }
+  function initWorkCarousel() {
+    const track = document.getElementById('work-track');
+    const cards = [...track.children];
+    const prev = document.getElementById('work-prev');
+    const next = document.getElementById('work-next');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    const step = () => cards[1] ? cards[1].offsetLeft - cards[0].offsetLeft : track.clientWidth;
+    const moveTo = left => track.scrollTo({ left, behavior: reduced.matches ? 'instant' : 'smooth' });
+    function update() {
+      const max = track.scrollWidth - track.clientWidth;
+      prev.disabled = track.scrollLeft < 2;
+      next.disabled = track.scrollLeft >= max - 2;
+      const first = Math.round(track.scrollLeft / step()) + 1;
+      document.getElementById('work-position').textContent = number(first) + ' / ' + number(cards.length);
+    }
+    prev.addEventListener('click', () => moveTo(track.scrollLeft - step()));
+    next.addEventListener('click', () => moveTo(track.scrollLeft + step()));
+    track.addEventListener('keydown', event => {
+      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      if (event.key === 'Home') moveTo(0);
+      else if (event.key === 'End') moveTo(track.scrollWidth);
+      else moveTo(track.scrollLeft + (event.key === 'ArrowLeft' ? -step() : step()));
+    });
+    track.addEventListener('scroll', update, { passive: true });
+    new ResizeObserver(update).observe(track);
+    update();
   }
   function renderExperience(data) {
     function records(items) {
