@@ -10,6 +10,22 @@
   let width = 0, height = 0, frame = 0, last = 0, time = 0;
   let visible = false, paused = false;
   let targetX = 0, targetY = 0, pointerX = 0, pointerY = 0;
+  let nextPush = .6;
+  let pushes = [];
+
+  function updatePushes() {
+    pushes = pushes.filter(push => time - push.start < push.duration);
+    if (time < nextPush) return;
+    pushes.push({
+      x: (Math.random() - .5) * 25,
+      z: 3 + Math.random() * 16,
+      start: time,
+      duration: 7 + Math.random() * 4,
+      strength: .65 + Math.random() * .65,
+      speed: .9 + Math.random() * .6,
+    });
+    nextPush = time + 2.8 + Math.random() * 2.4;
+  }
 
   // A regular X/Z grid becomes a flowing heightfield, projected through a
   // perspective camera. Near points spread out; distant rows form fine ridges.
@@ -19,19 +35,28 @@
     const columns = mobile ? 92 : 160;
     const rows = mobile ? 66 : 96;
     const focal = width * (mobile ? 2.2 : .85);
-    const pitch = .43 + pointerY * .045;
+    const pitch = .62 + pointerY * .045;
     const sin = Math.sin(pitch), cos = Math.cos(pitch);
     for (let row = rows; row >= 0; row--) {
       const z = row / rows * 22;
       for (let col = 0; col <= columns; col++) {
         const x = (col / columns - .5) * 34;
-        const y = Math.sin(x * .30 + z * .25 + time * .22) * 1.45
+        let y = Math.sin(x * .30 + z * .25 + time * .22) * 1.45
           + Math.cos(z * .43 - x * .16 - time * .16) * 1.15
           + Math.sin(x * .55 + z * .15 + time * .12) * .32;
+        // Broad, irregular pushes travel across the surface and fade smoothly.
+        for (const push of pushes) {
+          const age = time - push.start;
+          const distance = Math.hypot(x - push.x, z - push.z);
+          const ring = distance - age * push.speed;
+          const envelope = Math.sin(Math.PI * age / push.duration) ** 2;
+          y += push.strength * envelope * Math.exp(-ring * ring / 10)
+            * Math.cos(ring * .65);
+        }
         const depth = z * cos + y * sin + 10;
         const scale = focal / depth;
         const sx = width * .54 + (x + pointerX * .75) * scale;
-        const sy = height * .65 + ((2.2 - y) * cos - z * sin) * scale;
+        const sy = height * .75 + ((3.4 - y) * cos - z * sin) * scale;
         if (sx < 0 || sx > width || sy < 0 || sy > height) continue;
         const edge = Math.min(1, sx / 90, (width - sx) / 90, sy / 70, (height - sy) / 100);
         const alpha = (.45 + (1 - row / rows) * .45) * edge;
@@ -51,6 +76,7 @@
     const delta = last ? Math.min((now - last) / 1000, .06) : 0;
     last = now;
     time += delta;
+    updatePushes();
     pointerX += (targetX - pointerX) * .045;
     pointerY += (targetY - pointerY) * .045;
     draw();
