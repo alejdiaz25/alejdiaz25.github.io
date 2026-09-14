@@ -43,12 +43,12 @@
 
 /* Model thumbnails: a native, touch-friendly horizontal project carousel. */
 .work-section { padding-bottom: 90px; }
-.work-section .section-title { font-size: clamp(4rem,9.8vw,13rem); }
+.work-section .section-title { font-size: clamp(2rem,8.4vw,11rem); white-space: nowrap; }
 .work-carousel { margin-inline: calc(-1 * var(--gutter)); }
 .work-track { position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: 44%; gap: 28px; list-style: none; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); padding: 8px var(--gutter) 24px; scrollbar-width: thin; scrollbar-color: var(--rule) var(--bg); }
-.work-card { min-width: 0; scroll-snap-align: start; background: #303437; }
+.work-card { min-width: 0; scroll-snap-align: start; background: var(--bg); }
 .work-card > a { display: block; height: 100%; }
-.work-card-media { aspect-ratio: 4 / 3; overflow: hidden; background: #303437; }
+.work-card-media { aspect-ratio: 4 / 3; overflow: hidden; background: var(--bg); }
 .work-card-media img { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: lighten; filter: brightness(1.65); transition: transform .5s var(--ease-expo); }
 .work-card a:hover img { transform: scale(1.025); }
 .work-card-body { padding: 26px clamp(20px,2vw,32px) 32px; }
@@ -170,7 +170,7 @@ a.contact-link:hover { color: var(--accent); }
   .section { padding-top: 80px; padding-bottom: 80px; }
   .section-label { margin-bottom: 24px; }
   .section-title { font-size: clamp(2.8rem,11vw,5rem); letter-spacing: -.055em; }
-  .work-section .section-title { font-size: 14vw; }
+  .work-section .section-title { font-size: 8.4vw; }
   .section-heading { margin-bottom: 50px; }
   .work-track { grid-auto-columns: 86%; gap: 18px; padding-bottom: 18px; }
   .work-card-media { aspect-ratio: 1; }

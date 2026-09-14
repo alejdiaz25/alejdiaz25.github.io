@@ -33,7 +33,7 @@
         </div></a></li>`;
     }).join('');
     const index = data.projects.map((project, i) => `<li><a class="project-index-link" href="${projectURL(project.id)}"><span class="meta">${number(i + 1)}</span><span class="index-title">${esc(project.title)}</span><span class="index-org meta">${esc(project.org)}</span>${arrow}</a></li>`).join('');
-    document.getElementById('projects-preview-content').innerHTML = `${sectionHead('work-heading', data.preview.eyebrow, 'Engineering<br>in practice.')}
+    document.getElementById('projects-preview-content').innerHTML = `${sectionHead('work-heading', data.preview.eyebrow, 'Engineering Projects')}
       <div class="work-carousel" role="region" aria-label="Engineering projects carousel">
         <ul class="work-track" id="work-track" tabindex="0" aria-label="Browse projects. Use left and right arrow keys.">${cards}</ul>
         <div class="work-carousel-controls"><a class="text-link" href="${esc(data.preview.link.href)}">Explore all ${data.projects.length} projects ${arrow}</a><div class="work-arrows"><span class="meta" id="work-position" aria-live="polite"></span><button class="control-button" id="work-prev" type="button" aria-label="Previous projects">←</button><button class="control-button" id="work-next" type="button" aria-label="Next projects">→</button></div></div>
@@ -57,7 +57,7 @@
     let inView = false;
     let hovered = false;
     let paused = false;
-    const delay = 7000;
+    const delay = 4000;
     function schedule() {
       clearTimeout(timer);
       autoplay.disabled = reduced.matches;
