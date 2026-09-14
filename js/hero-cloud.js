@@ -46,14 +46,22 @@
     if (!previous) { gesture.wakePoint = point; return; }
     const dx = point.x - previous.x, dz = point.z - previous.z;
     const distance = Math.hypot(dx, dz);
-    if (distance < .35) return;
+    if (distance < .8) return;
     // Sample the actual path, never the easing tail or elapsed hold time.
-    const steps = Math.min(16, Math.ceil(distance / .45));
-    for (let i = 1; i <= steps && wake.length < 64; i++) {
+    const steps = Math.min(16, Math.ceil(distance / .8));
+    for (let i = 1; i <= steps && wake.length < 32; i++) {
       wake.push({ x: previous.x + dx * i / steps, z: previous.z + dz * i / steps,
-        dx: dx / distance, dz: dz / distance, start: time });
+        strength: .24, start: time });
     }
     gesture.wakePoint = point;
+  }
+
+  // Clicks and the moving wake share the same outward-propagating wave.
+  function waveHeight(wave, x, z) {
+    const age = time - wave.start;
+    const front = Math.hypot(x - wave.x, z - wave.z) - age * 4.2;
+    const fade = Math.min(1, age / .16) * (1 - age / 4.5) * Math.exp(-age * .3);
+    return wave.strength * fade * Math.exp(-front * front / 3) * Math.cos(front * 2);
   }
 
   function releasePull(emit = false) {
@@ -107,28 +115,12 @@
           y += push.strength * envelope * Math.exp(-ring * ring / 10)
             * Math.cos(ring * .65);
         }
-        for (const ripple of ripples) {
-          const age = time - ripple.start;
-          const distance = Math.hypot(x - ripple.x, z - ripple.z);
-          const front = distance - age * 4.2;
-          const fade = Math.min(1, age / .16) * (1 - age / 4.5) * Math.exp(-age * .3);
-          y += ripple.strength * fade * Math.exp(-front * front / 3)
-            * Math.cos(front * 2);
-        }
-        // A low, directional ridge follows the dragged path and relaxes outward.
-        // It is a continuous wake, not a train of expanding circular impulses.
+        for (const ripple of ripples) y += waveHeight(ripple, x, z);
+        // Overlapping waves trail behind the moving contact. Limit their combined
+        // height smoothly without changing the click wave's speed or shape.
         let wakeHeight = 0;
-        for (const sample of wake) {
-          const age = time - sample.start;
-          const dx = x - sample.x, dz = z - sample.z;
-          const along = dx * sample.dx + dz * sample.dz;
-          const across = dx * sample.dz - dz * sample.dx;
-          const spread = .65 + age * .45;
-          const envelope = Math.min(1, age / .12) * (1 - age / 2.8) ** 2;
-          wakeHeight += .12 * envelope * Math.exp(-along * along / .9 - across * across / (spread * spread))
-            * Math.cos(across * 2.8 / spread);
-        }
-        y += .28 * Math.tanh(wakeHeight / .28);
+        for (const sample of wake) wakeHeight += waveHeight(sample, x, z);
+        y += .5 * Math.tanh(wakeHeight / .5);
         // Turn 10 degrees clockwise as viewed from above, around the field's
         // vertical axis. In this renderer y is height and z is ground depth.
         const rotatedX = x * yawCos + (z - 11) * yawSin;
@@ -143,7 +135,7 @@
         const distance2 = ((sx - pull.anchorX) ** 2 + (sy - pull.anchorY) ** 2) / (reach * reach);
         const influence = Math.exp(-distance2 * 1.5);
         sx += pull.x * influence * .04;
-        sy += pull.y * influence * .12;
+        sy += pull.y * influence * .04;
         if (sx < 0 || sx > width || sy < 0 || sy > height) continue;
         const edge = Math.min(1, sx / 90, (width - sx) / 90, sy / 70, (height - sy) / 100);
         const alpha = (.45 + (1 - row / rows) * .45) * edge;
@@ -165,7 +157,7 @@
     last = now;
     time += delta;
     ripples = ripples.filter(ripple => time - ripple.start < 4.5);
-    wake = wake.filter(sample => time - sample.start < 2.8);
+    wake = wake.filter(sample => time - sample.start < 4.5);
     updatePushes();
     const ease = 1 - Math.exp(-delta * 10);
     const parallaxEase = 1 - Math.exp(-delta * 1.4);
