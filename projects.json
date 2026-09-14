@@ -1,5 +1,11 @@
 {
   "preview": {
+    "heroProjectId": "front-unsprung",
+    "featured": [
+      { "id": "front-unsprung", "image": "images/lhr-2024 exploded.jpg", "alt": "Exploded CAD view of the Longhorn Racing Electric front unsprung assembly" },
+      { "id": "rcs-3dof", "image": "images/rcs-1000a structures.jpg", "alt": "Reaction control system test rig structure during assembly" },
+      { "id": "frc-2023-robot", "image": "images/val-2023 moving.jpg", "alt": "Valor's 2023 competition robot operating on the field" }
+    ],
     "eyebrow": "Selected work",
     "title": "Engineering Projects",
     "link": {

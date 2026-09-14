@@ -1,5 +1,5 @@
 /* ──────────────────────────────────────────────────────────
-   viewer.js — Shared Three.js GLB viewer (Sentinel 001 style)
+   viewer.js — Shared Three.js GLB viewer
    Exposes window.ModelViewer as a classic-script IIFE.
    Handles Draco-compressed models via DRACOLoader.
 ────────────────────────────────────────────────────────── */
@@ -22,6 +22,10 @@
   var _fitDistance = 1.2; /* updated per model on load */
   var _loadSeq = 0; /* generation counter — guards against overlapping load() calls */
   var _lastFrameTime = null;
+  var _initPromise = null;
+  var _visible = false;
+  var _inViewport = true;
+  var _reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   var SPIN_RATE = 0.09; /* radians/sec — frame-rate independent auto-spin speed */
 
   async function importDeps() {
@@ -43,6 +47,8 @@
     _resetBtn = document.createElement('button');
     _resetBtn.className = 'viewer-reset-btn';
     _resetBtn.title = 'Reset view';
+    _resetBtn.type = 'button';
+    _resetBtn.setAttribute('aria-label', 'Reset model view');
     _resetBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M3 12L12 3l9 9"/><path d="M5 10v10h14V10"/></svg>';
     _resetBtn.addEventListener('click', resetView);
     _canvas.parentElement.appendChild(_resetBtn);
@@ -63,10 +69,10 @@
     var startPos = { x: camera.position.x, y: camera.position.y, z: camera.position.z };
     var startTarget = { x: controls.target.x, y: controls.target.y, z: controls.target.z };
     var startTime = performance.now();
-    var duration = 400;
+    var duration = _reducedMotion.matches ? 0 : 400;
 
     function tick(now) {
-      var t = Math.min((now - startTime) / duration, 1);
+      var t = duration === 0 ? 1 : Math.min((now - startTime) / duration, 1);
       /* ease-out cubic */
       var e = 1 - Math.pow(1 - t, 3);
       camera.position.set(
@@ -107,6 +113,15 @@
 
   async function init(canvas) {
     if (renderer) return;
+    if (_initPromise) return _initPromise;
+    _initPromise = initialize(canvas).catch(function (error) {
+      _initPromise = null;
+      throw error;
+    });
+    return _initPromise;
+  }
+
+  async function initialize(canvas) {
     _canvas = canvas;
     await importDeps();
 
@@ -133,7 +148,12 @@
     scene.add(dir);
 
     resize();
-    animate();
+    document.addEventListener('visibilitychange', syncAnimation);
+    new IntersectionObserver(function (entries) {
+      _inViewport = entries[0].isIntersecting;
+      syncAnimation();
+    }).observe(_canvas);
+    syncAnimation();
   }
 
   function resize() {
@@ -147,15 +167,29 @@
   }
 
   function animate(now) {
+    rafId = null;
+    if (!_visible || !_inViewport || document.hidden) return;
     rafId = requestAnimationFrame(animate);
     if (typeof now !== 'number') now = performance.now();
     if (_lastFrameTime === null) _lastFrameTime = now;
     /* Clamp dt so a backgrounded/throttled tab doesn't jump the model on return */
     var dt = Math.min((now - _lastFrameTime) / 1000, 0.1);
     _lastFrameTime = now;
-    if (modelGroup && _autoSpin) modelGroup.rotation.y += SPIN_RATE * dt;
+    if (modelGroup && _autoSpin && !_reducedMotion.matches) modelGroup.rotation.y += SPIN_RATE * dt;
     if (controls) controls.update();
     if (renderer && scene && camera) renderer.render(scene, camera);
+  }
+
+  function syncAnimation() {
+    if (_visible && _inViewport && !document.hidden) {
+      if (!rafId) {
+        _lastFrameTime = null;
+        rafId = requestAnimationFrame(animate);
+      }
+    } else if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
   }
 
   function disposeModel() {
@@ -217,18 +251,6 @@
 
           var group = new THREE.Group();
           var root = gltf.scene;
-
-          /* Sentinel 001: dark solid + white wireframe edges */
-          var baseMat = new THREE.MeshStandardMaterial({
-            color: 0x111111,
-            metalness: 0.4,
-            roughness: 0.6,
-          });
-          var edgeMat = new THREE.LineBasicMaterial({
-            color: 0xffffff,
-            opacity: 0.55,
-            transparent: true,
-          });
 
           /* Strip loose/outlier geometry: remove meshes whose bounding
              sphere center is far from the overall model center relative
@@ -360,6 +382,7 @@
   }
 
   function setVisible(visible) {
+    _visible = visible;
     if (!_canvas) return;
     if (visible) {
       _canvas.style.visibility = 'visible';
@@ -370,6 +393,8 @@
       _canvas.style.pointerEvents = 'none';
       if (controls) controls.enabled = false;
     }
+    if (_resetBtn) _resetBtn.hidden = !visible;
+    syncAnimation();
   }
 
   window.ModelViewer = {

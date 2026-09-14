@@ -1,0 +1,302 @@
+{
+  "images/aboutme-1.JPG": {
+    "src": "images/optimized/aboutme-1-1280.webp",
+    "srcset": "images/optimized/aboutme-1-640.webp 640w, images/optimized/aboutme-1-1280.webp 1280w, images/optimized/aboutme-1-1920.webp 1920w",
+    "width": 4608,
+    "height": 3456
+  },
+  "images/aboutme-2.JPG": {
+    "src": "images/optimized/aboutme-2-1280.webp",
+    "srcset": "images/optimized/aboutme-2-640.webp 640w, images/optimized/aboutme-2-1280.webp 1280w, images/optimized/aboutme-2-1440.webp 1440w",
+    "width": 1440,
+    "height": 960
+  },
+  "images/aboutme-3.JPG": {
+    "src": "images/optimized/aboutme-3-1280.webp",
+    "srcset": "images/optimized/aboutme-3-640.webp 640w, images/optimized/aboutme-3-1280.webp 1280w, images/optimized/aboutme-3-1920.webp 1920w",
+    "width": 2530,
+    "height": 3162
+  },
+  "images/agw-0000 full cad.png": {
+    "src": "images/optimized/agw-0000-full-cad-889.webp",
+    "srcset": "images/optimized/agw-0000-full-cad-640.webp 640w, images/optimized/agw-0000-full-cad-889.webp 889w",
+    "width": 889,
+    "height": 740
+  },
+  "images/agw-0000 spliceview.png": {
+    "src": "images/optimized/agw-0000-spliceview-1076.webp",
+    "srcset": "images/optimized/agw-0000-spliceview-640.webp 640w, images/optimized/agw-0000-spliceview-1076.webp 1076w",
+    "width": 1076,
+    "height": 695
+  },
+  "images/cvr-0000 faceshield.png": {
+    "src": "images/optimized/cvr-0000-faceshield-1280.webp",
+    "srcset": "images/optimized/cvr-0000-faceshield-640.webp 640w, images/optimized/cvr-0000-faceshield-1280.webp 1280w, images/optimized/cvr-0000-faceshield-1920.webp 1920w",
+    "width": 2360,
+    "height": 1338
+  },
+  "images/cvr-0000 foldable.png": {
+    "src": "images/optimized/cvr-0000-foldable-1280.webp",
+    "srcset": "images/optimized/cvr-0000-foldable-640.webp 640w, images/optimized/cvr-0000-foldable-1280.webp 1280w, images/optimized/cvr-0000-foldable-1920.webp 1920w",
+    "width": 2398,
+    "height": 1126
+  },
+  "images/headshot.jpg": {
+    "src": "images/optimized/headshot-428.webp",
+    "srcset": "images/optimized/headshot-428.webp 428w",
+    "width": 428,
+    "height": 600
+  },
+  "images/lhr-2023 asm.jpg": {
+    "src": "images/optimized/lhr-2023-asm-828.webp",
+    "srcset": "images/optimized/lhr-2023-asm-640.webp 640w, images/optimized/lhr-2023-asm-828.webp 828w",
+    "width": 828,
+    "height": 1021
+  },
+  "images/lhr-2023 FEAfirst.png": {
+    "src": "images/optimized/lhr-2023-feafirst-914.webp",
+    "srcset": "images/optimized/lhr-2023-feafirst-640.webp 640w, images/optimized/lhr-2023-feafirst-914.webp 914w",
+    "width": 914,
+    "height": 1108
+  },
+  "images/lhr-2023 wheelasm.png": {
+    "src": "images/optimized/lhr-2023-wheelasm-1280.webp",
+    "srcset": "images/optimized/lhr-2023-wheelasm-640.webp 640w, images/optimized/lhr-2023-wheelasm-1280.webp 1280w, images/optimized/lhr-2023-wheelasm-1920.webp 1920w",
+    "width": 4928,
+    "height": 3264
+  },
+  "images/lhr-2024 exploded.jpg": {
+    "src": "images/optimized/lhr-2024-exploded-1280.webp",
+    "srcset": "images/optimized/lhr-2024-exploded-640.webp 640w, images/optimized/lhr-2024-exploded-1280.webp 1280w, images/optimized/lhr-2024-exploded-1920.webp 1920w",
+    "width": 2560,
+    "height": 1440
+  },
+  "images/lhr-2024 FEAsecond.png": {
+    "src": "images/optimized/lhr-2024-feasecond-555.webp",
+    "srcset": "images/optimized/lhr-2024-feasecond-555.webp 555w",
+    "width": 555,
+    "height": 585
+  },
+  "images/lhr-2024 machining.jpg": {
+    "src": "images/optimized/lhr-2024-machining-1280.webp",
+    "srcset": "images/optimized/lhr-2024-machining-640.webp 640w, images/optimized/lhr-2024-machining-1280.webp 1280w, images/optimized/lhr-2024-machining-1920.webp 1920w",
+    "width": 4284,
+    "height": 5712
+  },
+  "images/lhr-2024 uprightreal.png": {
+    "src": "images/optimized/lhr-2024-uprightreal-1280.webp",
+    "srcset": "images/optimized/lhr-2024-uprightreal-640.webp 640w, images/optimized/lhr-2024-uprightreal-1280.webp 1280w, images/optimized/lhr-2024-uprightreal-1920.webp 1920w",
+    "width": 3024,
+    "height": 4032
+  },
+  "images/rcs-1000a electronics.jpg": {
+    "src": "images/optimized/rcs-1000a-electronics-768.webp",
+    "srcset": "images/optimized/rcs-1000a-electronics-640.webp 640w, images/optimized/rcs-1000a-electronics-768.webp 768w",
+    "width": 768,
+    "height": 1024
+  },
+  "images/rcs-1000a onshape.png": {
+    "src": "images/optimized/rcs-1000a-onshape-1280.webp",
+    "srcset": "images/optimized/rcs-1000a-onshape-640.webp 640w, images/optimized/rcs-1000a-onshape-1280.webp 1280w, images/optimized/rcs-1000a-onshape-1284.webp 1284w",
+    "width": 1284,
+    "height": 1272
+  },
+  "images/rcs-1000a prints.jpg": {
+    "src": "images/optimized/rcs-1000a-prints-1280.webp",
+    "srcset": "images/optimized/rcs-1000a-prints-640.webp 640w, images/optimized/rcs-1000a-prints-1280.webp 1280w, images/optimized/rcs-1000a-prints-1920.webp 1920w",
+    "width": 4032,
+    "height": 3024
+  },
+  "images/rcs-1000a structures.jpg": {
+    "src": "images/optimized/rcs-1000a-structures-1280.webp",
+    "srcset": "images/optimized/rcs-1000a-structures-640.webp 640w, images/optimized/rcs-1000a-structures-1280.webp 1280w, images/optimized/rcs-1000a-structures-1920.webp 1920w",
+    "width": 3024,
+    "height": 4032
+  },
+  "images/rg3 full build.png": {
+    "src": "images/optimized/rg3-full-build-1280.webp",
+    "srcset": "images/optimized/rg3-full-build-640.webp 640w, images/optimized/rg3-full-build-1280.webp 1280w, images/optimized/rg3-full-build-1920.webp 1920w",
+    "width": 4032,
+    "height": 3024
+  },
+  "images/rg3 race day.JPG": {
+    "src": "images/optimized/rg3-race-day-1179.webp",
+    "srcset": "images/optimized/rg3-race-day-640.webp 640w, images/optimized/rg3-race-day-1179.webp 1179w",
+    "width": 1179,
+    "height": 1424
+  },
+  "images/rg3 steering.png": {
+    "src": "images/optimized/rg3-steering-978.webp",
+    "srcset": "images/optimized/rg3-steering-640.webp 640w, images/optimized/rg3-steering-978.webp 978w",
+    "width": 978,
+    "height": 596
+  },
+  "images/rg3-0000 full cad.png": {
+    "src": "images/optimized/rg3-0000-full-cad-1196.webp",
+    "srcset": "images/optimized/rg3-0000-full-cad-640.webp 640w, images/optimized/rg3-0000-full-cad-1196.webp 1196w",
+    "width": 1196,
+    "height": 681
+  },
+  "images/val-2021 high rate cad.png": {
+    "src": "images/optimized/val-2021-high-rate-cad-1280.webp",
+    "srcset": "images/optimized/val-2021-high-rate-cad-640.webp 640w, images/optimized/val-2021-high-rate-cad-1280.webp 1280w, images/optimized/val-2021-high-rate-cad-1780.webp 1780w",
+    "width": 1780,
+    "height": 1294
+  },
+  "images/val-2021 high rate feed cad.png": {
+    "src": "images/optimized/val-2021-high-rate-feed-cad-1280.webp",
+    "srcset": "images/optimized/val-2021-high-rate-feed-cad-640.webp 640w, images/optimized/val-2021-high-rate-feed-cad-1280.webp 1280w, images/optimized/val-2021-high-rate-feed-cad-1906.webp 1906w",
+    "width": 1906,
+    "height": 1294
+  },
+  "images/val-2021 indexer.png": {
+    "src": "images/optimized/val-2021-indexer-1280.webp",
+    "srcset": "images/optimized/val-2021-indexer-640.webp 640w, images/optimized/val-2021-indexer-1280.webp 1280w, images/optimized/val-2021-indexer-1920.webp 1920w",
+    "width": 1924,
+    "height": 1202
+  },
+  "images/val-2021 indexerdrum.png": {
+    "src": "images/optimized/val-2021-indexerdrum-1280.webp",
+    "srcset": "images/optimized/val-2021-indexerdrum-640.webp 640w, images/optimized/val-2021-indexerdrum-1280.webp 1280w, images/optimized/val-2021-indexerdrum-1920.webp 1920w",
+    "width": 2108,
+    "height": 1294
+  },
+  "images/val-2021 indexergb.png": {
+    "src": "images/optimized/val-2021-indexergb-1280.webp",
+    "srcset": "images/optimized/val-2021-indexergb-640.webp 640w, images/optimized/val-2021-indexergb-1280.webp 1280w, images/optimized/val-2021-indexergb-1920.webp 1920w",
+    "width": 2108,
+    "height": 1294
+  },
+  "images/val-2022 climb.png": {
+    "src": "images/optimized/val-2022-climb-908.webp",
+    "srcset": "images/optimized/val-2022-climb-640.webp 640w, images/optimized/val-2022-climb-908.webp 908w",
+    "width": 908,
+    "height": 1084
+  },
+  "images/val-2022 high rate indexersys cad.png": {
+    "src": "images/optimized/val-2022-high-rate-indexersys-cad-1280.webp",
+    "srcset": "images/optimized/val-2022-high-rate-indexersys-cad-640.webp 640w, images/optimized/val-2022-high-rate-indexersys-cad-1280.webp 1280w, images/optimized/val-2022-high-rate-indexersys-cad-1920.webp 1920w",
+    "width": 2108,
+    "height": 1294
+  },
+  "images/val-2022-full cad.png": {
+    "src": "images/optimized/val-2022-full-cad-1199.webp",
+    "srcset": "images/optimized/val-2022-full-cad-640.webp 640w, images/optimized/val-2022-full-cad-1199.webp 1199w",
+    "width": 1199,
+    "height": 1600
+  },
+  "images/val-2023 arm.png": {
+    "src": "images/optimized/val-2023-arm-1280.webp",
+    "srcset": "images/optimized/val-2023-arm-640.webp 640w, images/optimized/val-2023-arm-1280.webp 1280w, images/optimized/val-2023-arm-1920.webp 1920w",
+    "width": 3024,
+    "height": 4032
+  },
+  "images/val-2023 armelevcad.png": {
+    "src": "images/optimized/val-2023-armelevcad-960.webp",
+    "srcset": "images/optimized/val-2023-armelevcad-640.webp 640w, images/optimized/val-2023-armelevcad-960.webp 960w",
+    "width": 960,
+    "height": 1338
+  },
+  "images/val-2023 armextension.jpg": {
+    "src": "images/optimized/val-2023-armextension-828.webp",
+    "srcset": "images/optimized/val-2023-armextension-640.webp 640w, images/optimized/val-2023-armextension-828.webp 828w",
+    "width": 828,
+    "height": 810
+  },
+  "images/val-2023 conehold.jpg": {
+    "src": "images/optimized/val-2023-conehold-828.webp",
+    "srcset": "images/optimized/val-2023-conehold-640.webp 640w, images/optimized/val-2023-conehold-828.webp 828w",
+    "width": 828,
+    "height": 826
+  },
+  "images/val-2023 elevcad.png": {
+    "src": "images/optimized/val-2023-elevcad-1280.webp",
+    "srcset": "images/optimized/val-2023-elevcad-640.webp 640w, images/optimized/val-2023-elevcad-1280.webp 1280w, images/optimized/val-2023-elevcad-1314.webp 1314w",
+    "width": 1314,
+    "height": 1338
+  },
+  "images/val-2023 full cad.png": {
+    "src": "images/optimized/val-2023-full-cad-1199.webp",
+    "srcset": "images/optimized/val-2023-full-cad-640.webp 640w, images/optimized/val-2023-full-cad-1199.webp 1199w",
+    "width": 1199,
+    "height": 1600
+  },
+  "images/val-2023 moving.jpg": {
+    "src": "images/optimized/val-2023-moving-853.webp",
+    "srcset": "images/optimized/val-2023-moving-640.webp 640w, images/optimized/val-2023-moving-853.webp 853w",
+    "width": 853,
+    "height": 568
+  },
+  "images/valor-2021 indexerbottom.png": {
+    "src": "images/optimized/valor-2021-indexerbottom-1280.webp",
+    "srcset": "images/optimized/valor-2021-indexerbottom-640.webp 640w, images/optimized/valor-2021-indexerbottom-1280.webp 1280w, images/optimized/valor-2021-indexerbottom-1920.webp 1920w",
+    "width": 2158,
+    "height": 1254
+  },
+  "images/wireframe-face-shield.webp": {
+    "src": "images/optimized/wireframe-face-shield-1280.webp",
+    "srcset": "images/optimized/wireframe-face-shield-640.webp 640w, images/optimized/wireframe-face-shield-1280.webp 1280w, images/optimized/wireframe-face-shield-1920.webp 1920w",
+    "width": 5120,
+    "height": 2880
+  },
+  "images/wireframe-frc-2021-feeder.webp": {
+    "src": "images/optimized/wireframe-frc-2021-feeder-1280.webp",
+    "srcset": "images/optimized/wireframe-frc-2021-feeder-640.webp 640w, images/optimized/wireframe-frc-2021-feeder-1280.webp 1280w, images/optimized/wireframe-frc-2021-feeder-1920.webp 1920w",
+    "width": 5120,
+    "height": 2880
+  },
+  "images/wireframe-frc-2021-indexer.webp": {
+    "src": "images/optimized/wireframe-frc-2021-indexer-1280.webp",
+    "srcset": "images/optimized/wireframe-frc-2021-indexer-640.webp 640w, images/optimized/wireframe-frc-2021-indexer-1280.webp 1280w, images/optimized/wireframe-frc-2021-indexer-1920.webp 1920w",
+    "width": 5120,
+    "height": 2880
+  },
+  "images/wireframe-frc-2022-robot.webp": {
+    "src": "images/optimized/wireframe-frc-2022-robot-1280.webp",
+    "srcset": "images/optimized/wireframe-frc-2022-robot-640.webp 640w, images/optimized/wireframe-frc-2022-robot-1280.webp 1280w, images/optimized/wireframe-frc-2022-robot-1920.webp 1920w",
+    "width": 5120,
+    "height": 2880
+  },
+  "images/wireframe-frc-2023-arm.webp": {
+    "src": "images/optimized/wireframe-frc-2023-arm-1280.webp",
+    "srcset": "images/optimized/wireframe-frc-2023-arm-640.webp 640w, images/optimized/wireframe-frc-2023-arm-1280.webp 1280w, images/optimized/wireframe-frc-2023-arm-1920.webp 1920w",
+    "width": 5120,
+    "height": 2880
+  },
+  "images/wireframe-frc-2023-robot.webp": {
+    "src": "images/optimized/wireframe-frc-2023-robot-1280.webp",
+    "srcset": "images/optimized/wireframe-frc-2023-robot-640.webp 640w, images/optimized/wireframe-frc-2023-robot-1280.webp 1280w, images/optimized/wireframe-frc-2023-robot-1920.webp 1920w",
+    "width": 5120,
+    "height": 2880
+  },
+  "images/wireframe-front-unsprung.webp": {
+    "src": "images/optimized/wireframe-front-unsprung-1280.webp",
+    "srcset": "images/optimized/wireframe-front-unsprung-640.webp 640w, images/optimized/wireframe-front-unsprung-1280.webp 1280w, images/optimized/wireframe-front-unsprung-1920.webp 1920w",
+    "width": 5120,
+    "height": 2880
+  },
+  "images/wireframe-rc-car.webp": {
+    "src": "images/optimized/wireframe-rc-car-1280.webp",
+    "srcset": "images/optimized/wireframe-rc-car-640.webp 640w, images/optimized/wireframe-rc-car-1280.webp 1280w, images/optimized/wireframe-rc-car-1920.webp 1920w",
+    "width": 5120,
+    "height": 2880
+  },
+  "images/wireframe-rcs-3dof.webp": {
+    "src": "images/optimized/wireframe-rcs-3dof-1280.webp",
+    "srcset": "images/optimized/wireframe-rcs-3dof-640.webp 640w, images/optimized/wireframe-rcs-3dof-1280.webp 1280w, images/optimized/wireframe-rcs-3dof-1920.webp 1920w",
+    "width": 5120,
+    "height": 2880
+  },
+  "images/wireframe-rear-upright.webp": {
+    "src": "images/optimized/wireframe-rear-upright-1280.webp",
+    "srcset": "images/optimized/wireframe-rear-upright-640.webp 640w, images/optimized/wireframe-rear-upright-1280.webp 1280w, images/optimized/wireframe-rear-upright-1920.webp 1920w",
+    "width": 5120,
+    "height": 2880
+  },
+  "images/wireframe-smokeless-firepit.webp": {
+    "src": "images/optimized/wireframe-smokeless-firepit-1280.webp",
+    "srcset": "images/optimized/wireframe-smokeless-firepit-640.webp 640w, images/optimized/wireframe-smokeless-firepit-1280.webp 1280w, images/optimized/wireframe-smokeless-firepit-1920.webp 1920w",
+    "width": 5120,
+    "height": 2880
+  }
+}

@@ -23,7 +23,8 @@ this repo, swap those out for your own assets.
 | Styles | CSS3 — variables, Grid, Flexbox |
 | Scripting | Vanilla JS (ES2020+) |
 | 3D viewer | [Three.js](https://threejs.org) (CDN, `GLTFLoader` + `DRACOLoader`) |
-| Animation | [Anime.js](https://animejs.com) (CDN) |
+| Typography | Self-hosted Instrument Sans + Azeret Mono variable WOFF2 |
+| Animation | Native CSS + IntersectionObserver, with reduced-motion support |
 | Thumbnail generation | Node script — Puppeteer (headless render) + Sharp (WebP encode) |
 
 No bundler, no npm build step for the site itself. `package.json` only holds devDependencies
@@ -31,15 +32,27 @@ for the thumbnail-generation script.
 
 ## Running locally
 
-Any static file server works:
+Start the local preview:
 
 ```bash
-npx serve .
-# or
-python3 -m http.server 8000
+node scripts/serve.js
 ```
 
 Then open `http://localhost:8000`.
+
+The homepage uses `content.json` and `projects.json`. The project experience preserves
+`projects.html?project=<id>` links and loads interactive 3D only when requested.
+`projects.json`'s additive `preview.featured` configuration selects the large homepage
+features; original project records remain the source of all engineering facts.
+
+Run the browser checks with `node scripts/verify-portfolio.js` and
+`node scripts/verify-projects.cjs --models`. The latter needs network access for the
+existing Three.js CDN. Add `--screenshots` to the portfolio check to capture visual
+review images in the ignored `.tmp/` directory.
+
+Regenerate responsive WebP derivatives with `node scripts/optimize-images.cjs` after
+adding source images. Originals are preserved; `images/manifest.json` maps them to
+responsive assets. Font provenance and SIL OFL licenses are in `assets/fonts/`.
 
 ## Contributing
 
