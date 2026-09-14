@@ -36,6 +36,8 @@
 .hero-name > span { display: block; }
 .hero-name > span:last-child { margin-top: .075em; }
 .hero-cloud { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
+#hero { touch-action: pan-y pinch-zoom; }
+#hero.cloud-dragging { cursor: grabbing; user-select: none; }
 .hero-motion { position: absolute; right: var(--gutter); bottom: 35px; z-index: 4; min-height: 44px; padding: 8px 0; border: 0; background: transparent; color: var(--muted); font: .56rem/1.4 var(--font-interface); text-transform: uppercase; }
 .hero-motion:hover { color: var(--text); }
 .hero-bottom { position: relative; z-index: 3; margin-top: auto; padding-top: 46px; display: flex; align-items: end; gap: 50px; }
