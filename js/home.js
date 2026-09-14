@@ -55,7 +55,7 @@
     document.querySelector('.work-arrows').prepend(autoplay);
     let timer;
     let inView = false;
-    let hovered = false;
+    let touching = false;
     let paused = false;
     const delay = 4000;
     function schedule() {
@@ -64,7 +64,7 @@
       autoplay.textContent = reduced.matches ? 'Auto-play off' : paused ? 'Resume' : 'Pause';
       autoplay.setAttribute('aria-label', paused ? 'Resume automatic project scrolling' : 'Pause automatic project scrolling');
       document.getElementById('work-position').setAttribute('aria-live', paused || reduced.matches ? 'polite' : 'off');
-      if (!inView || hovered || paused || reduced.matches || document.hidden || carousel.contains(document.activeElement)) return;
+      if (!inView || touching || paused || reduced.matches || document.hidden || carousel.querySelector(':focus-visible')) return;
       timer = setTimeout(() => {
         const max = track.scrollWidth - track.clientWidth;
         moveTo(track.scrollLeft >= max - 2 ? 0 : track.scrollLeft + step());
@@ -90,19 +90,17 @@
       else moveTo(track.scrollLeft + (event.key === 'ArrowLeft' ? -step() : step()));
     });
     autoplay.addEventListener('click', () => { paused = !paused; schedule(); });
-    carousel.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') { hovered = true; schedule(); } });
-    carousel.addEventListener('pointerleave', () => { hovered = false; schedule(); });
     carousel.addEventListener('focusin', schedule);
     carousel.addEventListener('focusout', () => queueMicrotask(schedule));
-    carousel.addEventListener('touchstart', () => { hovered = true; schedule(); }, { passive: true });
-    carousel.addEventListener('touchend', () => { hovered = false; schedule(); }, { passive: true });
-    carousel.addEventListener('touchcancel', () => { hovered = false; schedule(); }, { passive: true });
+    carousel.addEventListener('touchstart', () => { touching = true; schedule(); }, { passive: true });
+    carousel.addEventListener('touchend', () => { touching = false; schedule(); }, { passive: true });
+    carousel.addEventListener('touchcancel', () => { touching = false; schedule(); }, { passive: true });
     document.addEventListener('visibilitychange', schedule);
     reduced.addEventListener('change', schedule);
     new IntersectionObserver(entries => {
-      inView = entries[0].isIntersecting && entries[0].intersectionRatio >= .35;
+      inView = entries[0].isIntersecting && entries[0].intersectionRect.height > 0;
       schedule();
-    }, { threshold: [0, .35] }).observe(track);
+    }, { threshold: [0, .001], rootMargin: `-${document.getElementById('site-nav').offsetHeight}px 0px 0px 0px` }).observe(track);
     track.addEventListener('scroll', () => { update(); schedule(); }, { passive: true });
     new ResizeObserver(update).observe(track);
     update();

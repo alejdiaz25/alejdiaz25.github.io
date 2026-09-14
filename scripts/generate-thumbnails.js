@@ -24,9 +24,9 @@ const sharp = require('sharp');
 const ROOT = path.resolve(__dirname, '..');
 const PROJECTS_JSON = path.join(ROOT, 'projects.json');
 const IMAGES_DIR = path.join(ROOT, 'images');
-const WIDTH = 2560;
-const HEIGHT = 1440;
-const DPR = 2; /* device scale factor — output pixels are WIDTH*DPR × HEIGHT*DPR */
+const WIDTH = 3840;
+const HEIGHT = 2160;
+const DPR = 1; // Native 4K canvas and capture; no screenshot upscaling.
 const SERVER_PORT = 9473;
 const CDN = 'https://cdn.jsdelivr.net/npm/three@0.163.0';
 const DRACO_PATH = CDN + '/examples/jsm/libs/draco/';
@@ -135,7 +135,7 @@ function buildPageHTML(glbUrl, preset, rotationY) {
 <meta charset="utf-8">
 <style>
   * { margin: 0; padding: 0; }
-  body { width: ${WIDTH}px; height: ${HEIGHT}px; overflow: hidden; background: #080808; }
+  body { width: ${WIDTH}px; height: ${HEIGHT}px; overflow: hidden; background: #000000; }
   canvas { display: block; width: ${WIDTH}px; height: ${HEIGHT}px; }
 </style>
 <script type="importmap">
@@ -153,7 +153,7 @@ import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 
 const canvas = document.getElementById('c');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, preserveDrawingBuffer: true });
-renderer.setClearColor(0x080808);
+renderer.setClearColor(0x000000);
 renderer.setPixelRatio(1);
 renderer.setSize(${WIDTH}, ${HEIGHT}, false);
 
@@ -364,7 +364,7 @@ async function main() {
 
       /* Convert to WebP */
       await sharp(pngPath)
-        .webp({ quality: 92 })
+        .webp({ lossless: true, effort: 5 })
         .toFile(webpPath);
 
       /* Delete intermediate PNG */
@@ -443,6 +443,7 @@ async function main() {
   }
   console.log(sep);
   console.log(`\nDone: ${successCount}/${results.length} succeeded.\n`);
+  if (successCount !== results.length) process.exitCode = 1;
 }
 
 main().catch(err => {

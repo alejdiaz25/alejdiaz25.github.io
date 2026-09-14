@@ -235,68 +235,68 @@
   },
   "images/wireframe-face-shield.webp": {
     "src": "images/optimized/wireframe-face-shield-1280.webp",
-    "srcset": "images/optimized/wireframe-face-shield-640.webp 640w, images/optimized/wireframe-face-shield-1280.webp 1280w, images/optimized/wireframe-face-shield-1920.webp 1920w",
-    "width": 5120,
-    "height": 2880
+    "srcset": "images/optimized/wireframe-face-shield-640.webp 640w, images/optimized/wireframe-face-shield-1280.webp 1280w, images/optimized/wireframe-face-shield-1920.webp 1920w, images/optimized/wireframe-face-shield-3840.webp 3840w",
+    "width": 3840,
+    "height": 2160
   },
   "images/wireframe-frc-2021-feeder.webp": {
     "src": "images/optimized/wireframe-frc-2021-feeder-1280.webp",
-    "srcset": "images/optimized/wireframe-frc-2021-feeder-640.webp 640w, images/optimized/wireframe-frc-2021-feeder-1280.webp 1280w, images/optimized/wireframe-frc-2021-feeder-1920.webp 1920w",
-    "width": 5120,
-    "height": 2880
+    "srcset": "images/optimized/wireframe-frc-2021-feeder-640.webp 640w, images/optimized/wireframe-frc-2021-feeder-1280.webp 1280w, images/optimized/wireframe-frc-2021-feeder-1920.webp 1920w, images/optimized/wireframe-frc-2021-feeder-3840.webp 3840w",
+    "width": 3840,
+    "height": 2160
   },
   "images/wireframe-frc-2021-indexer.webp": {
     "src": "images/optimized/wireframe-frc-2021-indexer-1280.webp",
-    "srcset": "images/optimized/wireframe-frc-2021-indexer-640.webp 640w, images/optimized/wireframe-frc-2021-indexer-1280.webp 1280w, images/optimized/wireframe-frc-2021-indexer-1920.webp 1920w",
-    "width": 5120,
-    "height": 2880
+    "srcset": "images/optimized/wireframe-frc-2021-indexer-640.webp 640w, images/optimized/wireframe-frc-2021-indexer-1280.webp 1280w, images/optimized/wireframe-frc-2021-indexer-1920.webp 1920w, images/optimized/wireframe-frc-2021-indexer-3840.webp 3840w",
+    "width": 3840,
+    "height": 2160
   },
   "images/wireframe-frc-2022-robot.webp": {
     "src": "images/optimized/wireframe-frc-2022-robot-1280.webp",
-    "srcset": "images/optimized/wireframe-frc-2022-robot-640.webp 640w, images/optimized/wireframe-frc-2022-robot-1280.webp 1280w, images/optimized/wireframe-frc-2022-robot-1920.webp 1920w",
-    "width": 5120,
-    "height": 2880
+    "srcset": "images/optimized/wireframe-frc-2022-robot-640.webp 640w, images/optimized/wireframe-frc-2022-robot-1280.webp 1280w, images/optimized/wireframe-frc-2022-robot-1920.webp 1920w, images/optimized/wireframe-frc-2022-robot-3840.webp 3840w",
+    "width": 3840,
+    "height": 2160
   },
   "images/wireframe-frc-2023-arm.webp": {
     "src": "images/optimized/wireframe-frc-2023-arm-1280.webp",
-    "srcset": "images/optimized/wireframe-frc-2023-arm-640.webp 640w, images/optimized/wireframe-frc-2023-arm-1280.webp 1280w, images/optimized/wireframe-frc-2023-arm-1920.webp 1920w",
-    "width": 5120,
-    "height": 2880
+    "srcset": "images/optimized/wireframe-frc-2023-arm-640.webp 640w, images/optimized/wireframe-frc-2023-arm-1280.webp 1280w, images/optimized/wireframe-frc-2023-arm-1920.webp 1920w, images/optimized/wireframe-frc-2023-arm-3840.webp 3840w",
+    "width": 3840,
+    "height": 2160
   },
   "images/wireframe-frc-2023-robot.webp": {
     "src": "images/optimized/wireframe-frc-2023-robot-1280.webp",
-    "srcset": "images/optimized/wireframe-frc-2023-robot-640.webp 640w, images/optimized/wireframe-frc-2023-robot-1280.webp 1280w, images/optimized/wireframe-frc-2023-robot-1920.webp 1920w",
-    "width": 5120,
-    "height": 2880
+    "srcset": "images/optimized/wireframe-frc-2023-robot-640.webp 640w, images/optimized/wireframe-frc-2023-robot-1280.webp 1280w, images/optimized/wireframe-frc-2023-robot-1920.webp 1920w, images/optimized/wireframe-frc-2023-robot-3840.webp 3840w",
+    "width": 3840,
+    "height": 2160
   },
   "images/wireframe-front-unsprung.webp": {
     "src": "images/optimized/wireframe-front-unsprung-1280.webp",
-    "srcset": "images/optimized/wireframe-front-unsprung-640.webp 640w, images/optimized/wireframe-front-unsprung-1280.webp 1280w, images/optimized/wireframe-front-unsprung-1920.webp 1920w",
-    "width": 5120,
-    "height": 2880
+    "srcset": "images/optimized/wireframe-front-unsprung-640.webp 640w, images/optimized/wireframe-front-unsprung-1280.webp 1280w, images/optimized/wireframe-front-unsprung-1920.webp 1920w, images/optimized/wireframe-front-unsprung-3840.webp 3840w",
+    "width": 3840,
+    "height": 2160
   },
   "images/wireframe-rc-car.webp": {
     "src": "images/optimized/wireframe-rc-car-1280.webp",
-    "srcset": "images/optimized/wireframe-rc-car-640.webp 640w, images/optimized/wireframe-rc-car-1280.webp 1280w, images/optimized/wireframe-rc-car-1920.webp 1920w",
-    "width": 5120,
-    "height": 2880
+    "srcset": "images/optimized/wireframe-rc-car-640.webp 640w, images/optimized/wireframe-rc-car-1280.webp 1280w, images/optimized/wireframe-rc-car-1920.webp 1920w, images/optimized/wireframe-rc-car-3840.webp 3840w",
+    "width": 3840,
+    "height": 2160
   },
   "images/wireframe-rcs-3dof.webp": {
     "src": "images/optimized/wireframe-rcs-3dof-1280.webp",
-    "srcset": "images/optimized/wireframe-rcs-3dof-640.webp 640w, images/optimized/wireframe-rcs-3dof-1280.webp 1280w, images/optimized/wireframe-rcs-3dof-1920.webp 1920w",
-    "width": 5120,
-    "height": 2880
+    "srcset": "images/optimized/wireframe-rcs-3dof-640.webp 640w, images/optimized/wireframe-rcs-3dof-1280.webp 1280w, images/optimized/wireframe-rcs-3dof-1920.webp 1920w, images/optimized/wireframe-rcs-3dof-3840.webp 3840w",
+    "width": 3840,
+    "height": 2160
   },
   "images/wireframe-rear-upright.webp": {
     "src": "images/optimized/wireframe-rear-upright-1280.webp",
-    "srcset": "images/optimized/wireframe-rear-upright-640.webp 640w, images/optimized/wireframe-rear-upright-1280.webp 1280w, images/optimized/wireframe-rear-upright-1920.webp 1920w",
-    "width": 5120,
-    "height": 2880
+    "srcset": "images/optimized/wireframe-rear-upright-640.webp 640w, images/optimized/wireframe-rear-upright-1280.webp 1280w, images/optimized/wireframe-rear-upright-1920.webp 1920w, images/optimized/wireframe-rear-upright-3840.webp 3840w",
+    "width": 3840,
+    "height": 2160
   },
   "images/wireframe-smokeless-firepit.webp": {
     "src": "images/optimized/wireframe-smokeless-firepit-1280.webp",
-    "srcset": "images/optimized/wireframe-smokeless-firepit-640.webp 640w, images/optimized/wireframe-smokeless-firepit-1280.webp 1280w, images/optimized/wireframe-smokeless-firepit-1920.webp 1920w",
-    "width": 5120,
-    "height": 2880
+    "srcset": "images/optimized/wireframe-smokeless-firepit-640.webp 640w, images/optimized/wireframe-smokeless-firepit-1280.webp 1280w, images/optimized/wireframe-smokeless-firepit-1920.webp 1920w, images/optimized/wireframe-smokeless-firepit-3840.webp 3840w",
+    "width": 3840,
+    "height": 2160
   }
 }

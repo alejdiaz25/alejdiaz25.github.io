@@ -163,12 +163,16 @@ Blender: set up a beauty-shot camera angle → Render → 1200×900px → export
 The repo's `scripts/generate-thumbnails.js` automates a version of this step — it spins up a
 local static server, headless-renders the same wireframe view the live viewer uses (via
 Puppeteer), and encodes the screenshot to WebP (via Sharp), then writes the path into
-`projects.json` automatically:
+`projects.json` automatically. It renders at native 3840 × 2160 (4K), with a pure
+`#000000` background and lossless WebP encoding. Regenerate the responsive versions
+afterward so the homepage uses the updated images; these include a 3840px option
+for high-resolution displays while phones can load smaller files:
 
 ```bash
 npm install                                   # installs puppeteer + sharp
 node scripts/generate-thumbnails.js --all               # regenerate all thumbnails
 node scripts/generate-thumbnails.js --project rc-car     # single project
+node scripts/optimize-images.cjs                         # refresh responsive images
 ```
 
 ### 7. Validate against budget

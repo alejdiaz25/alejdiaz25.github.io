@@ -15,9 +15,18 @@ const { createServer } = require('./serve');
     const position = () => page.$eval('#work-track', el => el.scrollLeft);
     await new Promise(resolve => setTimeout(resolve, 7200));
     assert.equal(await position(), 0, 'No auto-advance before carousel enters viewport');
-    await page.evaluate(() => document.querySelector('.work-carousel').scrollIntoView({ behavior: 'instant' }));
-    await page.mouse.move(1, 1);
+    await page.setViewport({ width: 1440, height: 500 });
+    await page.evaluate(() => {
+      const top = document.getElementById('work-track').getBoundingClientRect().top + scrollY;
+      window.scrollTo({ top: top - innerHeight + 140, behavior: 'instant' });
+    });
+    const trackBox = await page.$eval('#work-track', el => {
+      const box = el.getBoundingClientRect();
+      return { x: box.x + 150, y: box.y + 70 };
+    });
+    await page.mouse.move(trackBox.x, trackBox.y);
     await page.waitForFunction(() => document.getElementById('work-track').scrollLeft > 100, { timeout: 5500 });
+    console.log('PASS: partial visibility in a short viewport advances with the pointer over a project.');
     await page.click('#work-autoplay');
     await page.mouse.move(1, 1);
     await page.evaluate(() => document.activeElement.blur());

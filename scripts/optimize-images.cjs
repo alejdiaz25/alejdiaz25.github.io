@@ -79,7 +79,9 @@ async function main() {
     const uniqueStem = stems.get(stem) > 1
       ? `${stem}-${createHash('sha256').update(source).digest('hex').slice(0, 8)}`
       : stem;
-    const widths = [...new Set(TARGET_WIDTHS.map(target => Math.min(target, width)))];
+    const isRender = source.startsWith('images/wireframe-');
+    const targets = isRender ? [...TARGET_WIDTHS, 3840] : TARGET_WIDTHS;
+    const widths = [...new Set(targets.map(target => Math.min(target, width)))];
 
     const variants = await Promise.all(widths.map(async target => {
       const filename = `${uniqueStem}-${target}.webp`;
@@ -87,7 +89,7 @@ async function main() {
       names.add(filename);
       const info = await sharp(input).autoOrient()
         .resize({ width: target, withoutEnlargement: true })
-        .webp({ quality: 83, effort: 5 })
+        .webp(isRender ? { lossless: true, effort: 5 } : { quality: 83, effort: 5 })
         .toFile(path.join(OUTPUT, filename));
       if (info.width !== target || info.width > width || info.height > height) {
         throw new Error(`Unexpected derivative dimensions: ${filename}`);
