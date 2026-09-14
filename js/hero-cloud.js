@@ -37,8 +37,8 @@
     const focal = width * (mobile ? 2.2 : .85);
     const pitch = .62 + pointerY * .045;
     const sin = Math.sin(pitch), cos = Math.cos(pitch);
-    const roll = Math.PI / 18;
-    const rollSin = Math.sin(roll), rollCos = Math.cos(roll);
+    const yaw = Math.PI / 18;
+    const yawSin = Math.sin(yaw), yawCos = Math.cos(yaw);
     for (let row = rows; row >= 0; row--) {
       const z = row / rows * 22;
       for (let col = 0; col <= columns; col++) {
@@ -55,13 +55,14 @@
           y += push.strength * envelope * Math.exp(-ring * ring / 10)
             * Math.cos(ring * .65);
         }
-        const depth = z * cos + y * sin + 10;
+        // Turn 10 degrees clockwise as viewed from above, around the field's
+        // vertical axis. In this renderer y is height and z is ground depth.
+        const rotatedX = x * yawCos + (z - 11) * yawSin;
+        const rotatedZ = 11 - x * yawSin + (z - 11) * yawCos;
+        const depth = rotatedZ * cos + y * sin + 10;
         const scale = focal / depth;
-        const projectedX = width * .04 + (x + pointerX * .75) * scale;
-        const projectedY = height * .25 + ((3.4 - y) * cos - z * sin) * scale;
-        // Rotate the field clockwise around the hero's center; keep edge fades aligned to the viewport.
-        const sx = width * .5 + projectedX * rollCos - projectedY * rollSin;
-        const sy = height * .5 + projectedX * rollSin + projectedY * rollCos;
+        const sx = width * .54 + (rotatedX + pointerX * .75) * scale;
+        const sy = height * .75 + ((3.4 - y) * cos - rotatedZ * sin) * scale;
         if (sx < 0 || sx > width || sy < 0 || sy > height) continue;
         const edge = Math.min(1, sx / 90, (width - sx) / 90, sy / 70, (height - sy) / 100);
         const alpha = (.45 + (1 - row / rows) * .45) * edge;
