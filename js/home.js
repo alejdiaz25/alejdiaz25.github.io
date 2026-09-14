@@ -55,6 +55,30 @@
     const prev = document.getElementById('work-prev');
     const next = document.getElementById('work-next');
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    const carousel = track.closest('.work-carousel');
+    const autoplay = document.createElement('button');
+    autoplay.id = 'work-autoplay';
+    autoplay.className = 'autoplay-control';
+    autoplay.type = 'button';
+    document.querySelector('.work-arrows').prepend(autoplay);
+    let timer;
+    let inView = false;
+    let hovered = false;
+    let paused = false;
+    const delay = 7000;
+    function schedule() {
+      clearTimeout(timer);
+      autoplay.disabled = reduced.matches;
+      autoplay.textContent = reduced.matches ? 'Auto-play off' : paused ? 'Resume' : 'Pause';
+      autoplay.setAttribute('aria-label', paused ? 'Resume automatic project scrolling' : 'Pause automatic project scrolling');
+      document.getElementById('work-position').setAttribute('aria-live', paused || reduced.matches ? 'polite' : 'off');
+      if (!inView || hovered || paused || reduced.matches || document.hidden || carousel.contains(document.activeElement)) return;
+      timer = setTimeout(() => {
+        const max = track.scrollWidth - track.clientWidth;
+        moveTo(track.scrollLeft >= max - 2 ? 0 : track.scrollLeft + step());
+        schedule();
+      }, delay);
+    }
     const step = () => cards[1] ? cards[1].offsetLeft - cards[0].offsetLeft : track.clientWidth;
     const moveTo = left => track.scrollTo({ left, behavior: reduced.matches ? 'instant' : 'smooth' });
     function update() {
@@ -73,9 +97,24 @@
       else if (event.key === 'End') moveTo(track.scrollWidth);
       else moveTo(track.scrollLeft + (event.key === 'ArrowLeft' ? -step() : step()));
     });
-    track.addEventListener('scroll', update, { passive: true });
+    autoplay.addEventListener('click', () => { paused = !paused; schedule(); });
+    carousel.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') { hovered = true; schedule(); } });
+    carousel.addEventListener('pointerleave', () => { hovered = false; schedule(); });
+    carousel.addEventListener('focusin', schedule);
+    carousel.addEventListener('focusout', () => queueMicrotask(schedule));
+    carousel.addEventListener('touchstart', () => { hovered = true; schedule(); }, { passive: true });
+    carousel.addEventListener('touchend', () => { hovered = false; schedule(); }, { passive: true });
+    carousel.addEventListener('touchcancel', () => { hovered = false; schedule(); }, { passive: true });
+    document.addEventListener('visibilitychange', schedule);
+    reduced.addEventListener('change', schedule);
+    new IntersectionObserver(entries => {
+      inView = entries[0].isIntersecting && entries[0].intersectionRatio >= .35;
+      schedule();
+    }, { threshold: [0, .35] }).observe(track);
+    track.addEventListener('scroll', () => { update(); schedule(); }, { passive: true });
     new ResizeObserver(update).observe(track);
     update();
+    schedule();
   }
   function renderExperience(data) {
     function records(items) {
