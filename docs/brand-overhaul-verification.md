@@ -20,3 +20,11 @@ the next; phones show one prominent card with the next visible at the edge.
 The project index is now a native details disclosure, collapsed initially.
 Added checks for thumbnail/caption provenance, index default state and keyboard
 toggling, carousel next/Home navigation, and retained the six-width homepage checks.
+
+## Point-cloud hero update — 2026-09-14
+
+Replaced the hero assembly image with an original canvas point terrain inspired by the supplied Lattice Mesh reference. Perspective, layered height waves, and eased pointer parallax create depth using a Nardo-grey palette on black. The hero name now uses the same Instrument Sans width, weight, spacing, and line-height treatment as the main titles. Both pages use larger, centered Instrument Sans navigation without section numbers; the phone menu retains its toggle and centers its links.
+
+Motion runs at approximately 30 fps, uses fewer points on phones, stops offscreen or in a hidden tab, and includes a pause control. Reduced-motion preferences produce a static terrain. No additional dependencies or remote assets are required.
+
+Validation: `node scripts/verify-portfolio.js --home-only --screenshots` passed at 1920, 1440, 1024, 768, 390, and 320px, including preserved content and 126 local resources. `node scripts/verify-hero.cjs` passed animation, pause/resume, offscreen suspension, reduced motion, image removal, and centered navigation checks on both pages. Desktop and mobile captures visually reviewed. Tailscale returned HTTP 200 for the new hero script.

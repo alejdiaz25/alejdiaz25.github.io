@@ -19,14 +19,6 @@
   function sectionHead(id, label, title) {
     return `<div class="section-heading" data-reveal><p class="meta section-label">${esc(label)}</p><h2 class="section-title" id="${id}">${title}</h2></div>`;
   }
-  function renderHero(data) {
-    const project = data.projects.find(project => project.id === data.preview.heroProjectId) || data.projects[0];
-    const index = data.projects.indexOf(project) + 1;
-    document.getElementById('hero-visual').innerHTML = `<a href="${projectURL(project.id)}" class="hero-assembly" aria-label="Explore ${esc(project.title)}">
-      ${photo(project.wireframeThumbnail || project.preview, project.title + ', CAD wireframe', '(max-width: 767px) 100vw, 65vw', true)}
-      <span class="hero-caption meta">${number(index)} / ${esc(project.title)} ${arrow}</span>
-    </a>`;
-  }
   function renderWork(data) {
     const cards = data.preview.thumbs.map(thumb => {
       const project = data.projects.find(project => project.id === thumb.id);
@@ -160,7 +152,6 @@
   Promise.all([readJSON('content.json'), readJSON('projects.json'), readJSON('images/manifest.json').catch(() => ({}))])
     .then(([content, projects, manifest]) => {
       imageManifest = manifest;
-      renderHero(projects);
       renderWork(projects);
       renderExperience(content.experience);
       renderAbout(content.about);

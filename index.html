@@ -18,6 +18,7 @@
   <script src="js/nav.js" defer></script>
   <script src="js/animations.js" defer></script>
   <script src="js/home.js" defer></script>
+  <script src="js/hero-cloud.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -25,9 +26,9 @@
     <a class="nav-logo" href="index.html" aria-label="Alejandro Diaz home">AD<span>Alejandro Diaz</span></a>
     <button class="nav-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false">Menu <span aria-hidden="true">+</span></button>
     <ul class="nav-links" id="primary-navigation">
-      <li><a href="#projects-preview"><span class="nav-number">01</span> Work</a></li>
-      <li><a href="#experience"><span class="nav-number">02</span> Experience</a></li>
-      <li><a href="#about"><span class="nav-number">03</span> About</a></li>
+      <li><a href="#projects-preview">Work</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#about">About</a></li>
       <li><a href="resume.pdf" target="_blank" rel="noopener noreferrer">Resume <span aria-hidden="true">↗</span></a></li>
     </ul>
   </nav>
@@ -35,7 +36,8 @@
     <section id="hero" aria-labelledby="hero-name">
       <div class="hero-top meta"><span>Mechanical engineering</span><span>UT Austin / Dec 2026</span></div>
       <h1 class="hero-name" id="hero-name"><span>Alejandro</span><span>Diaz</span></h1>
-      <div class="hero-visual" id="hero-visual"></div>
+      <canvas class="hero-cloud" id="hero-cloud" aria-hidden="true"></canvas>
+      <button class="hero-motion" id="hero-motion" type="button" aria-label="Pause background motion">Pause motion</button>
       <div class="hero-bottom">
         <p class="hero-description">Aerospace. Robotics.<br>Advanced manufacturing.</p>
         <a class="text-link" href="#projects-preview">Explore the work <span aria-hidden="true">↓</span></a>
