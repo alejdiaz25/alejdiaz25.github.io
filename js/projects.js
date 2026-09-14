@@ -4,6 +4,7 @@
   const $ = id => document.getElementById(id);
   const state = { projects: [], images: {}, project: null, media: [], mediaIndex: 0, modelSrc: null, modelLoading: false, loadSequence: 0, lightboxIndex: 0 };
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const desktop = window.matchMedia('(min-width: 768px) and (hover: hover) and (pointer: fine)');
   const number = value => String(value).padStart(2, '0');
   const projectUrl = id => `projects.html?project=${encodeURIComponent(id)}`;
   const imageMedia = () => state.media.filter(item => item.type === 'image');
@@ -103,8 +104,8 @@
       link.querySelector('strong').textContent = item.title;
     });
     state.media = [];
-    if (project.preview) state.media.push({ type: 'image', src: project.preview, label: 'CAD / Assembly', shortLabel: 'Overview' });
     (project.models || []).forEach(model => state.media.push({ type: 'model', src: model.src, label: model.label, shortLabel: model.label }));
+    if (project.preview) state.media.push({ type: 'image', src: project.preview, label: 'CAD / Assembly', shortLabel: 'Overview' });
     (project.gallery || []).forEach((src, i) => {
       if (src) state.media.push({ type: 'image', src, label: `Project image ${number(i + 1)}`, shortLabel: `Image ${number(i + 1)}` });
     });
@@ -155,11 +156,12 @@
     $('media-prev').disabled = index === 0;
     $('media-next').disabled = index === state.media.length - 1;
     document.querySelectorAll('.media-option').forEach((button, i) => button.setAttribute('aria-pressed', String(i === index)));
+    if (isModel && !loaded && desktop.matches) loadModel();
   }
 
   async function loadModel() {
     const item = state.media[state.mediaIndex];
-    if (!item || item.type !== 'model') return;
+    if (!item || item.type !== 'model' || state.modelLoading) return;
     const sequence = ++state.loadSequence;
     state.modelLoading = true;
     state.modelSrc = null;
@@ -226,6 +228,9 @@
   $('media-prev').addEventListener('click', () => selectMedia(state.mediaIndex - 1));
   $('media-next').addEventListener('click', () => selectMedia(state.mediaIndex + 1));
   $('load-model').addEventListener('click', loadModel);
+  desktop.addEventListener('change', () => {
+    if (desktop.matches && !state.modelLoading && state.modelSrc !== state.media[state.mediaIndex]?.src) loadModel();
+  });
 
   document.addEventListener('click', event => {
     const link = event.target.closest('a[data-project-id]');

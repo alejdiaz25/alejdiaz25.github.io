@@ -17,7 +17,7 @@ const server = createServer();
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     const base = `http://127.0.0.1:${server.address().port}`;
-    await page.setViewport({ width: 1440, height: 1000 });
+    await page.setViewport({ width: 1440, height: 1000, hasTouch: true });
     await page.goto(`${base}/projects.html?project=rcs-3dof`, { waitUntil: 'networkidle0' });
     assert.equal(await page.$eval('h1', el => el.textContent.trim()), projects[0].title, 'The deep link should produce a meaningful project heading');
     for (const project of projects) {
@@ -27,8 +27,12 @@ const server = createServer();
       assert.ok(text.includes(project.description), `Complete description: ${project.id}`);
       for (const spec of project.specs) assert.ok(text.includes(spec.val), `Specification ${spec.key}: ${project.id}`);
       assert.equal(await page.$$eval('.media-option', els => els.length), project.models.length + project.gallery.length + 1, `All model/image selectors: ${project.id}`);
+      assert.equal(await page.$eval('.media-option', el => el.textContent), project.models[0].label, '3D model is the first carousel item');
+      assert.equal(await page.$eval('#model-prompt', el => el.hidden), false, 'Touch devices show click-to-load');
+      assert.equal(await page.evaluate(() => ModelViewer.isLoaded()), false, 'Touch devices do not automatically load geometry');
     }
     await page.goto(`${base}/projects.html?project=frc-2022-robot`, { waitUntil: 'networkidle0' });
+    await page.click('.media-option:nth-child(3)');
     await page.click('#enlarge-image');
     assert.equal(await page.$eval('#image-lightbox', el => el.open), true);
     const firstSrc = await page.$eval('#lightbox-image', el => el.src);
@@ -45,17 +49,16 @@ const server = createServer();
     await page.goBack();
     await page.waitForFunction(() => document.querySelector('h1').textContent === '2022 Robot + Shooter');
     for (const width of [320, 375, 768, 1024, 1920]) {
-      await page.setViewport({ width, height: 900 });
+      await page.setViewport({ width, height: 900, hasTouch: true });
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `No horizontal overflow at ${width}px`);
     }
     assert.deepEqual(errors, [], 'No browser JavaScript errors');
     console.log(`PASS: ${projects.length} project deep links, complete data, media selectors, keyboard selection, lightbox, history, and responsive overflow.`);
     if (process.argv.includes('--models')) {
-      await page.setViewport({ width: 1440, height: 1000 });
+      await page.setViewport({ width: 1440, height: 1000, hasTouch: false });
       await page.goto(`${base}/projects.html?project=frc-2022-robot`, { waitUntil: 'networkidle0' });
-      for (const [index, src] of [[1, 'assets/models/val2022.glb'], [2, 'assets/models/val2022-Shooter.glb']]) {
-        await page.click(`.media-option:nth-child(${index + 1})`);
-        await page.click('#load-model');
+      for (const [index, src] of [[0, 'assets/models/val2022.glb'], [1, 'assets/models/val2022-Shooter.glb']]) {
+        if (index) await page.click(`.media-option:nth-child(${index + 1})`);
         await page.waitForFunction(source => ModelViewer.isLoaded() && ModelViewer.currentSrc() === source, { timeout: 90000 }, src);
         assert.equal(await page.$eval('#model-prompt', el => el.hidden), true);
         assert.equal(await page.$eval('#three-stage', el => getComputedStyle(el).visibility), 'visible');
@@ -67,11 +70,16 @@ const server = createServer();
         await page.mouse.up();
         await page.waitForSelector('.viewer-reset-btn.visible');
         await page.click('.viewer-reset-btn');
-        await page.click('.media-option:first-child');
+        await page.click('.media-option:nth-child(3)');
         assert.equal(await page.$eval('#three-stage', el => getComputedStyle(el).visibility), 'hidden');
       }
       assert.deepEqual(errors, [], 'No errors while loading or interacting with models');
-      console.log('PASS: both 2022 robot models load, rotate, reset, switch, and hide on image selection.');
+      await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
+      await page.goto(`${base}/projects.html?project=rc-car`, { waitUntil: 'networkidle0' });
+      assert.equal(await page.evaluate(() => ModelViewer.isLoaded()), false);
+      await page.click('#load-model');
+      await page.waitForFunction(() => ModelViewer.isLoaded(), { timeout: 60000 });
+      console.log('PASS: desktop models auto-load, rotate, reset and switch; mobile loads after tapping.');
     }
   } finally {
     if (browser) await browser.close();

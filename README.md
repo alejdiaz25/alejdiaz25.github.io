@@ -41,7 +41,9 @@ node scripts/serve.js
 Then open `http://localhost:8000`.
 
 The homepage uses `content.json` and `projects.json`. The project experience preserves
-`projects.html?project=<id>` links and loads interactive 3D only when requested.
+`projects.html?project=<id>` links. Each project opens on its 3D model, loading
+automatically on desktop (at least 768px with a fine pointer and hover support).
+Mobile and touch devices retain the explicit tap-to-load button.
 `projects.json`'s `preview.thumbs` determines homepage carousel order. Each card uses
 the project's generated wireframe thumbnail, title and opening description sentence.
 The complete project index starts collapsed; original project records remain the

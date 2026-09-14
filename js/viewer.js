@@ -126,7 +126,7 @@
     await importDeps();
 
     renderer = new THREE.WebGLRenderer({ canvas: _canvas, antialias: true, alpha: false });
-    renderer.setClearColor(0x080808);
+    renderer.setClearColor(0x000000);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
     scene = new THREE.Scene();
