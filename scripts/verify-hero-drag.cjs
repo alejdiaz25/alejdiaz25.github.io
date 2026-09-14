@@ -1,5 +1,7 @@
 const assert = require('node:assert/strict');
 const puppeteer = require('puppeteer');
+const fs = require('node:fs');
+const path = require('node:path');
 const { createServer } = require('./serve');
 
 (async () => {
@@ -8,6 +10,14 @@ const { createServer } = require('./serve');
   const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
   try {
     const page = await browser.newPage();
+    // Test-only snapshot of closure state, injected into the served script.
+    // Production code exposes no test hooks.
+    await page.setRequestInterception(true);
+    page.on('request', request => {
+      if (!request.url().endsWith('/js/hero-cloud.js')) return request.continue();
+      const source = fs.readFileSync(path.join(__dirname, '../js/hero-cloud.js'), 'utf8');
+      return request.respond({ contentType: 'application/javascript', body: source.replace(/\}\)\(\);\s*$/, 'window.__cloudTest = () => ({ ripples: ripples.length, wake: wake.length, strengths: ripples.map(r => r.strength) });\n})();') });
+    });
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     const url = `http://127.0.0.1:${server.address().port}`;
@@ -15,12 +25,21 @@ const { createServer } = require('./serve');
     const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
     await page.setViewport({ width: 1440, height: 900 });
     await page.goto(url, { waitUntil: 'networkidle0' });
+    await page.mouse.click(850, 480);
+    assert.equal(await page.evaluate(() => __cloudTest().ripples), 1, 'Single click creates exactly one ripple');
+    assert.ok(await page.evaluate(() => __cloudTest().strengths.every(value => value <= .4)), 'Click disturbance is gentle');
     await page.mouse.move(850, 480);
     await page.mouse.down();
     await page.mouse.move(1000, 420, { steps: 15 });
     assert.equal(await dragging(), true, 'Desktop drag engages cloud pull');
+    const active = await page.evaluate(() => __cloudTest());
+    assert.ok(active.wake > 0, 'Movement produces a directional wake');
+    assert.equal(active.ripples, 1, 'Dragging does not summon additional rings');
+    await wait(500);
+    assert.equal(await page.evaluate(() => __cloudTest().wake), active.wake, 'Holding still emits no wake samples');
     await page.mouse.up();
     assert.equal(await dragging(), false, 'Release clears drag state');
+    assert.equal(await page.evaluate(() => __cloudTest().ripples), 1, 'Drag release creates no extra wave');
     await page.click('#hero-motion');
     await page.mouse.move(850, 480);
     await page.mouse.down();

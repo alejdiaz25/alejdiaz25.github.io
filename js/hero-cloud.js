@@ -14,11 +14,10 @@
   let pushes = [];
   let gesture = null;
   let ripples = [];
-  let lastRipple = { time: -1, x: 0, y: 0 };
+  let wake = [];
   const pull = { x: 0, y: 0, targetX: 0, targetY: 0, anchorX: 0, anchorY: 0, targetAnchorX: 0, targetAnchorY: 0 };
 
-  function emitRipple(screenX, screenY, strength = 1.2) {
-    if (ripples.length >= 16) return;
+  function surfacePoint(screenX, screenY) {
     // Project the contact onto the terrain's ground plane, then undo its yaw.
     // Ripples propagate in world space, so their rings inherit the perspective.
     const focal = width * (width < 768 ? 2.2 : .85);
@@ -29,16 +28,36 @@
     const z = (3.4 * Math.cos(pitch) - 10 * q) / denominator;
     const x = (screenX - width * .54) * (z * Math.cos(pitch) + 10) / focal - pointerX * .75;
     const yaw = Math.PI / 18;
-    ripples.push({
+    return {
       x: Math.max(-17, Math.min(17, x * Math.cos(yaw) - (z - 11) * Math.sin(yaw))),
       z: Math.max(0, Math.min(22, 11 + x * Math.sin(yaw) + (z - 11) * Math.cos(yaw))),
-      start: time, strength,
-    });
-    lastRipple = { time, x: screenX, y: screenY };
+    };
+  }
+
+  function emitRipple(screenX, screenY) {
+    const point = surfacePoint(screenX, screenY);
+    if (point && ripples.length < 16) ripples.push({ ...point, start: time, strength: .4 });
+  }
+
+  function extendWake(screenX, screenY) {
+    const point = surfacePoint(screenX, screenY);
+    if (!point) return;
+    const previous = gesture.wakePoint;
+    if (!previous) { gesture.wakePoint = point; return; }
+    const dx = point.x - previous.x, dz = point.z - previous.z;
+    const distance = Math.hypot(dx, dz);
+    if (distance < .35) return;
+    // Sample the actual path, never the easing tail or elapsed hold time.
+    const steps = Math.min(16, Math.ceil(distance / .45));
+    for (let i = 1; i <= steps && wake.length < 64; i++) {
+      wake.push({ x: previous.x + dx * i / steps, z: previous.z + dz * i / steps,
+        dx: dx / distance, dz: dz / distance, start: time });
+    }
+    gesture.wakePoint = point;
   }
 
   function releasePull(emit = false) {
-    if (emit && gesture?.intent === 'pull') emitRipple(pull.anchorX + pull.x, pull.anchorY + pull.y, 1.5);
+    if (emit && gesture?.intent === 'pending') emitRipple(pull.targetAnchorX, pull.targetAnchorY);
     const pointerId = gesture?.id;
     gesture = null;
     pull.targetX = pull.targetY = 0;
@@ -96,6 +115,20 @@
           y += ripple.strength * fade * Math.exp(-front * front / 3)
             * Math.cos(front * 2);
         }
+        // A low, directional ridge follows the dragged path and relaxes outward.
+        // It is a continuous wake, not a train of expanding circular impulses.
+        let wakeHeight = 0;
+        for (const sample of wake) {
+          const age = time - sample.start;
+          const dx = x - sample.x, dz = z - sample.z;
+          const along = dx * sample.dx + dz * sample.dz;
+          const across = dx * sample.dz - dz * sample.dx;
+          const spread = .65 + age * .45;
+          const envelope = Math.min(1, age / .12) * (1 - age / 2.8) ** 2;
+          wakeHeight += .12 * envelope * Math.exp(-along * along / .9 - across * across / (spread * spread))
+            * Math.cos(across * 2.8 / spread);
+        }
+        y += .28 * Math.tanh(wakeHeight / .28);
         // Turn 10 degrees clockwise as viewed from above, around the field's
         // vertical axis. In this renderer y is height and z is ground depth.
         const rotatedX = x * yawCos + (z - 11) * yawSin;
@@ -109,7 +142,7 @@
         const reach = Math.max(130, Math.min(width * .25, 340));
         const distance2 = ((sx - pull.anchorX) ** 2 + (sy - pull.anchorY) ** 2) / (reach * reach);
         const influence = Math.exp(-distance2 * 1.5);
-        sx += pull.x * influence * .12;
+        sx += pull.x * influence * .04;
         sy += pull.y * influence * .12;
         if (sx < 0 || sx > width || sy < 0 || sy > height) continue;
         const edge = Math.min(1, sx / 90, (width - sx) / 90, sy / 70, (height - sy) / 100);
@@ -126,12 +159,13 @@
   }
   function tick(now) {
     frame = requestAnimationFrame(tick);
-    const pulling = gesture?.intent === 'pull' || ripples.length > 0 || Math.abs(pull.x) + Math.abs(pull.y) > .1;
+    const pulling = gesture?.intent === 'pull' || ripples.length > 0 || wake.length > 0 || Math.abs(pull.x) + Math.abs(pull.y) > .1;
     if (now - last < (pulling ? 15 : 32)) return;
     const delta = last ? Math.min((now - last) / 1000, .06) : 0;
     last = now;
     time += delta;
     ripples = ripples.filter(ripple => time - ripple.start < 4.5);
+    wake = wake.filter(sample => time - sample.start < 2.8);
     updatePushes();
     const ease = 1 - Math.exp(-delta * 10);
     const parallaxEase = 1 - Math.exp(-delta * 1.4);
@@ -141,11 +175,6 @@
     pull.y += (pull.targetY - pull.y) * ease;
     pull.anchorX += (pull.targetAnchorX - pull.anchorX) * ease;
     pull.anchorY += (pull.targetAnchorY - pull.anchorY) * ease;
-    if (gesture?.intent === 'pull') {
-      const x = pull.anchorX + pull.x;
-      const y = pull.anchorY + pull.y;
-      if (time - lastRipple.time > .32 && Math.hypot(x - lastRipple.x, y - lastRipple.y) > 10) emitRipple(x, y);
-    }
     draw();
   }
   function sync() {
@@ -203,10 +232,11 @@
           }
         } else if (Math.hypot(dx, dy) < 4) return;
         gesture.intent = 'pull';
-        emitRipple(pull.targetAnchorX, pull.targetAnchorY);
+        gesture.wakePoint = surfacePoint(pull.targetAnchorX, pull.targetAnchorY);
         hero.classList.add('cloud-dragging');
         hero.setPointerCapture(event.pointerId);
       }
+      extendWake(pull.targetAnchorX + dx, pull.targetAnchorY + dy);
       const limit = Math.min(width * .4, 220);
       pull.targetX = Math.tanh(dx / limit) * limit;
       pull.targetY = Math.tanh(dy / limit) * limit;
