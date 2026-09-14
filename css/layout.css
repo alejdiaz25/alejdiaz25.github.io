@@ -32,7 +32,7 @@
 /* Opening: typography over a perspective point terrain. */
 #hero { position: relative; isolation: isolate; overflow: hidden; background: var(--bg); min-height: min(860px,calc(100svh - var(--nav-h))); padding: 30px var(--gutter) 35px; display: flex; flex-direction: column; }
 .hero-top { position: relative; z-index: 2; display: flex; justify-content: space-between; gap: 20px; color: var(--muted); margin-bottom: 42px; }
-.hero-name { position: relative; z-index: 2; pointer-events: none; font-family: var(--font-display); font-size: clamp(6rem,16.1vw,23rem); font-weight: 500; font-stretch: 94%; text-transform: uppercase; letter-spacing: -.065em; line-height: .98; }
+.hero-name { position: relative; z-index: 2; pointer-events: none; font-family: var(--font-body); font-size: clamp(6rem,16.1vw,23rem); font-weight: 500; font-stretch: normal; text-transform: none; letter-spacing: -.035em; line-height: .98; }
 .hero-name > span { display: block; }
 .hero-name > span:last-child { margin-top: .075em; }
 .hero-cloud { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
@@ -161,7 +161,7 @@ a.contact-link:hover { color: var(--accent); }
   .nav-links a { justify-content: center; font-family: var(--font-display); font-size: 2.25rem; text-transform: none; letter-spacing: -.045em; padding: 12px 0; gap: 22px; }
   #hero { min-height: 720px; min-height: min(820px,calc(100svh - var(--nav-h))); padding-top: 23px; padding-bottom: 28px; }
   .hero-top { font-size: .55rem; margin-bottom: 38px; gap: 10px; }
-  .hero-name { font-size: 17.5vw; font-stretch: 94%; line-height: .98; }
+  .hero-name { font-size: 17.5vw; line-height: .98; }
   .hero-name > span:last-child { font-size: 1.9em; margin-top: .04em; }
   .hero-bottom { gap: 20px; padding-top: 230px; align-items: center; justify-content: space-between; }
   .hero-description { font-size: .95rem; }
