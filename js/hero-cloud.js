@@ -13,9 +13,32 @@
   let nextPush = .6;
   let pushes = [];
   let gesture = null;
+  let ripples = [];
+  let lastRipple = { time: -1, x: 0, y: 0 };
   const pull = { x: 0, y: 0, targetX: 0, targetY: 0, anchorX: 0, anchorY: 0, targetAnchorX: 0, targetAnchorY: 0 };
 
-  function releasePull() {
+  function emitRipple(screenX, screenY, strength = 1.2) {
+    if (ripples.length >= 16) return;
+    // Project the contact onto the terrain's ground plane, then undo its yaw.
+    // Ripples propagate in world space, so their rings inherit the perspective.
+    const focal = width * (width < 768 ? 2.2 : .85);
+    const pitch = .62 + pointerY * .045;
+    const q = (screenY - height * .75) / focal;
+    const denominator = q * Math.cos(pitch) + Math.sin(pitch);
+    if (denominator <= .05) return;
+    const z = (3.4 * Math.cos(pitch) - 10 * q) / denominator;
+    const x = (screenX - width * .54) * (z * Math.cos(pitch) + 10) / focal - pointerX * .75;
+    const yaw = Math.PI / 18;
+    ripples.push({
+      x: Math.max(-17, Math.min(17, x * Math.cos(yaw) - (z - 11) * Math.sin(yaw))),
+      z: Math.max(0, Math.min(22, 11 + x * Math.sin(yaw) + (z - 11) * Math.cos(yaw))),
+      start: time, strength,
+    });
+    lastRipple = { time, x: screenX, y: screenY };
+  }
+
+  function releasePull(emit = false) {
+    if (emit && gesture?.intent === 'pull') emitRipple(pull.anchorX + pull.x, pull.anchorY + pull.y, 1.5);
     const pointerId = gesture?.id;
     gesture = null;
     pull.targetX = pull.targetY = 0;
@@ -65,6 +88,14 @@
           y += push.strength * envelope * Math.exp(-ring * ring / 10)
             * Math.cos(ring * .65);
         }
+        for (const ripple of ripples) {
+          const age = time - ripple.start;
+          const distance = Math.hypot(x - ripple.x, z - ripple.z);
+          const front = distance - age * 4.2;
+          const fade = Math.min(1, age / .16) * (1 - age / 4.5) * Math.exp(-age * .3);
+          y += ripple.strength * fade * Math.exp(-front * front / 3)
+            * Math.cos(front * 2);
+        }
         // Turn 10 degrees clockwise as viewed from above, around the field's
         // vertical axis. In this renderer y is height and z is ground depth.
         const rotatedX = x * yawCos + (z - 11) * yawSin;
@@ -78,8 +109,8 @@
         const reach = Math.max(130, Math.min(width * .25, 340));
         const distance2 = ((sx - pull.anchorX) ** 2 + (sy - pull.anchorY) ** 2) / (reach * reach);
         const influence = Math.exp(-distance2 * 1.5);
-        sx += pull.x * influence;
-        sy += pull.y * influence;
+        sx += pull.x * influence * .12;
+        sy += pull.y * influence * .12;
         if (sx < 0 || sx > width || sy < 0 || sy > height) continue;
         const edge = Math.min(1, sx / 90, (width - sx) / 90, sy / 70, (height - sy) / 100);
         const alpha = (.45 + (1 - row / rows) * .45) * edge;
@@ -95,11 +126,12 @@
   }
   function tick(now) {
     frame = requestAnimationFrame(tick);
-    const pulling = gesture?.intent === 'pull' || Math.abs(pull.x) + Math.abs(pull.y) > .1;
+    const pulling = gesture?.intent === 'pull' || ripples.length > 0 || Math.abs(pull.x) + Math.abs(pull.y) > .1;
     if (now - last < (pulling ? 15 : 32)) return;
     const delta = last ? Math.min((now - last) / 1000, .06) : 0;
     last = now;
     time += delta;
+    ripples = ripples.filter(ripple => time - ripple.start < 4.5);
     updatePushes();
     const ease = 1 - Math.exp(-delta * 10);
     const parallaxEase = 1 - Math.exp(-delta * 1.4);
@@ -109,6 +141,11 @@
     pull.y += (pull.targetY - pull.y) * ease;
     pull.anchorX += (pull.targetAnchorX - pull.anchorX) * ease;
     pull.anchorY += (pull.targetAnchorY - pull.anchorY) * ease;
+    if (gesture?.intent === 'pull') {
+      const x = pull.anchorX + pull.x;
+      const y = pull.anchorY + pull.y;
+      if (time - lastRipple.time > .32 && Math.hypot(x - lastRipple.x, y - lastRipple.y) > 10) emitRipple(x, y);
+    }
     draw();
   }
   function sync() {
@@ -166,6 +203,7 @@
           }
         } else if (Math.hypot(dx, dy) < 4) return;
         gesture.intent = 'pull';
+        emitRipple(pull.targetAnchorX, pull.targetAnchorY);
         hero.classList.add('cloud-dragging');
         hero.setPointerCapture(event.pointerId);
       }
@@ -180,7 +218,7 @@
     targetY = (event.clientY - bounds.top) / height * 2 - 1;
   });
   for (const name of ['pointerup', 'pointercancel', 'lostpointercapture']) {
-    hero.addEventListener(name, event => { if (gesture?.id === event.pointerId) releasePull(); });
+    hero.addEventListener(name, event => { if (gesture?.id === event.pointerId) releasePull(name === 'pointerup'); });
   }
   hero.addEventListener('pointerleave', () => {
     targetX = targetY = 0;
