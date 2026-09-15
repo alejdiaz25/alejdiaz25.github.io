@@ -19,6 +19,7 @@
 .section-label { color: var(--accent); margin-bottom: 30px; }
 .section-title { font-size: clamp(3rem,7.8vw,10rem); line-height: .98; font-weight: 500; letter-spacing: -.065em; font-stretch: 94%; }
 .subsection-title { font-size: clamp(2rem,4vw,5rem); font-weight: 500; line-height: 1.1; letter-spacing: -.045em; margin: 100px 0 55px; }
+#experience-heading { font-size: clamp(2rem,4vw,5rem); line-height: 1.1; letter-spacing: -.045em; font-stretch: normal; }
 .control-button { display: inline-grid; place-items: center; width: 48px; height: 48px; border: 1px solid var(--rule); background: transparent; font-size: 1.2rem; transition: background .2s; }
 .control-button:hover { background: var(--surface); }
 .control-button:active { transform: translateY(1px); }
@@ -47,7 +48,10 @@
 .work-section { padding-bottom: 90px; }
 .work-section .section-title { font-size: clamp(2rem,8.4vw,11rem); white-space: nowrap; }
 .work-carousel { margin-inline: calc(-1 * var(--gutter)); }
-.work-track { position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: 44%; gap: 28px; list-style: none; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); padding: 8px var(--gutter) 24px; scrollbar-width: thin; scrollbar-color: var(--rule) var(--bg); }
+.work-track { position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: 44%; gap: 28px; list-style: none; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); padding: 8px var(--gutter) 24px; scrollbar-width: thin; scrollbar-color: var(--accent) transparent; }
+.work-track::-webkit-scrollbar { height: 2px; }
+.work-track::-webkit-scrollbar-track { background: transparent; }
+.work-track::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 0; }
 .work-card { min-width: 0; scroll-snap-align: start; background: var(--bg); }
 .work-card > a { display: block; height: 100%; }
 .work-card-media { aspect-ratio: 4 / 3; overflow: hidden; background: var(--bg); }
@@ -92,21 +96,19 @@
 
 /* About: a typographic poster followed by a quiet portrait and long-form copy. */
 .about-section { background: var(--surface); }
-.about-section .section-title { font-size: clamp(4rem,12.5vw,16rem); line-height: .9; font-weight: 500; }
-.about-grid { display: grid; grid-template-columns: 5fr 6fr; gap: 8.333%; align-items: start; margin-top: 85px; }
-.about-media { position: sticky; top: calc(var(--nav-h) + 30px); }
-.ac-stage { aspect-ratio: 4 / 5; overflow: hidden; background: var(--bg); }
-.ac-slide { height: 100%; }
-.ac-slide img { height: 100%; width: 100%; object-fit: cover; }
-.ac-slide:first-child img { object-position: center 28%; }
-.ac-controls { display: flex; align-items: center; justify-content: space-between; padding-top: 18px; color: var(--muted); }
-.ac-controls > div { display: flex; gap: 8px; }
-.about-body { font-size: clamp(1.1rem,1.5vw,1.45rem); color: var(--muted); line-height: 1.65; }
-.about-body p + p { margin-top: 28px; }
-.about-body p:first-child { font-size: clamp(1.4rem,2.3vw,2.5rem); line-height: 1.4; letter-spacing: -.035em; color: var(--text); margin-bottom: 38px; }
-.about-body .text-link { margin-top: 32px; }
-.stat-grid { display: flex; gap: 24px; }
-.stat-grid dd { font-size: 3rem; }
+/* Full-bleed photo band */
+.about-gallery { margin-inline: calc(-1 * var(--gutter)); display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px; }
+.about-shot { aspect-ratio: 4 / 5; overflow: hidden; background: var(--bg); }
+.about-shot img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease-expo); }
+.about-shot:first-child img { object-position: center 28%; }
+.about-shot:hover img { transform: scale(1.03); }
+/* Narrative — labeled, ruled columns */
+.about-records { display: grid; grid-template-columns: repeat(3,1fr); gap: clamp(30px,4vw,72px); margin-top: clamp(56px,7vw,104px); }
+.about-record { border-top: 1px solid var(--rule); padding-top: 26px; }
+.about-record .meta { color: var(--accent); }
+.about-record p { margin-top: 20px; font-size: clamp(1rem,1.1vw,1.15rem); line-height: 1.7; color: var(--muted); }
+.about-record strong { color: var(--text); }
+.about-cta { margin-top: clamp(44px,5vw,80px); }
 
 /* Technical content: compact, quiet and readable, without tag pills. */
 .cw-grid { display: grid; grid-template-columns: 5fr 6fr; gap: 8.333%; }
@@ -151,7 +153,7 @@ a.contact-link:hover { color: var(--accent); }
   .index-org { display: none; }
   .project-index-link { grid-template-columns: 45px 1fr 24px; }
   .exp-item { gap: 6%; grid-template-columns: 4fr 7fr; }
-  .about-grid, .cw-grid, .contact-grid { gap: 6%; }
+  .cw-grid, .contact-grid { gap: 6%; }
 }
 @media (max-width: 767px) {
   .nav-logo { font-size: 1.9rem; }
@@ -199,12 +201,12 @@ a.contact-link:hover { color: var(--accent); }
   .exp-role { font-size: 1.16rem; }
   .exp-bullets { font-size: 1rem; }
   .subsection-title { margin-top: 45px; font-size: 2.2rem; }
-  .about-section .section-title { font-size: 17.2vw; }
-  .about-grid { display: flex; flex-direction: column; gap: 45px; margin-top: 40px; }
-  .about-media { position: static; width: 100%; }
-  .ac-stage { aspect-ratio: 4 / 4.5; }
-  .about-body { font-size: 1.05rem; }
-  .about-body p:first-child { font-size: 1.55rem; }
+  #experience-heading { font-size: 2.2rem; }
+  .about-gallery { grid-auto-columns: 72%; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); padding-inline: var(--gutter); scrollbar-width: none; }
+  .about-gallery::-webkit-scrollbar { display: none; }
+  .about-shot { scroll-snap-align: start; }
+  .about-records { grid-template-columns: 1fr; gap: 0; }
+  .about-record { padding: 26px 0 30px; }
   .cw-grid, .contact-grid { grid-template-columns: 1fr; gap: 60px; }
   .course-row { padding: 12px 0; }
   .course-name { font-size: .96rem; }

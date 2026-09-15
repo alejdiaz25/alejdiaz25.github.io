@@ -23,6 +23,14 @@
   }));
   mobile.addEventListener('change', () => setOpen(false));
   setOpen(false);
+  /* Hover-scramble the nav links (shared across pages; ScrambleText loaded separately). */
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    links.querySelectorAll('a').forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        if (typeof ScrambleText !== 'undefined') new ScrambleText(link, { duration: 350 }).run();
+      });
+    });
+  }
   const localLinks = [...links.querySelectorAll('a[href^="#"]')];
   const sections = localLinks.map(link => document.getElementById(link.hash.slice(1))).filter(Boolean);
   const observer = new IntersectionObserver(entries => {

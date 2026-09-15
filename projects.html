@@ -11,17 +11,23 @@
   <link rel="stylesheet" href="css/tokens.css" />
   <link rel="stylesheet" href="css/layout.css" />
   <link rel="stylesheet" href="css/projects.css" />
+
+  <!-- Three.js importmap (required by GLTFLoader/DRACOLoader bare "three" imports) -->
   <script type="importmap">
     {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/"}}
   </script>
+
+  <script src="js/scramble.js" defer></script>
   <script src="js/nav.js" defer></script>
   <script src="js/viewer.js" defer></script>
   <script src="js/projects.js" defer></script>
 </head>
 <body class="projects-page">
-  <a class="skip-link" href="#main-content">Skip to project</a>
+  <a class="skip-link" href="#project-viewer">Skip to projects</a>
+
+  <!-- ── NAV ──────────────────────────────────────────────── -->
   <nav id="site-nav" aria-label="Main navigation">
-    <a class="nav-logo" href="index.html" aria-label="Alejandro Diaz home">AD<span>ALEJANDRO DIAZ</span></a>
+    <a class="nav-logo" href="index.html" aria-label="Alejandro Diaz home">AD<span>Alejandro Diaz</span></a>
     <button class="nav-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false">Menu</button>
     <ul class="nav-links" id="primary-navigation">
       <li><a href="projects.html" aria-current="page">Work</a></li>
@@ -31,62 +37,118 @@
     </ul>
   </nav>
 
-  <main id="main-content" class="case-study" tabindex="-1">
-    <details class="project-index" id="project-index">
-      <summary><span>Project index <span id="project-total"></span></span><span class="index-action">Explore all work <span aria-hidden="true">+</span></span></summary>
-      <ol id="project-list" class="project-index-list"></ol>
-    </details>
+  <!-- ── PAGE SHELL ───────────────────────────────────────── -->
+  <div class="page-shell">
 
-    <article id="project-article" hidden>
-      <header class="case-heading" id="case-heading">
-        <div class="case-kicker"><p id="project-number"></p><p id="project-org"></p></div>
-        <h1 id="project-title" tabindex="-1"></h1>
-        <p class="case-subtitle" id="project-subtitle"></p>
-      </header>
+    <div class="page-header">
+      <span class="page-header-label meta">Engineering Projects</span>
+      <span class="page-header-count meta" id="project-count">— projects</span>
+    </div>
 
-      <section class="case-media" aria-label="Project media">
-        <div class="media-stage" id="media-stage">
-          <img id="project-image" class="case-image" src="" alt="" width="1600" height="1100" fetchpriority="high" />
-          <div class="model-stage" id="model-stage" hidden>
-            <img id="model-preview" class="model-preview" src="" alt="" width="1600" height="1100" loading="lazy" />
-            <canvas id="three-stage" aria-label="Interactive project model. Drag to rotate and scroll or pinch to zoom."></canvas>
-            <div class="model-prompt" id="model-prompt">
-              <span class="model-label" id="model-label">Interactive assembly</span>
-              <button type="button" id="load-model">Load 3D model <span aria-hidden="true">↗</span></button>
-              <p id="model-status" role="status" aria-live="polite">Drag to rotate. Scroll or pinch to zoom.</p>
+    <!-- 3-Pane Viewer -->
+    <div class="project-viewer" id="project-viewer">
+
+      <!-- ── LEFT PANE — Project List ─────────────────────── -->
+      <div id="left-pane">
+        <div class="left-pane-header">
+          <span class="meta">Index</span>
+        </div>
+        <ul class="project-list" id="project-list"><!-- rendered by JS --></ul>
+      </div>
+
+      <!-- ── CENTER PANE — Specifications ─────────────────── -->
+      <div id="center-pane">
+        <div class="center-header">
+          <span class="meta">Specifications</span>
+          <button class="close-btn" id="close-specs" type="button" aria-label="Close specifications">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+        </div>
+        <div class="center-content" id="center-content"><!-- populated by selectProject() --></div>
+      </div>
+
+      <!-- ── RIGHT PANE — The Stage ────────────────────────── -->
+      <div id="right-pane">
+
+        <div class="stage-header">
+          <span class="stage-project-name meta" id="stage-project-name">Select a project</span>
+          <span class="stage-slide-counter meta" id="stage-slide-counter">—</span>
+        </div>
+
+        <div class="carousel-wrap" id="carousel-wrap">
+
+          <button class="carousel-side-btn left" id="carousel-side-prev" type="button" aria-label="Previous">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+          </button>
+          <button class="carousel-side-btn right" id="carousel-side-next" type="button" aria-label="Next">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+
+          <!-- Slide 0 — 3D Stage (always present) -->
+          <div class="carousel-slide" id="slide-0">
+            <div class="slide-stage" id="slide-stage">
+
+              <div class="preview-placeholder" id="preview-placeholder">
+                <svg class="preview-placeholder-icon icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="M12 12v9M12 12l8-4.5M12 12l-8-4.5"/>
+                </svg>
+                <span class="preview-placeholder-label meta">Select a project</span>
+              </div>
+
+              <img class="preview-img" id="preview-img" src="" alt="" style="display:none;" />
+
+              <div class="model-spinner" id="model-spinner"><div class="spinner-ring"></div></div>
+
+              <div class="load-3d-overlay" id="load-3d-overlay">
+                <button class="load-3d-btn" id="load-3d-btn" type="button">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="M12 12v9M12 12l8-4.5M12 12l-8-4.5"/></svg>
+                  <span id="load-3d-btn-label">Load Interactive 3D</span>
+                </button>
+              </div>
+
+              <canvas id="three-stage" aria-label="Interactive project model. Drag to rotate, scroll or pinch to zoom."></canvas>
+
             </div>
           </div>
-          <button class="enlarge-image" type="button" id="enlarge-image" aria-label="Enlarge project image">View image <span aria-hidden="true">↗</span></button>
+
+          <!-- Gallery slides (cloned by JS per project) -->
+
+          <div class="idle-message" id="idle-message">
+            <span class="idle-label meta">Select a project</span>
+          </div>
+
+        </div><!-- /carousel-wrap -->
+
+        <div class="carousel-controls">
+          <div class="carousel-dots" id="carousel-dots"></div>
+          <span class="carousel-slide-label meta" id="carousel-slide-label">—</span>
         </div>
-        <div class="media-caption-bar">
-          <p id="media-caption" aria-live="polite"></p>
-          <div class="media-pagination"><span id="media-count"></span><button type="button" id="media-prev" aria-label="Previous media">←</button><button type="button" id="media-next" aria-label="Next media">→</button></div>
-        </div>
-        <div class="media-options" id="media-options" role="group" aria-label="Choose project media"></div>
-      </section>
 
-      <section class="case-context" aria-labelledby="context-heading">
-        <div class="case-section-heading"><span class="case-section-number">01 / CONTEXT</span><h2 id="context-heading">The work.</h2></div>
-        <div class="case-context-body"><p id="project-description"></p><div class="case-role" id="project-role" hidden></div></div>
-      </section>
+      </div><!-- /right-pane -->
 
-      <section class="case-specifications" aria-labelledby="specifications-heading">
-        <div class="case-section-heading"><span class="case-section-number">02 / SPECIFICATIONS</span><h2 id="specifications-heading">In detail.</h2></div>
-        <div class="case-data"><dl id="project-specs" class="specification-list"></dl><div class="case-tools"><h3>Software</h3><p id="project-software"></p></div><div class="case-disciplines"><h3>Disciplines &amp; methods</h3><ul id="project-tags"></ul></div></div>
-      </section>
+    </div><!-- /project-viewer -->
 
-      <nav class="project-pagination" aria-label="Browse projects"><a id="previous-project" href="projects.html"><span>Previous project</span><strong></strong></a><a id="next-project" href="projects.html"><span>Next project ↗</span><strong></strong></a></nav>
-    </article>
-    <p class="projects-status" id="projects-status" role="status">Loading engineering projects…</p>
-    <noscript><p class="projects-status">JavaScript is needed to browse these interactive case studies. <a href="resume.pdf">Read the resume</a> for engineering experience.</p></noscript>
-  </main>
+    <!-- ── MOBILE DETAIL OVERLAY ─────────────────────────── -->
+    <div id="mobile-detail" aria-hidden="true">
+      <div class="mobile-detail-bar">
+        <button class="mobile-back-btn" id="mobile-back-btn" type="button"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>Back</button>
+        <span class="mobile-detail-title meta" id="mobile-detail-title"></span>
+        <span class="mobile-detail-counter meta" id="mobile-detail-counter">—</span>
+      </div>
+      <div class="mobile-carousel-zone" id="mobile-carousel-zone"></div>
+      <div class="mobile-specs-zone" id="mobile-specs-zone"></div>
+    </div>
 
-  <footer class="case-footer"><a href="index.html">Alejandro Diaz</a><span>Mechanical engineering / UT Austin</span><a href="index.html#contact">Get in touch ↗</a></footer>
+  </div><!-- /page-shell -->
 
+  <p class="projects-status meta" id="projects-status" role="status" hidden>Loading engineering projects…</p>
+  <noscript><p class="projects-status meta">JavaScript is needed to browse these interactive case studies. <a href="resume.pdf">Read the resume</a> for engineering experience.</p></noscript>
+
+  <!-- ── IMAGE LIGHTBOX ────────────────────────────────── -->
   <dialog class="image-lightbox" id="image-lightbox" aria-label="Expanded project image">
-    <div class="lightbox-toolbar"><p id="lightbox-caption"></p><button type="button" id="close-lightbox" aria-label="Close expanded image">Close ×</button></div>
+    <div class="lightbox-toolbar"><p class="meta" id="lightbox-caption"></p><button type="button" id="close-lightbox" aria-label="Close expanded image">Close ×</button></div>
     <img id="lightbox-image" src="" alt="" />
-    <div class="lightbox-navigation"><button type="button" id="lightbox-prev" aria-label="Previous image">← Previous</button><span id="lightbox-count"></span><button type="button" id="lightbox-next" aria-label="Next image">Next →</button></div>
+    <div class="lightbox-navigation"><button type="button" id="lightbox-prev" aria-label="Previous image">← Previous</button><span class="meta" id="lightbox-count"></span><button type="button" id="lightbox-next" aria-label="Next image">Next →</button></div>
   </dialog>
 </body>
 </html>

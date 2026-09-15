@@ -32,13 +32,11 @@
           <p class="work-card-caption">${esc(intro.trim())}</p>
         </div></a></li>`;
     }).join('');
-    const index = data.projects.map((project, i) => `<li><a class="project-index-link" href="${projectURL(project.id)}"><span class="meta">${number(i + 1)}</span><span class="index-title">${esc(project.title)}</span><span class="index-org meta">${esc(project.org)}</span>${arrow}</a></li>`).join('');
     document.getElementById('projects-preview-content').innerHTML = `${sectionHead('work-heading', data.preview.eyebrow, 'Engineering Projects')}
       <div class="work-carousel" role="region" aria-label="Engineering projects carousel">
         <ul class="work-track" id="work-track" tabindex="0" aria-label="Browse projects. Use left and right arrow keys.">${cards}</ul>
         <div class="work-carousel-controls"><a class="text-link" href="${esc(data.preview.link.href)}">Explore all ${data.projects.length} projects ${arrow}</a><div class="work-arrows"><span class="meta" id="work-position" aria-live="polite"></span><button class="control-button" id="work-prev" type="button" aria-label="Previous projects">←</button><button class="control-button" id="work-next" type="button" aria-label="Next projects">→</button></div></div>
-      </div>
-      <details class="work-index"><summary class="index-heading"><h3>Project index</h3><span class="meta">${number(data.projects.length)} projects <span class="index-toggle" aria-hidden="true">+</span></span></summary><ol>${index}</ol></details>`;
+      </div>`;
     initWorkCarousel();
   }
   function initWorkCarousel() {
@@ -48,23 +46,14 @@
     const next = document.getElementById('work-next');
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
     const carousel = track.closest('.work-carousel');
-    const autoplay = document.createElement('button');
-    autoplay.id = 'work-autoplay';
-    autoplay.className = 'autoplay-control';
-    autoplay.type = 'button';
-    document.querySelector('.work-arrows').prepend(autoplay);
     let timer;
     let inView = false;
     let touching = false;
-    let paused = false;
-    const delay = 4000;
+    const delay = 3500;
     function schedule() {
       clearTimeout(timer);
-      autoplay.disabled = reduced.matches;
-      autoplay.textContent = reduced.matches ? 'Auto-play off' : paused ? 'Resume' : 'Pause';
-      autoplay.setAttribute('aria-label', paused ? 'Resume automatic project scrolling' : 'Pause automatic project scrolling');
-      document.getElementById('work-position').setAttribute('aria-live', paused || reduced.matches ? 'polite' : 'off');
-      if (!inView || touching || paused || reduced.matches || document.hidden || carousel.querySelector(':focus-visible')) return;
+      document.getElementById('work-position').setAttribute('aria-live', reduced.matches ? 'polite' : 'off');
+      if (!inView || touching || reduced.matches || document.hidden || carousel.querySelector(':focus-visible')) return;
       timer = setTimeout(() => {
         const max = track.scrollWidth - track.clientWidth;
         moveTo(track.scrollLeft >= max - 2 ? 0 : track.scrollLeft + step());
@@ -89,7 +78,6 @@
       else if (event.key === 'End') moveTo(track.scrollWidth);
       else moveTo(track.scrollLeft + (event.key === 'ArrowLeft' ? -step() : step()));
     });
-    autoplay.addEventListener('click', () => { paused = !paused; schedule(); });
     carousel.addEventListener('focusin', schedule);
     carousel.addEventListener('focusout', () => queueMicrotask(schedule));
     carousel.addEventListener('touchstart', () => { touching = true; schedule(); }, { passive: true });
@@ -113,30 +101,14 @@
     document.getElementById('experience-content').innerHTML = `${sectionHead('experience-heading', data.eyebrow, data.title)}<div class="exp-list">${records(data.items)}</div><h2 class="subsection-title" data-reveal>${esc(data.relevantTitle)}</h2><div class="exp-list">${records(data.relevantItems || [])}</div>`;
   }
   function renderAbout(data) {
-    const photos = data.photos || (data.headshot ? [data.headshot] : []);
-    document.getElementById('about-content').innerHTML = `${sectionHead('about-heading', data.eyebrow, data.title)}<div class="about-grid"><div class="about-media" data-reveal>${photos.length ? `<div class="about-carousel" role="region" aria-label="About Alejandro photos" tabindex="0"><div class="ac-stage">${photos.map((item, i) => `<figure class="ac-slide" ${i ? 'hidden' : ''}>${photo(item.src, item.alt, '(max-width: 767px) 100vw, 40vw')}</figure>`).join('')}</div><div class="ac-controls"><span class="meta ac-count" aria-live="polite">01 / ${number(photos.length)}</span><div><button class="ac-prev control-button" type="button" aria-label="Previous photo">←</button><button class="ac-next control-button" type="button" aria-label="Next photo">→</button></div></div></div>` : ''}${data.stats?.length ? `<dl class="stat-grid">${data.stats.map(item => `<div><dt>${esc(item.label)}</dt><dd>${esc(item.num)}</dd></div>`).join('')}</dl>` : ''}</div><div class="about-body" data-reveal>${data.paragraphs.map(paragraph => `<p>${paragraph}</p>`).join('')}<a class="text-link" href="#contact">Get in touch ${arrow}</a></div></div>`;
-    const carousel = document.querySelector('.about-carousel');
-    if (!carousel) return;
-    let current = 0;
-    const slides = [...carousel.querySelectorAll('.ac-slide')];
-    function move(direction) {
-      current = (current + direction + slides.length) % slides.length;
-      slides.forEach((slide, index) => { slide.hidden = index !== current; });
-      carousel.querySelector('.ac-count').textContent = number(current + 1) + ' / ' + number(slides.length);
-    }
-    carousel.querySelector('.ac-prev').addEventListener('click', () => move(-1));
-    carousel.querySelector('.ac-next').addEventListener('click', () => move(1));
-    carousel.addEventListener('keydown', event => {
-      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); move(event.key === 'ArrowLeft' ? -1 : 1); }
-    });
-    let touchStart;
-    carousel.addEventListener('touchstart', event => { touchStart = event.touches[0]; }, { passive: true });
-    carousel.addEventListener('touchend', event => {
-      if (!touchStart) return;
-      const dx = event.changedTouches[0].clientX - touchStart.clientX;
-      const dy = event.changedTouches[0].clientY - touchStart.clientY;
-      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) move(dx < 0 ? 1 : -1);
-    }, { passive: true });
+    const photos = data.photos || [];
+    const gallery = photos.map(item => `<figure class="about-shot">${photo(item.src, item.alt, '(max-width: 767px) 72vw, 25vw')}</figure>`).join('');
+    const records = (data.blocks || []).map(block => `<div class="about-record" data-reveal><h3 class="meta">${esc(block.label)}</h3><p>${block.body}</p></div>`).join('');
+    document.getElementById('about-content').innerHTML = `
+      <div class="section-heading"><p class="meta section-label" id="about-heading">${esc(data.eyebrow)}</p></div>
+      ${gallery ? `<div class="about-gallery" role="group" aria-label="Photos of Alejandro Diaz">${gallery}</div>` : ''}
+      <div class="about-records">${records}</div>
+      <div class="about-cta" data-reveal><a class="text-link" href="#contact">Get in touch ${arrow}</a></div>`;
   }
   function renderCoursework(data) {
     document.getElementById('coursework-content').innerHTML = `${sectionHead('coursework-heading', data.eyebrow, data.title)}<div class="cw-grid"><div class="course-list"><h3 class="meta">Relevant courses</h3><dl class="courses-table">${data.courses.map(course => `<div class="course-row"><dt class="course-code meta">${esc(course.code)}</dt><dd class="course-name">${esc(course.name)}</dd></div>`).join('')}</dl></div><div class="cw-projects"><h3 class="meta">Academic projects</h3>${data.academicProjects.map(project => `<article class="cw-project" data-reveal><p class="meta">${esc(project.label)}</p><h4>${esc(project.name)}</h4><p class="cw-desc">${esc(project.desc)}</p><ul class="inline-tags">${(project.tags || []).map(tag => `<li>${esc(tag)}</li>`).join('')}</ul>${project.wip ? '<p class="meta">In progress</p>' : ''}</article>`).join('')}</div></div>`;
