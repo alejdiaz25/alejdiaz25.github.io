@@ -1,13 +1,19 @@
 {
   "about": {
     "eyebrow": "About",
-    "title": "Engineer.<br>Builder.<br>Founder.",
-    "stats": [],
-    "paragraphs": [
-      "I'm a <strong>Mechanical Engineering student at UT Austin</strong> with a Minor in Entrepreneurship, building hardware systems where tight tolerances and high stakes are the standard.",
-      "My internship work spans defense manufacturing engineering at <strong>Northrop Grumman</strong>, developing Python ML and Power Automate pipelines for F-35 metrology data and designing production aids to optimize manufacturing processes. In my extracirriculars, I have led structural design changes on liquid bi-propellant rockets at <strong>TREL</strong> and redesigning dynamics assemblies for <strong>Longhorn Racing Electric</strong>.",
-      "Outside of engineering, I served as a founding member and Vice President of <strong>Texas PALS</strong>, a student organization providing free, high-quality tutoring to underserved Austin high school students. Furthermore, I held the title of Vice President of External Programming for <strong>Beta Theta Pi</strong>, where I organized large-scale philanthropic events, community outreach programs, and educational initiatives.",
-      "I'm passionate about building real products that solve complex problems and have an impact on the world. I'm interested in aerospace, robotics, process optimization, and I'm always looking for opportunities to connect with like-minded people."
+    "blocks": [
+      {
+        "label": "Engineering",
+        "body": "My internship work spans defense manufacturing engineering at <strong>Northrop Grumman</strong>, developing Python ML and Power Automate pipelines for F-35 metrology data and designing production aids to optimize manufacturing processes. In my extracirriculars, I have led structural design changes on liquid bi-propellant rockets at <strong>TREL</strong> and redesigning dynamics assemblies for <strong>Longhorn Racing Electric</strong>."
+      },
+      {
+        "label": "Leadership",
+        "body": "Outside of engineering, I served as a founding member and Vice President of <strong>Texas PALS</strong>, a student organization providing free, high-quality tutoring to underserved Austin high school students. Furthermore, I held the title of Vice President of External Programming for <strong>Beta Theta Pi</strong>, where I organized large-scale philanthropic events, community outreach programs, and educational initiatives."
+      },
+      {
+        "label": "Outlook",
+        "body": "I'm passionate about building real products that solve complex problems and have an impact on the world. I'm interested in aerospace, robotics, process optimization, and I'm always looking for opportunities to connect with like-minded people."
+      }
     ],
     "photos": [
       { "src": "images/headshot.jpg", "alt": "Alejandro Diaz" },
@@ -126,7 +132,7 @@
         "tags": ["AI / LLM", "Operations", "Entrepreneurship", "GTM", "Research Tech"]
       },
       {
-        "label": "ME 366J — Senior Design",
+        "label": "ME366J/ME466E — Senior Design",
         "name": "Rotary Friction Test Bed",
         "desc": "Designing a tribometer-style apparatus to measure frictional torques on annular surfaces. High detail customer needs and engineering specifications that require full mechanical design, pneumatic actuator integration, and tribology data acquisition for friction characterization controlling factors such as load, speed, materials, surface geometry, and temperature.",
         "tags": ["SOLIDWORKS", "Tribology", "Pneumatics", "Test & Measurement"]

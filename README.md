@@ -23,7 +23,8 @@ this repo, swap those out for your own assets.
 | Styles | CSS3 — variables, Grid, Flexbox |
 | Scripting | Vanilla JS (ES2020+) |
 | 3D viewer | [Three.js](https://threejs.org) (CDN, `GLTFLoader` + `DRACOLoader`) |
-| Animation | [Anime.js](https://animejs.com) (CDN) |
+| Typography | Self-hosted Instrument Sans + Azeret Mono variable WOFF2 |
+| Animation | Native CSS + IntersectionObserver, with reduced-motion support |
 | Thumbnail generation | Node script — Puppeteer (headless render) + Sharp (WebP encode) |
 
 No bundler, no npm build step for the site itself. `package.json` only holds devDependencies
@@ -31,15 +32,31 @@ for the thumbnail-generation script.
 
 ## Running locally
 
-Any static file server works:
+Start the local preview:
 
 ```bash
-npx serve .
-# or
-python3 -m http.server 8000
+node scripts/serve.js
 ```
 
 Then open `http://localhost:8000`.
+
+The homepage uses `content.json` and `projects.json`. The project experience preserves
+`projects.html?project=<id>` links. Each project opens on its 3D model, loading
+automatically on desktop (at least 768px with a fine pointer and hover support).
+Mobile and touch devices retain the explicit tap-to-load button.
+`projects.json`'s `preview.thumbs` determines homepage carousel order. Each card uses
+the project's generated wireframe thumbnail, title and opening description sentence.
+The complete project index starts collapsed; original project records remain the
+source of all engineering facts.
+
+Run the browser checks with `node scripts/verify-portfolio.js` and
+`node scripts/verify-projects.cjs --models`. The latter needs network access for the
+existing Three.js CDN. Add `--screenshots` to the portfolio check to capture visual
+review images in the ignored `.tmp/` directory.
+
+Regenerate responsive WebP derivatives with `node scripts/optimize-images.cjs` after
+adding source images. Originals are preserved; `images/manifest.json` maps them to
+responsive assets. Font provenance and SIL OFL licenses are in `assets/fonts/`.
 
 ## Contributing
 
@@ -146,12 +163,16 @@ Blender: set up a beauty-shot camera angle → Render → 1200×900px → export
 The repo's `scripts/generate-thumbnails.js` automates a version of this step — it spins up a
 local static server, headless-renders the same wireframe view the live viewer uses (via
 Puppeteer), and encodes the screenshot to WebP (via Sharp), then writes the path into
-`projects.json` automatically:
+`projects.json` automatically. It renders at native 3840 × 2160 (4K), with a pure
+`#000000` background and lossless WebP encoding. Regenerate the responsive versions
+afterward so the homepage uses the updated images; these include a 3840px option
+for high-resolution displays while phones can load smaller files:
 
 ```bash
 npm install                                   # installs puppeteer + sharp
 node scripts/generate-thumbnails.js --all               # regenerate all thumbnails
 node scripts/generate-thumbnails.js --project rc-car     # single project
+node scripts/optimize-images.cjs                         # refresh responsive images
 ```
 
 ### 7. Validate against budget
