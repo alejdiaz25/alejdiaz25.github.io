@@ -19,15 +19,15 @@
 
   function surfacePoint(screenX, screenY) {
     // Project the contact onto the terrain's ground plane, then undo its yaw.
-    // Ripples propagate in world space, so their rings inherit the perspective.
+    // This lightweight mapping is used while dragging the surface.
     const focal = width * (width < 768 ? 2.2 : .85);
     const pitch = .62 + pointerY * .045;
     const q = (screenY - height * .75) / focal;
     const denominator = q * Math.cos(pitch) + Math.sin(pitch);
     if (denominator <= .05) return;
+    const yaw = Math.PI / 18;
     const z = (3.4 * Math.cos(pitch) - 10 * q) / denominator;
     const x = (screenX - width * .54) * (z * Math.cos(pitch) + 10) / focal - pointerX * .75;
-    const yaw = Math.PI / 18;
     return {
       x: Math.max(-17, Math.min(17, x * Math.cos(yaw) - (z - 11) * Math.sin(yaw))),
       z: Math.max(0, Math.min(22, 11 + x * Math.sin(yaw) + (z - 11) * Math.cos(yaw))),
@@ -35,7 +35,7 @@
   }
 
   function emitRipple(screenX, screenY) {
-    const point = surfacePoint(screenX, screenY);
+    const point = renderedSurfacePoint(screenX, screenY) ?? surfacePoint(screenX, screenY);
     if (point && ripples.length < 16) ripples.push({ ...point, start: time, strength: .4 });
   }
 
@@ -62,6 +62,57 @@
     const front = Math.hypot(x - wave.x, z - wave.z) - age * 4.2;
     const fade = Math.min(1, age / .16) * (1 - age / 4.5) * Math.exp(-age * .3);
     return wave.strength * fade * Math.exp(-front * front / 3) * Math.cos(front * 2);
+  }
+
+  function surfaceHeight(x, z) {
+    let y = Math.sin(x * .30 + z * .25 + time * .22) * 1.45
+      + Math.cos(z * .43 - x * .16 - time * .16) * 1.15
+      + Math.sin(x * .55 + z * .15 + time * .12) * .32;
+    for (const push of pushes) {
+      const age = time - push.start;
+      const distance = Math.hypot(x - push.x, z - push.z);
+      const ring = distance - age * push.speed;
+      const envelope = Math.sin(Math.PI * age / push.duration) ** 2;
+      y += push.strength * envelope * Math.exp(-ring * ring / 10) * Math.cos(ring * .65);
+    }
+    for (const ripple of ripples) y += waveHeight(ripple, x, z);
+    let wakeHeight = 0;
+    for (const sample of wake) wakeHeight += waveHeight(sample, x, z);
+    return y + .5 * Math.tanh(wakeHeight / .5);
+  }
+
+  function renderedSurfacePoint(screenX, screenY) {
+    // A click is resolved against the same points and camera used by draw(),
+    // rather than against the terrain's flat ground plane. That makes the
+    // ripple originate at the visible point beneath the cursor.
+    const mobile = width < 768;
+    const columns = mobile ? 92 : 160;
+    const rows = mobile ? 66 : 96;
+    const focal = width * (mobile ? 2.2 : .85);
+    const pitch = .62 + pointerY * .045;
+    const sin = Math.sin(pitch), cos = Math.cos(pitch);
+    const yaw = Math.PI / 18;
+    const yawSin = Math.sin(yaw), yawCos = Math.cos(yaw);
+    let closest = null;
+    let closestDistance = Infinity;
+    for (let row = 0; row <= rows; row++) {
+      const z = row / rows * 22;
+      for (let col = 0; col <= columns; col++) {
+        const x = (col / columns - .5) * 34;
+        const y = surfaceHeight(x, z);
+        const rotatedX = x * yawCos + (z - 11) * yawSin;
+        const rotatedZ = 11 - x * yawSin + (z - 11) * yawCos;
+        const scale = focal / (rotatedZ * cos + y * sin + 10);
+        const sx = width * .54 + (rotatedX + pointerX * .75) * scale;
+        const sy = height * .75 + ((3.4 - y) * cos - rotatedZ * sin) * scale;
+        const distance = (sx - screenX) ** 2 + (sy - screenY) ** 2;
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closest = { x, z };
+        }
+      }
+    }
+    return closest;
   }
 
   function releasePull(emit = false) {
@@ -103,24 +154,7 @@
       const z = row / rows * 22;
       for (let col = 0; col <= columns; col++) {
         const x = (col / columns - .5) * 34;
-        let y = Math.sin(x * .30 + z * .25 + time * .22) * 1.45
-          + Math.cos(z * .43 - x * .16 - time * .16) * 1.15
-          + Math.sin(x * .55 + z * .15 + time * .12) * .32;
-        // Broad, irregular pushes travel across the surface and fade smoothly.
-        for (const push of pushes) {
-          const age = time - push.start;
-          const distance = Math.hypot(x - push.x, z - push.z);
-          const ring = distance - age * push.speed;
-          const envelope = Math.sin(Math.PI * age / push.duration) ** 2;
-          y += push.strength * envelope * Math.exp(-ring * ring / 10)
-            * Math.cos(ring * .65);
-        }
-        for (const ripple of ripples) y += waveHeight(ripple, x, z);
-        // Overlapping waves trail behind the moving contact. Limit their combined
-        // height smoothly without changing the click wave's speed or shape.
-        let wakeHeight = 0;
-        for (const sample of wake) wakeHeight += waveHeight(sample, x, z);
-        y += .5 * Math.tanh(wakeHeight / .5);
+        const y = surfaceHeight(x, z);
         // Turn 10 degrees clockwise as viewed from above, around the field's
         // vertical axis. In this renderer y is height and z is ground depth.
         const rotatedX = x * yawCos + (z - 11) * yawSin;

@@ -6,6 +6,7 @@
   'use strict';
 
   const $ = id => document.getElementById(id);
+  const { upRight } = window.SiteIcons;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const desktop = window.matchMedia('(min-width: 768px) and (hover: hover) and (pointer: fine)');
   const pad = n => String(n).padStart(2, '0');
@@ -128,7 +129,7 @@
   }
 
   function renderSpecs(project) {
-    const softwareStr = project.software.join(' · ');
+    const toolsHtml = project.software.map(tool => `<li class="spec-tool">${tool}</li>`).join('');
     const tagsHtml = project.tags.map(t => `<li class="spec-tag">${t}</li>`).join('');
     const bulletsHtml = descToBullets(project.description).map(s => `<li>${s}</li>`).join('');
 
@@ -144,11 +145,8 @@
           <span class="spec-val">${s.val}</span>
         </div>`).join('')}
 
-      <span class="spec-section-label spec-fade-item">Software</span>
-      <div class="spec-row spec-fade-item">
-        <span class="spec-key">Tools</span>
-        <span class="spec-val gold">${softwareStr}</span>
-      </div>
+      <span class="spec-section-label spec-fade-item">Tools</span>
+      <ul class="spec-tools spec-fade-item">${toolsHtml}</ul>
 
       <ul class="spec-tags spec-fade-item">${tagsHtml}</ul>`;
 
@@ -218,7 +216,7 @@
       const enlarge = document.createElement('button');
       enlarge.type = 'button';
       enlarge.className = 'enlarge-image';
-      enlarge.innerHTML = 'View image <span aria-hidden="true">↗</span>';
+      enlarge.innerHTML = `View image ${upRight()}`;
       enlarge.addEventListener('click', () => openLightbox(i));
       slide.append(image, enlarge);
       $carouselWrap.appendChild(slide);

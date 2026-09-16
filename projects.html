@@ -18,6 +18,7 @@
   </script>
 
   <script src="js/scramble.js" defer></script>
+  <script src="js/ui-icons.js" defer></script>
   <script src="js/nav.js" defer></script>
   <script src="js/viewer.js" defer></script>
   <script src="js/projects.js" defer></script>
@@ -30,10 +31,10 @@
     <a class="nav-logo" href="index.html" aria-label="Alejandro Diaz home">AD<span>Alejandro Diaz</span></a>
     <button class="nav-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false">Menu</button>
     <ul class="nav-links" id="primary-navigation">
-      <li><a href="projects.html" aria-current="page">Work</a></li>
+      <li><a href="projects.html" aria-current="page">Projects</a></li>
       <li><a href="index.html#experience">Experience</a></li>
       <li><a href="index.html#about">About</a></li>
-      <li><a href="resume.pdf" target="_blank" rel="noopener noreferrer">Resume ↗</a></li>
+      <li><a href="resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a></li>
     </ul>
   </nav>
 
@@ -148,7 +149,7 @@
   <dialog class="image-lightbox" id="image-lightbox" aria-label="Expanded project image">
     <div class="lightbox-toolbar"><p class="meta" id="lightbox-caption"></p><button type="button" id="close-lightbox" aria-label="Close expanded image">Close ×</button></div>
     <img id="lightbox-image" src="" alt="" />
-    <div class="lightbox-navigation"><button type="button" id="lightbox-prev" aria-label="Previous image">← Previous</button><span class="meta" id="lightbox-count"></span><button type="button" id="lightbox-next" aria-label="Next image">Next →</button></div>
+    <div class="lightbox-navigation"><button type="button" id="lightbox-prev" aria-label="Previous image"><svg class="ui-icon ui-icon-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> Previous</button><span class="meta" id="lightbox-count"></span><button type="button" id="lightbox-next" aria-label="Next image">Next <svg class="ui-icon ui-icon-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
   </dialog>
 </body>
 </html>

@@ -3,9 +3,30 @@
 (() => {
   let imageManifest = {};
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
-  const arrow = '<span aria-hidden="true">↗</span>';
+  const { upRight, left, right, up } = window.SiteIcons;
+  const arrow = upRight();
   const number = value => String(value).padStart(2, '0');
   const projectURL = id => 'projects.html?project=' + encodeURIComponent(id);
+
+  function scrambleHeroName() {
+    const name = document.getElementById('hero-name');
+    if (!name) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || typeof ScrambleText === 'undefined') {
+      name.classList.remove('hero-name--scramble-pending');
+      return;
+    }
+    const lines = [...name.children];
+    if (!lines.length) return;
+    lines.forEach((line, index) => new ScrambleText(line, {
+      duration: 720, delay: index * 100, fromEmpty: true,
+    }).run());
+    name.classList.remove('hero-name--scramble-pending');
+  }
+
+  const startHeroScramble = () => setTimeout(scrambleHeroName, 250);
+  if (document.fonts?.ready) document.fonts.ready.then(startHeroScramble);
+  else startHeroScramble();
+
   async function readJSON(path) {
     const response = await fetch(path);
     if (!response.ok) throw new Error('Could not load ' + path);
@@ -35,7 +56,7 @@
     document.getElementById('projects-preview-content').innerHTML = `${sectionHead('work-heading', data.preview.eyebrow, 'Engineering Projects')}
       <div class="work-carousel" role="region" aria-label="Engineering projects carousel">
         <ul class="work-track" id="work-track" tabindex="0" aria-label="Browse projects. Use left and right arrow keys.">${cards}</ul>
-        <div class="work-carousel-controls"><a class="text-link" href="${esc(data.preview.link.href)}">Explore all ${data.projects.length} projects ${arrow}</a><div class="work-arrows"><span class="meta" id="work-position" aria-live="polite"></span><button class="control-button" id="work-prev" type="button" aria-label="Previous projects">←</button><button class="control-button" id="work-next" type="button" aria-label="Next projects">→</button></div></div>
+        <div class="work-carousel-controls"><a class="text-link" href="${esc(data.preview.link.href)}">Explore all ${data.projects.length} projects ${arrow}</a><div class="work-arrows"><span class="meta" id="work-position" aria-live="polite"></span><button class="control-button" id="work-prev" type="button" aria-label="Previous projects">${left()}</button><button class="control-button" id="work-next" type="button" aria-label="Next projects">${right()}</button></div></div>
       </div>`;
     initWorkCarousel();
   }
@@ -105,7 +126,7 @@
     const gallery = photos.map(item => `<figure class="about-shot">${photo(item.src, item.alt, '(max-width: 767px) 72vw, 25vw')}</figure>`).join('');
     const records = (data.blocks || []).map(block => `<div class="about-record" data-reveal><h3 class="meta">${esc(block.label)}</h3><p>${block.body}</p></div>`).join('');
     document.getElementById('about-content').innerHTML = `
-      <div class="section-heading"><p class="meta section-label" id="about-heading">${esc(data.eyebrow)}</p></div>
+      <div class="section-heading" data-reveal><h2 class="section-title" id="about-heading">${esc(data.eyebrow)}</h2></div>
       ${gallery ? `<div class="about-gallery" role="group" aria-label="Photos of Alejandro Diaz">${gallery}</div>` : ''}
       <div class="about-records">${records}</div>
       <div class="about-cta" data-reveal><a class="text-link" href="#contact">Get in touch ${arrow}</a></div>`;
@@ -128,7 +149,7 @@
       renderCoursework(content.coursework);
       renderSkills(content.skills);
       renderContact(content.contact);
-      document.getElementById('footer-content').innerHTML = `<span>${esc(content.footer.copyright)}</span><div><a href="#coursework">Coursework</a><a href="#skills">Skills</a><a href="#hero">Back to top ↑</a></div>`;
+      document.getElementById('footer-content').innerHTML = `<span>${esc(content.footer.copyright)}</span><div><a href="#coursework">Coursework</a><a href="#skills">Skills</a><a href="#hero">Back to top ${up()}</a></div>`;
       document.body.dataset.contentLoaded = 'true';
       window.initAnimations?.();
       if (location.hash) requestAnimationFrame(() => document.getElementById(decodeURIComponent(location.hash.slice(1)))?.scrollIntoView());

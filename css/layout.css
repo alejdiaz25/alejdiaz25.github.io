@@ -1,5 +1,6 @@
 /* Shared structure: typography, ruled navigation, deliberate whitespace. */
 .icon { width: 1em; height: 1em; display: inline-block; vertical-align: -.125em; flex-shrink: 0; }
+.ui-icon { display: inline-block; width: .78rem; height: .78rem; flex: 0 0 auto; vertical-align: -.12em; }
 .meta { font-family: var(--font-interface); font-size: .66rem; font-weight: 400; line-height: 1.65; letter-spacing: .065em; text-transform: uppercase; font-variant-numeric: tabular-nums; }
 .skip-link { position: fixed; top: 12px; left: var(--gutter); z-index: 50; padding: 12px 18px; background: var(--text); color: var(--bg); transform: translateY(-160%); }
 .skip-link:focus { transform: none; }
@@ -11,7 +12,7 @@
 .nav-links a:hover, .nav-links a.active, .nav-links a[aria-current] { color: var(--accent); }
 .nav-toggle { display: none; }
 .text-link { display: inline-flex; align-items: center; gap: 24px; min-height: 44px; padding: 8px 0; font: 400 .7rem/1.5 var(--font-interface); text-transform: uppercase; letter-spacing: .035em; border-bottom: 1px solid var(--muted); transition: color .2s, border-color .2s; }
-.text-link > span { font-family: var(--font-body); font-size: 1.35rem; }
+.text-link .ui-icon { width: .76rem; height: .76rem; }
 .text-link:hover { color: var(--accent); border-color: var(--accent); }
 .text-link:active { transform: translateY(1px); }
 .section { padding: clamp(90px,10vw,180px) var(--gutter); border-top: 1px solid var(--rule); }
@@ -20,7 +21,8 @@
 .section-title { font-size: clamp(3rem,7.8vw,10rem); line-height: .98; font-weight: 500; letter-spacing: -.065em; font-stretch: 94%; }
 .subsection-title { font-size: clamp(2rem,4vw,5rem); font-weight: 500; line-height: 1.1; letter-spacing: -.045em; margin: 100px 0 55px; }
 #experience-heading { font-size: clamp(2rem,4vw,5rem); line-height: 1.1; letter-spacing: -.045em; font-stretch: normal; }
-.control-button { display: inline-grid; place-items: center; width: 48px; height: 48px; border: 1px solid var(--rule); background: transparent; font-size: 1.2rem; transition: background .2s; }
+.control-button { display: inline-grid; place-items: center; width: 48px; height: 48px; border: 1px solid var(--rule); background: transparent; transition: background .2s; }
+.control-button .ui-icon { width: .9rem; height: .9rem; }
 .control-button:hover { background: var(--surface); }
 .control-button:active { transform: translateY(1px); }
 .loading-state, .load-error { padding: 40px var(--gutter); color: var(--muted); }
@@ -28,6 +30,7 @@
 .site-footer { padding: 28px var(--gutter); display: flex; justify-content: space-between; align-items: center; gap: 30px; border-top: 1px solid var(--rule); font: 400 .62rem/1.7 var(--font-interface); color: var(--muted); }
 .site-footer > div { display: flex; gap: 28px; }
 .site-footer a { display: inline-block; padding: 10px 0; }
+.site-footer .ui-icon { width: .7rem; height: .7rem; margin-left: .3rem; }
 .site-footer a:hover { color: var(--text); }
 
 /* Opening: typography over a perspective point terrain. */
@@ -35,6 +38,7 @@
 .hero-top { position: relative; z-index: 2; display: flex; justify-content: space-between; gap: 20px; color: var(--muted); margin-bottom: 42px; }
 .hero-name { position: relative; z-index: 2; pointer-events: none; font-family: var(--font-body); font-size: clamp(6rem,16.1vw,23rem); font-weight: 500; font-stretch: normal; text-transform: none; letter-spacing: -.035em; line-height: .98; }
 .hero-name > span { display: block; }
+.hero-name--scramble-pending > span { visibility: hidden; }
 .hero-name > span:last-child { margin-top: .075em; }
 .hero-cloud { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
 #hero { touch-action: pan-y pinch-zoom; }
@@ -61,7 +65,7 @@
 .work-card-meta { color: var(--accent); margin-bottom: 20px; }
 .work-card-heading { display: flex; align-items: start; justify-content: space-between; gap: 18px; }
 .work-card-heading h3 { font-size: clamp(1.8rem,3.35vw,4rem); font-weight: 500; letter-spacing: -.04em; line-height: 1.06; max-width: 20ch; }
-.work-card-heading > span { font-size: 2rem; line-height: 1; }
+.work-card-heading > .ui-icon { width: 1.05rem; height: 1.05rem; margin-top: .25em; }
 .work-card-caption { max-width: 52ch; margin-top: 20px; color: var(--muted); font-size: 1.05rem; line-height: 1.6; }
 .work-carousel-controls { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 24px var(--gutter) 64px; }
 .work-arrows { display: flex; align-items: center; gap: 10px; }
@@ -105,7 +109,7 @@
 /* Narrative — labeled, ruled columns */
 .about-records { display: grid; grid-template-columns: repeat(3,1fr); gap: clamp(30px,4vw,72px); margin-top: clamp(56px,7vw,104px); }
 .about-record { border-top: 1px solid var(--rule); padding-top: 26px; }
-.about-record .meta { color: var(--accent); }
+.about-record .meta { color: var(--accent); font-size: .78rem; line-height: 1.45; letter-spacing: .075em; }
 .about-record p { margin-top: 20px; font-size: clamp(1rem,1.1vw,1.15rem); line-height: 1.7; color: var(--muted); }
 .about-record strong { color: var(--text); }
 .about-cta { margin-top: clamp(44px,5vw,80px); }
@@ -137,6 +141,7 @@
 .contact-link { display: grid; grid-template-columns: 70px 1fr 20px; gap: 20px; align-items: center; border-top: 1px solid var(--rule); padding: 24px 0; }
 .contact-link > .meta { color: var(--muted); }
 .contact-link > span:nth-child(2) { font-size: clamp(.9rem,1.5vw,1.4rem); letter-spacing: -.025em; overflow-wrap: anywhere; }
+.contact-link > .ui-icon { justify-self: end; width: .78rem; height: .78rem; }
 a.contact-link:hover { color: var(--accent); }
 
 @media (min-width: 1920px) { .exp-bullets { font-size: 1.15rem; max-width: 80ch; } }

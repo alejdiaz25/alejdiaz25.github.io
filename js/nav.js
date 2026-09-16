@@ -31,18 +31,33 @@
       });
     });
   }
-  const localLinks = [...links.querySelectorAll('a[href^="#"]')];
-  const sections = localLinks.map(link => document.getElementById(link.hash.slice(1))).filter(Boolean);
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      localLinks.forEach(link => {
-        const active = link.hash === '#' + entry.target.id;
-        link.classList.toggle('active', active);
-        if (active) link.setAttribute('aria-current', 'location');
-        else link.removeAttribute('aria-current');
-      });
+  const sectionLinks = [...links.querySelectorAll('a[href^="#"], a[data-section]')]
+    .map(link => ({ link, section: document.getElementById(link.dataset.section || link.hash.slice(1)) }))
+    .filter(({ section }) => Boolean(section));
+  if (!sectionLinks.length) return;
+  let scrollFrame = 0;
+  function syncActiveSection() {
+    scrollFrame = 0;
+    const threshold = window.innerHeight * .42;
+    let activeSection = null;
+    for (const item of sectionLinks) {
+      const rect = item.section.getBoundingClientRect();
+      if (rect.top <= threshold && rect.bottom > 0) activeSection = item.section;
+    }
+    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) {
+      activeSection = sectionLinks.at(-1).section;
+    }
+    sectionLinks.forEach(({ link, section }) => {
+      const active = section === activeSection;
+      link.classList.toggle('active', active);
+      if (active) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
     });
-  }, { rootMargin: '-15% 0px -60% 0px' });
-  sections.forEach(section => observer.observe(section));
+  }
+  function scheduleActiveSection() {
+    if (!scrollFrame) scrollFrame = requestAnimationFrame(syncActiveSection);
+  }
+  window.addEventListener('scroll', scheduleActiveSection, { passive: true });
+  window.addEventListener('resize', scheduleActiveSection);
+  scheduleActiveSection();
 })();
